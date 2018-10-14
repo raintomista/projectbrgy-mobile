@@ -1,11 +1,11 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation'
 
-import SignIn from './screens/SignIn'
+import Login from './screens/Login'
 
 export const Base = StackNavigator({
-  SignIn: {
-    screen: SignIn,
+  Login: {
+    screen: Login,
     navigationOptions: {
       title: 'Welcome to B2P',
       header: null,

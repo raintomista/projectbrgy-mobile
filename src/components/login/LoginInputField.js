@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native'
+import { observer } from 'mobx-react';
 import { Item, Input, Label } from 'native-base'
 import { responsiveWidth } from 'react-native-cross-platform-responsive-dimensions'
 import * as colors from '../../styles/colors.js'
 import * as fonts from '../../styles/fonts.js'
 
+@observer
 export default class LoginInputField extends Component {
   constructor(props) {
     super(props);
@@ -12,11 +14,17 @@ export default class LoginInputField extends Component {
 
   render() {
     return (
-      <Item style={styles.field} rounded>
+      <Item 
+        style={styles.field} 
+        rounded
+      >
         <Input 
           placeholder={this.props.placeholder}
           secureTextEntry={ this.props.secure }
           style={styles.fieldInput}
+          onChange={(e)=> {
+            this.props.field.set('value', e.nativeEvent.text)
+          }}
         />
       </Item>
     );
@@ -26,7 +34,6 @@ export default class LoginInputField extends Component {
 const styles = StyleSheet.create({
   field: {
     backgroundColor: colors.LIGHT,
-    color: 'red',
     marginBottom: 15,
     paddingHorizontal: 10,
     width: responsiveWidth(90),

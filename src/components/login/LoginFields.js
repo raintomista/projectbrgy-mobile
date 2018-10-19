@@ -1,22 +1,39 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native'
+import { observer } from 'mobx-react';
 import { Button, Form, Text } from 'native-base'
 import LinearGradient from 'react-native-linear-gradient';
 import LoginInputField from './LoginInputField';
+import LoginForm from './LoginForm';
 import * as colors from '../../styles/colors.js'
 import * as fonts from '../../styles/fonts.js'
 
+
+@observer
 export default class LoginFields extends Component {
   constructor(props) {
     super(props);
+    this.form = new LoginForm();
   }
 
   render() {
     return (
       <Form>
-        <LoginInputField placeholder="Email Address"/>
-        <LoginInputField placeholder="Password" secure/>
-        <Button rounded block style={styles.loginButton}>
+        <LoginInputField 
+          placeholder="Email Address" 
+          field={this.form.$('email')}
+        />
+        <LoginInputField 
+          placeholder="Password" 
+          field={this.form.$('password')} 
+          secure
+        />
+        <Button 
+          style={styles.loginButton} 
+          onPress={(e) => this.form.onSubmit(e)}
+          rounded 
+          block 
+        >
           <Text 
             uppercase={false}
             style={styles.loginText}

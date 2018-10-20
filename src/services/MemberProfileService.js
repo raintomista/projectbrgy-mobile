@@ -2,16 +2,9 @@ import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import API_HOST from '../config';
 
-export function loginUser(email, password) {
-    return axios.post(`${API_HOST}/auth/sign-in`, {
-        email,
-        password
-    });
-}
-
-export async function getUserDetails() {
+export async function getFollowingList(userId, page, limit, order) {
     const token = await AsyncStorage.getItem('x-access-token');
-    return axios.get(`${API_HOST}/me`, {
+    return axios.get(`${API_HOST}/following/users/${userId}?page=${page}&limit=${limit}&order=${order}`, {
         headers: {
             'x-access-token': token
         }

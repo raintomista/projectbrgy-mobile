@@ -31,6 +31,7 @@ export default class LoginFields extends Component {
         <Button 
           style={styles.loginButton} 
           onPress={(e) => this.form.onSubmit(e)}
+          disabled={this.form.disabled}
           rounded 
           block 
         >

@@ -25,6 +25,7 @@ export default class LoginInputField extends Component {
           onChange={(e)=> {
             this.props.field.set('value', e.nativeEvent.text)
           }}
+          disabled={this.props.field.disabled}
         />
       </Item>
     );

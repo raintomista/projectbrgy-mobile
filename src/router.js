@@ -1,9 +1,27 @@
 import React from 'react';
-import { StackNavigator } from 'react-navigation'
+import {
+  createStackNavigator,
+  DrawerNavigator
+} from 'react-navigation'
 
-import Login from './screens/Login'
+import Login from './screens/Login';
+import MemberHome from './screens/member/MemberHome';
+import MemberSidebar from './screens/member/MemberSidebar';
 
-export const Base = StackNavigator({
+export const MemberDrawer = DrawerNavigator({
+  Home: {
+    screen: MemberHome,
+    navigationOptions: {
+      title: 'Home',
+      header: null
+    }
+  },
+}, {
+  contentComponent: MemberSidebar,
+  width: 200
+})
+
+export const AppStack = createStackNavigator({
   Login: {
     screen: Login,
     navigationOptions: {
@@ -11,4 +29,12 @@ export const Base = StackNavigator({
       header: null,
     },
   },
+  MemberDrawer: {
+    screen: MemberDrawer,
+    navigationOptions: {
+      header: null,
+    }
+  }
+}, {
+  initialRouteName: 'MemberDrawer'
 });

@@ -16,9 +16,9 @@ export default class ProfileStore {
   @observable followingList = null;
 
   @action
-  async getFollowing(id) {
+  async getFollowing(id, page, limit) {
     try {
-      const response = await getFollowingList(id, 1, 15, 'desc');
+      const response = await getFollowingList(id, page, limit, 'desc');
       runInAction(() => this.followingList = response.data.data.items);
     } catch (e) {
       const error = e.response.data;

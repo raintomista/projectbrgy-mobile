@@ -105,6 +105,10 @@
 		<string>Montserrat-SemiBoldItalic.otf</string>
 		<string>Montserrat-Thin.otf</string>
 		<string>Montserrat-ThinItalic.otf</string>
+		<string>AntDesign.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
 	</array>
 </dict>
 </plist>

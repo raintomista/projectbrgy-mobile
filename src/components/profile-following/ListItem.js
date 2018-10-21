@@ -8,8 +8,10 @@ const ProfileFollowingListItem = (props) => (
       <Thumbnail square source={MemberAvatar} />
     </Left>
     <Body>
-      <Text>Cardo Dalisay</Text>
-      <Text note numberOfLines={1}>Its time to build a difference . .</Text>
+      <Text>{props.title}</Text>
+      <Text numberOfLines={1} note>
+        {props.details}
+      </Text>
     </Body>
     <Right>
       <Button transparent>

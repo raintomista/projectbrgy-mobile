@@ -7,40 +7,50 @@ import {
 import { ToastAndroid } from 'react-native';
 import {
   getFollowingList
-} from '../services/ProfileService';
+} from 'services/ProfileService';
 import {
   followBrgy,
   unfollowBrgy
-} from '../services/BrgyPageService';
-import * as localized from '../localization/en';
+} from 'services/BrgyPageService';
+import * as localized from 'localization/en';
 
 configure({
   enforceActions: 'always'
 });
 
 export default class ProfileStore {
-  @observable followingList = null;
+  @observable page = 0;
+  @observable limit = 20;
+  @observable order = 'desc';
+  @observable hasMore = true;
+  @observable error = false;  
+  @observable refreshing = false;
+  @observable followingList = [];
 
   @action
-  async initFollowing() {
-    this.followingList = null;
+  async resetStore() {
+    this.followingList = [];
+    this.page = 0;
+    this.hasMore = true;
+    this.error = false;  
   }
 
   @action
-  async getFollowing(id, page, limit) {
+  async getFollowing(id) {     
+    this.page += 1;
     try {
-      const response = await getFollowingList(id, page, limit, 'desc');
-      runInAction(() => this.followingList = response.data.data.items);
+      const response = await getFollowingList(id, this.page, this.limit, this.order);
+      runInAction(() => {
+        this.followingList.push(...response.data.data.items);
+      });
     } catch (e) {
-      const error = e.response.data;
-      if (error.data.total >= 0) {
-        runInAction(() => this.followingList = []);
-      } else {
-        runInAction(() => this.followingList = null);
-      }
+      runInAction(() => {
+        this.hasMore = false;
+        this.error = true;
+      });
     }
   }
-
+  
   @action
   async follow(brgyId, index) {
     try {
@@ -56,7 +66,6 @@ export default class ProfileStore {
 
       ToastAndroid.show(localized.FOLLOW_SUCCESS, ToastAndroid.SHORT);
     } catch(e) {
-      console.log(e.response);
       ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
     }
   }
@@ -71,7 +80,7 @@ export default class ProfileStore {
       runInAction(() => {
         const followingList = this.followingList.slice();
         followingList[index].is_following = 0;
-        this.followingList = followingList;  
+        this.followingList = followingList;
       });
       ToastAndroid.show(localized.UNFOLLOW_SUCCESS, ToastAndroid.SHORT);    
     } catch(e) {

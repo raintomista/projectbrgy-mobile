@@ -1,65 +1,88 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet } from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, View } from 'react-native';
 import { Container, Content, List, Spinner } from 'native-base';
-import HeaderWithDrawer from '../../../components/common/HeaderWithDrawer';
-import { FollowingListItem } from '../../../components/profile-following';
-import * as colors from '../../../styles/colors';
+import { HeaderWithDrawer } from 'components/common';
+import { FollowingListItem } from 'components/profile-following';
+import * as colors from 'styles/colors';
 
 @observer
 export default class ProfileFollowing extends Component {
   async componentWillMount(){
     const { sessionStore, profileStore } = this.props.screenProps;
     await sessionStore.getLoggedUser();
-    await profileStore.getFollowing(sessionStore.loggedUser.user_id, 1, 15);
+    await profileStore.getFollowing(sessionStore.loggedUser.user_id);
   }
 
   async componentWillUnmount() {
     const { profileStore } = this.props.screenProps;
-    await profileStore.initFollowing();
+    await profileStore.resetStore();
+  }
+
+  renderItem = ({ item, index}) => (
+    <FollowingListItem
+      index={index}
+      id={item.barangay_page_id}
+      title={item.barangay_page_name}
+      isFollowing={item.is_following}
+      details={`${item.barangay_page_municipality}, ${item.barangay_page_province}, ${item.barangay_page_region}`}
+    />
+  );
+
+  renderLoader() {
+    const { profileStore } = this.props.screenProps;
+    const { error, followingList, hasMore, } = profileStore;
+    if(hasMore === false) return null;
+    return <Spinner color={colors.PRIMARY}/>
   }
 
   renderList() {
-    const { profileStore } = this.props.screenProps;
-    const { followingList } = profileStore;
-    {console.log(followingList)}
-    const items = followingList.map((item, index) => (
-      <FollowingListItem
-        title={item.barangay_page_name}
-        details={`${item.barangay_page_municipality}, ${item.barangay_page_province}, ${item.barangay_page_region}`}
-        isFollowing={item.is_following}
-        navigation={this.props.navigation}
-        id={item.barangay_page_id}
-        index={index}
-        key={index}
-      />
-    ));
-
+    const { profileStore, sessionStore } = this.props.screenProps;
+    const { followingList, refreshing } = profileStore;
+    const { loggedUser } = sessionStore;
+    
     return (
-      <List dataArray={Array.from(followingList)} style={styles.list}>
-        {items}
-      </List>
+      <FlatList
+        data={Array.from(followingList)}
+        renderItem={this.renderItem}
+        keyExtractor={item => item.barangay_page_id}
+        ListFooterComponent={() => this.renderLoader()}
+        onEndReached={() => this.handleLoadMore()}
+        onEndReachedThreshold={0.5}    
+        removeClippedSubviews={true}
+      />
     )
   }
 
   render() {
     const { profileStore } = this.props.screenProps;
-    const { followingList } = profileStore;
+    const { followingList, hasMore } = profileStore;
 
     return (
       <Container>
         <HeaderWithDrawer title="Following" navigation={this.props.navigation}/>
-        <Content>
-          {!followingList && <Spinner color={colors.PRIMARY}/>}
-          {followingList && this.renderList()}
-        </Content>
+        <View style={styles.list}>
+          {this.renderList()}
+        </View> 
       </Container>
     );
+  }
+
+  async handleLoadMore() {
+    const { profileStore, sessionStore } = this.props.screenProps;
+    if(!profileStore.error) {
+      await profileStore.getFollowing(sessionStore.loggedUser.user_id);
+    }
+  }
+
+  async handleRefresh() {
+    const { profileStore, sessionStore } = this.props.screenProps;
+    await profileStore.refreshFollowing(sessionStore.loggedUser.user_id);
   }
 }
 
 const styles = StyleSheet.create({
   list: {
-    paddingBottom: 60.5
+    flex: 1
   }
 });

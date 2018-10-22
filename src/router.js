@@ -1,16 +1,16 @@
 import React from 'react';
 import {
   createStackNavigator,
-  DrawerNavigator
+  createDrawerNavigator
 } from 'react-navigation'
 
-import Login from './screens/Login';
-import MemberHome from './screens/member/MemberHome';
-import MemberSidebar from './screens/member/MemberSidebar';
-import ProfileFollowing from './screens/shared/profile/ProfileFollowing';
+import Login from 'screens/Login';
+import MemberHome from 'screens/member/MemberHome';
+import MemberSidebar from 'screens/member/MemberSidebar';
+import ProfileFollowing from 'screens/shared/profile/ProfileFollowing';
 
 
-export const MemberDrawer = DrawerNavigator({
+export const MemberDrawer = createDrawerNavigator({
   Home: {
     screen: MemberHome,
     navigationOptions: {

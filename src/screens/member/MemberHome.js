@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Container, Content } from 'native-base';
 import { responsiveHeight } from 'react-native-cross-platform-responsive-dimensions'
-import HeaderWithDrawer from '../../components/common/HeaderWithDrawer';
-import * as colors from '../../styles/colors.js'
-import * as fonts from '../../styles/fonts.js'
+import { HeaderWithDrawer } from 'components/common';
+import * as colors from 'styles/colors.js'
+import * as fonts from 'styles/fonts.js'
 
 export default class MemberHome extends Component {
   render() {

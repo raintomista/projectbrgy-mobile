@@ -1,9 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { DrawerActions } from "react-navigation";
-import * as colors from '../../styles/colors';
-import * as fonts from '../../styles/fonts';
-
 import { 
   Header,
   Container, 
@@ -16,17 +13,22 @@ import {
   Button, 
   Text,  
 } from 'native-base';
+import * as colors from 'styles/colors';
+import * as fonts from 'styles/fonts';
 
-const HeaderWithDrawer = (props) => (
+export const HeaderWithDrawer = (props) => (
   <Header style={styles.header}>
     <Left>
       <Button
         transparent
-        onPress={() => props.navigation.dispatch(DrawerActions.openDrawer())}
+        onPress={() => {
+          props.navigation
+            .dispatch(DrawerActions.openDrawer())
+        }}
       >
         <Icon name="menu" />
       </Button>
-    </Left>
+    </Left> 
     <Body>
       <Title style={styles.headerTitle}>
         {props.title}
@@ -44,6 +46,3 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MONTSERRAT_BOLD
   }
 });
-
-export default HeaderWithDrawer;
-

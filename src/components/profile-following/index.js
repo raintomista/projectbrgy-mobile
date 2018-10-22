@@ -1,13 +1,20 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { ListItem,  Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
+import { observer } from 'mobx-react';
+
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import BrgyAvatar from '../../../assets/images/default-brgy.png';
+import RootStore from '../../stores/RootStore';
 import * as colors from '../../styles/colors';
 import * as fonts from '../../styles/fonts';
 
-export const FollowButton = (props) => (
-  <Button style={styles.followButton} rounded>
+export const FollowButton = observer((props) => (
+  <Button 
+    onPress={() => RootStore.profileStore.follow(props.id, props.index)} 
+    style={styles.followButton} 
+    rounded
+  >
     <FontAwesome5 
       name="user-plus" 
       color={colors.PRIMARY} 
@@ -15,21 +22,25 @@ export const FollowButton = (props) => (
       solid 
     />
   </Button>
-);
+));
 
-export const FollowingButton = (props) => (
-  <Button style={styles.followingButton} rounded>
-    <FontAwesome5 
+export const FollowingButton = observer((props) => (
+  <Button
+    onPress={() => RootStore.profileStore.unfollow(props.id, props.index)} 
+    style={styles.followingButton} 
+    rounded 
+  >
+    <FontAwesome5   
       name="user-check" 
       color={colors.LIGHT} 
       size={15} 
       solid 
     />
   </Button>
-);
+));
 
-export const FollowingListItem = (props) => (
-  <ListItem thumbnail>
+export const FollowingListItem = observer((props) => (
+  <ListItem thumbnail onPress={() => props.navigation.push('Login')}>
     <Left>
       <Thumbnail 
         circle 
@@ -49,12 +60,12 @@ export const FollowingListItem = (props) => (
     </Body>
     <Right style={styles.itemBody}>
       {props.isFollowing === 1
-        ? <FollowingButton />
-        : <FollowButton />
+        ? <FollowingButton id={props.id} index={props.index} />
+        : <FollowButton id={props.id} index={props.index} />
       }
     </Right>
   </ListItem>
-);
+));
 
 const styles = StyleSheet.create({
   itemAvatar: {

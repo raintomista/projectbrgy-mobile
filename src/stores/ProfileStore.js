@@ -29,10 +29,11 @@ export default class ProfileStore {
 
   @action
   async resetStore() {
-    this.followingList = [];
     this.page = 0;
     this.hasMore = true;
-    this.error = false;  
+    this.error = false; 
+    this.refreshing = false; 
+    this.followingList = [];    
   }
 
   @action
@@ -48,6 +49,24 @@ export default class ProfileStore {
         this.hasMore = false;
         this.error = true;
       });
+    }
+  }
+
+  @action
+  async refreshFollowing(id) {
+    this.page = 1;
+    this.refreshing = true;
+    try {
+      const response = await getFollowingList(id, this.page, this.limit, this.order);
+      runInAction(() => {
+        this.hasMore = true;
+        this.error = false;        
+        this.refreshing = false;
+        this.followingList = response.data.data.items;        
+      });
+    } catch (e) {
+      runInAction(() => this.refreshing = false);
+      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
     }
   }
   

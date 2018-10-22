@@ -48,20 +48,30 @@ export default class ProfileFollowing extends Component {
         keyExtractor={item => item.barangay_page_id}
         ListFooterComponent={() => this.renderLoader()}
         onEndReached={() => this.handleLoadMore()}
-        onEndReachedThreshold={0.5}    
-        removeClippedSubviews={true}
+        onEndReachedThreshold={0.5}
+        initialNumToRender={10}
+        maxToRenderPerBatch={10}    
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => this.handleRefresh()}
+            colors={[colors.PRIMARY]}
+          />
+        }
       />
     )
   }
 
   render() {
     const { profileStore } = this.props.screenProps;
-    const { followingList, hasMore } = profileStore;
+    const { followingList, hasMore, refreshing } = profileStore;
 
     return (
       <Container>
         <HeaderWithDrawer title="Following" navigation={this.props.navigation}/>
-        <View style={styles.list}>
+        <View 
+          style={styles.list}
+        >
           {this.renderList()}
         </View> 
       </Container>

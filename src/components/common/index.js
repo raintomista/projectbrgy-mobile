@@ -13,6 +13,7 @@ import {
   Button, 
   Text,  
 } from 'native-base';
+import NavigationService from 'services/NavigationService';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
@@ -21,10 +22,7 @@ export const HeaderWithDrawer = (props) => (
     <Left>
       <Button
         transparent
-        onPress={() => {
-          props.navigation
-            .dispatch(DrawerActions.openDrawer())
-        }}
+        onPress={() => NavigationService.dispatch(DrawerActions.openDrawer())}
       >
         <Icon name="menu" />
       </Button>

@@ -10,7 +10,7 @@ export default class MemberHome extends Component {
   render() {
     return (
       <Container>
-        <HeaderWithDrawer title="Home" navigation={this.props.navigation}/>
+        <HeaderWithDrawer title="Home" />
         <Content padder>
 
         </Content>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { DrawerActions } from "react-navigation";
+import { DrawerActions, StackActions } from "react-navigation";
 import { 
   Header,
   Container, 
@@ -25,6 +25,25 @@ export const HeaderWithDrawer = (props) => (
         onPress={() => NavigationService.dispatch(DrawerActions.openDrawer())}
       >
         <Icon name="menu" />
+      </Button>
+    </Left> 
+    <Body>
+      <Title style={styles.headerTitle}>
+        {props.title}
+      </Title>
+    </Body>
+    <Right />
+  </Header>
+);
+
+export const HeaderWithGoBack = (props) => (
+  <Header style={styles.header}>
+    <Left>
+      <Button
+        transparent
+        onPress={() => NavigationService.dispatch(StackActions.pop())}
+      >
+        <Icon name="arrow-back" />
       </Button>
     </Left> 
     <Body>

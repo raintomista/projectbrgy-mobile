@@ -11,6 +11,7 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { HeaderWithDrawer } from 'components/common';
 import { ReportItem } from 'components/member-reports';
+import NavigationService from 'services/NavigationService';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts.js'
 
@@ -53,6 +54,9 @@ export default class MemberReports extends Component {
         <Fab
           style={styles.fab}
           position="bottomRight"
+          onPress={() => {
+            NavigationService.push('CreateReport', {});
+          }}
         >
           <Icon name="add" />
         </Fab>

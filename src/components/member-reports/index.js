@@ -7,8 +7,12 @@ import {
     CardItem,
     Container, 
     Content,
+    Item,
+    Label,
+    Picker,
+    Spinner,
     Text,
-    Spinner
+    Textarea,
   } from 'native-base';
 import moment from 'moment';
 import NavigationService from 'services/NavigationService';
@@ -46,6 +50,34 @@ export const ReportItem = observer((props) => (
   </Card>
 ));
 
+export const DropdownMenu = observer((props) => (
+  <Item stackedLabel style={styles.dropdownItem}>
+    <Label style={styles.dropdownLabel}>
+      {props.label}
+    </Label>
+    <Item picker style={styles.dropdownMenu}>
+      <Picker mode="dropdown">
+        {props.data.map((item, index) => (
+          <Picker.Item
+            key={index}
+            label={item}
+            value={item} 
+          />
+        ))}
+      </Picker>
+    </Item>
+  </Item>
+));
+
+export const TextArea = observer((props) => (
+  <Textarea 
+    rowSpan={props.rowSpan} 
+    placeholder={props.placeholder}
+    style={styles.textArea}
+    bordered      
+  />
+));
+
 const styles = StyleSheet.create({
   card: {
     borderRadius: 0,
@@ -59,5 +91,32 @@ const styles = StyleSheet.create({
   cardBody: {
     paddingTop: 0,
     paddingBottom: 14
+  },
+  dropdownItem: {
+    borderBottomWidth: 0,
+    marginLeft: 5,
+    marginRight: 5
+  },
+  dropdownLabel: {
+    color: colors.PRIMARY,
+    fontFamily: fonts.LATO_BOLD,
+    fontSize: 17
+  },
+  dropdownMenu: {
+    backgroundColor: colors.GRAY,
+    borderBottomWidth: 0,
+    marginTop: 10
+  },
+  textArea: {
+    backgroundColor: colors.GRAY,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 16,
+    marginTop: 18,
+    marginBottom: 18,    
+    marginHorizontal: 5
   }
 });

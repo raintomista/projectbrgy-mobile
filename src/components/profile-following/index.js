@@ -1,10 +1,10 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 import { StyleSheet } from 'react-native';
 import { ListItem,  Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
-import { observer } from 'mobx-react';
-
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import BrgyAvatar from '../../../assets/images/default-brgy.png';
+import NavigationService from 'services/NavigationService';
 import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
@@ -40,7 +40,7 @@ export const FollowingButton = observer((props) => (
 ));
 
 export const FollowingListItem = observer((props) => (
-  <ListItem thumbnail onPress={() => {}}>
+  <ListItem thumbnail onPress={() => NavigationService.push('Login', {})}>
     <Left>
       <Thumbnail 
         circle 

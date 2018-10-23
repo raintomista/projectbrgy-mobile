@@ -7,26 +7,18 @@ import {
 import Login from 'screens/Login';
 import MemberHome from 'screens/member/MemberHome';
 import MemberSidebar from 'screens/member/MemberSidebar';
+import MemberReports from 'screens/member/MemberReports';
 import ProfileFollowing from 'screens/shared/profile/ProfileFollowing';
 
 
 export const MemberDrawer = createDrawerNavigator({
-  Home: {
-    screen: MemberHome,
-    navigationOptions: {
-      header: null
-    }
-  },
-  ProfileFollowing: {
-    screen: ProfileFollowing,
-    navigationOptions: {
-      header: null
-    }
-  },
+  Home: { screen: MemberHome },
+  MemberFollowing: { screen: ProfileFollowing },
+  MemberReports: { screen: MemberReports },
 }, {
   contentComponent: MemberSidebar,
   width: 200,
-  initialRouteName: 'ProfileFollowing'
+  initialRouteName: 'MemberReports'
 })
 
 export const AppStack = createStackNavigator({

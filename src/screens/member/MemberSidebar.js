@@ -7,8 +7,8 @@ const routes = [
   {key: 'Home', label: 'Home'},
   {key: 'BarangayPage', label: 'My Barangay'},  
   {key: 'Messages', label: 'Messages'},  
-  {key: 'ProfileFollowing', label: 'Following'},  
-  {key: 'Reports', label: 'Reports'}, 
+  {key: 'MemberFollowing', label: 'Following'},  
+  {key: 'MemberReports', label: 'Reports'}, 
   {key: 'Responded', label: 'Responded'},    
 ];
 

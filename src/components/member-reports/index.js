@@ -10,18 +10,31 @@ import {
     Text,
     Spinner
   } from 'native-base';
+import moment from 'moment';
 import NavigationService from 'services/NavigationService';
 import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function formatDate(date) {
+  return moment(date).format('MMMM DD, YYYY hh:mm:ss a')
+}
 
 export const ReportItem = observer((props) => (
   <Card style={styles.card}>
     <CardItem style={styles.cardHeader}>
       <Body>
-      <Text style={styles.cardTitle}>Committee Report</Text>     
-      <Text note>Inquiry &middot; October 27, 2019</Text>       
+      <Text style={styles.cardTitle}>
+        {capitalize(props.reportType)} Report
+      </Text>
+      {props.committeeType 
+        ? <Text note>{capitalize(props.committeeType)} &middot; {formatDate(props.dateCreated)}</Text>  
+        : <Text note>{formatDate(props.dateCreated)}</Text>     
+      }     
       </Body>              
     </CardItem>
     <CardItem style={styles.cardBody}>

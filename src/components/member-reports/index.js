@@ -49,6 +49,24 @@ export const ReportItem = observer((props) => (
   </Card>
 ));
 
+export const RespondedReportItem = observer((props) => (
+  <Card style={[styles.card, props.index === 0 && styles.cardFirstChild]}>
+    <CardItem style={styles.cardHeader}>
+      <Body>
+      <Text style={styles.cardTitle}>
+        {capitalize(props.reportType)} Report
+      </Text>
+      <Text note numberOfLines={1}>Responded at {formatDate(props.dateUpdated)}</Text>     
+      </Body>              
+    </CardItem>
+    <CardItem style={styles.cardBody}>
+      <Body>
+        <Text note numberOfLines={1}>{props.message}</Text>
+      </Body>
+    </CardItem>
+  </Card>
+));
+
 export const DropdownMenu = observer((props) => (
   <Item stackedLabel style={styles.dropdownItem}>
     <Label style={styles.dropdownLabel}>

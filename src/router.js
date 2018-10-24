@@ -9,6 +9,7 @@ import MemberHome from 'screens/member/MemberHome';
 import MemberSidebar from 'screens/member/MemberSidebar';
 import MemberReports from 'screens/member/MemberReports';
 import MemberCreateReport from 'screens/member/MemberCreateReport';
+import MemberRespondedReports from 'screens/member/MemberRespondedReports';
 import ProfileFollowing from 'screens/shared/profile/ProfileFollowing';
 
 
@@ -25,6 +26,12 @@ export const MemberDrawer = createDrawerNavigator({
       navigationOptions: { header: null }
     },
   }),
+  MyRespondedReportStack: createStackNavigator({
+    MyRespondedReports: {
+      screen: MemberRespondedReports,
+      navigationOptions: { header: null }
+    }
+  })
 }, {
   contentComponent: MemberSidebar,
   width: 200,

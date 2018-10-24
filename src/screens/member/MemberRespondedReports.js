@@ -11,17 +11,17 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { responsiveHeight } from 'react-native-cross-platform-responsive-dimensions'
 import { HeaderWithDrawer } from 'components/common';
-import { ReportItem } from 'components/member-reports';
+import { RespondedReportItem } from 'components/member-reports';
 import NavigationService from 'services/NavigationService';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts.js'
 
 @observer
-export default class MemberReports extends Component {
+export default class MemberRespondedReports extends Component {
   async componentWillMount() {
     const { sessionStore, reportStore } = this.props.screenProps;
     await sessionStore.getLoggedUser();
-    await reportStore.getMyReports();
+    await reportStore.getMyRespondedReports();
   }
 
   componentWillUnmount() {
@@ -30,8 +30,8 @@ export default class MemberReports extends Component {
   }
 
   renderItem = ({ item, index}) => (
-    <ReportItem
-      dateCreated={item.date_created}    
+    <RespondedReportItem
+      dateUpdated={item.date_updated}    
       reportType={item.report_type}
       committeeType={item.committee_type}
       message={item.message}
@@ -71,19 +71,10 @@ export default class MemberReports extends Component {
   render() {
     return (
       <Container>
-        <HeaderWithDrawer title="Reports" />
+        <HeaderWithDrawer title="Responded" />
         <View style={{ flex: 1 }}>
           {this.renderList()}
         </View>
-        <Fab
-          style={{ backgroundColor: colors.PRIMARY }}
-          position="bottomRight"
-          onPress={() => {
-            NavigationService.push('CreateReport', {});
-          }}
-        >
-          <Icon name="add" />
-        </Fab>
       </Container>
     );
   }
@@ -91,13 +82,13 @@ export default class MemberReports extends Component {
   async handleLoadMore() {
     const { reportStore } = this.props.screenProps;
     if(!reportStore.error) {
-      await reportStore.getMyReports();
+      await reportStore.getMyRespondedReports();
     }
   }
 
   async handleRefresh() {
     const { reportStore } = this.props.screenProps;
-    await reportStore.refreshMyReports();
+    await reportStore.refreshMyRespondedReports();
   }
 }
 

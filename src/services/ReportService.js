@@ -24,3 +24,12 @@ export async function createReport(data) {
         data: data
     });
 }
+
+export async function getMyRespondedReports(page, limit, order) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios.get(`${API_HOST}/inquiry/my-reports/responded?page=${page}&limit=${limit}&order=${order}`, {
+        headers: {
+            'x-access-token': token
+        }
+    });
+}

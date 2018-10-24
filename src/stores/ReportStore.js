@@ -7,7 +7,10 @@ import {
 import {
     ToastAndroid
 } from 'react-native';
-import { getMyReports as _getMyReports } from 'services/ReportService';
+import {
+    getMyReports as _getMyReports,
+    getMyRespondedReports as _getMyRespondedReports
+} from 'services/ReportService';
 import * as localized from 'localization/en';
 
 configure({
@@ -23,7 +26,7 @@ export default class ReportStore {
     @observable refreshing = false;
     @observable myReports = [];
 
-    @action 
+    @action
     resetStore() {
         this.page = 0;
         this.hasMore = true;
@@ -33,28 +36,28 @@ export default class ReportStore {
     }
 
     @action
-    async getMyReports() {     
-      this.page += 1;
-      try {
-        const response = await _getMyReports(this.page, this.limit, this.order);
-        if(response.data.data.reports.length > 0) {
+    async getMyReports() {
+        this.page += 1;
+        try {
+            const response = await _getMyReports(this.page, this.limit, this.order);
+            if (response.data.data.reports.length > 0) {
+                runInAction(() => {
+                    this.myReports.push(...response.data.data.reports);
+                });
+            } else {
+                runInAction(() => {
+                    this.hasMore = false;
+                    this.error = true;
+                });
+            }
+        } catch (e) {
             runInAction(() => {
-                this.myReports.push(...response.data.data.reports);
-            });
-        } else {
-            runInAction(()=> {
                 this.hasMore = false;
                 this.error = true;
             });
+            ToastAndroid.show(localized.NETWORK_ERROR, ToastAndroid.SHORT);
         }
-      } catch (e) {
-        runInAction(()=> {
-            this.hasMore = false;
-            this.error = true;
-        });
-        ToastAndroid.show(localized.NETWORK_ERROR, ToastAndroid.SHORT);
-      }
-    }   
+    }
 
     @action
     async refreshMyReports() {
@@ -64,11 +67,53 @@ export default class ReportStore {
             const response = await _getMyReports(this.page, this.limit, this.order);;
             runInAction(() => {
                 this.hasMore = true;
-                this.error = false;        
+                this.error = false;
                 this.refreshing = false;
                 this.myReports = response.data.data.reports
             });
-        } catch(e) {
+        } catch (e) {
+            runInAction(() => this.refreshing = false);
+            ToastAndroid.show(localized.NETWORK_ERROR, ToastAndroid.SHORT);
+        }
+    }
+
+    @action
+    async getMyRespondedReports() {
+        this.page += 1;
+        try {
+            const response = await _getMyRespondedReports(this.page, this.limit, this.order);
+            if (response.data.data.reports.length > 0) {
+                runInAction(() => {
+                    this.myReports.push(...response.data.data.reports);
+                });
+            } else {
+                runInAction(() => {
+                    this.hasMore = false;
+                    this.error = true;
+                });
+            }
+        } catch (e) {
+            runInAction(() => {
+                this.hasMore = false;
+                this.error = true;
+            });
+            ToastAndroid.show(localized.NETWORK_ERROR, ToastAndroid.SHORT);
+        }
+    }
+
+    @action
+    async refreshMyRespondedReports() {
+        this.page = 1;
+        this.refreshing = true;
+        try {
+            const response = await _getMyRespondedReports(this.page, this.limit, this.order);;
+            runInAction(() => {
+                this.hasMore = true;
+                this.error = false;
+                this.refreshing = false;
+                this.myReports = response.data.data.reports
+            });
+        } catch (e) {
             runInAction(() => this.refreshing = false);
             ToastAndroid.show(localized.NETWORK_ERROR, ToastAndroid.SHORT);
         }

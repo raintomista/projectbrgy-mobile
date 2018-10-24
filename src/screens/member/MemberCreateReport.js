@@ -62,7 +62,7 @@ export default class MemberCreateReport extends Component {
               rounded   
               style={styles.button}
               onPress={(e) => this.form.onSubmit(e)}
-              disabled={this.form.$('message').disabled}
+              disabled={this.form.$('message').value.length === 0 || this.form.$('message').value.length > 150 || this.form.$('message').disabled}
             >
               <Text 
                 style={styles.buttonText} 

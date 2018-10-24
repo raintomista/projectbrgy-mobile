@@ -76,14 +76,19 @@ export const DropdownMenu = observer((props) => (
 ));
 
 export const TextArea = observer((props) => (
-  <Textarea 
-    onChangeText={(value) => props.field.set('value', value)}
-    rowSpan={props.rowSpan} 
-    placeholder={props.placeholder}
-    disabled={props.field.disabled}
-    style={styles.textArea}
-    bordered      
-  />
+  <React.Fragment>
+    <Textarea 
+      onChangeText={(value) => props.field.set('value', value)}
+      rowSpan={props.rowSpan} 
+      placeholder={props.placeholder}
+      disabled={props.field.disabled}
+      style={[styles.textArea, props.field.value.length > 150 && styles.textAreaError]}
+      bordered      
+    />
+    <Text style={[styles.characterCount, props.field.value.length > 150 && styles.characterCountError]}>
+      {150 - props.field.value.length}
+    </Text>
+  </React.Fragment>
 ));
 
 const styles = StyleSheet.create({
@@ -109,6 +114,16 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 14
   },
+  characterCount: {
+    color: colors.PRIMARY,
+    fontFamily: fonts.LATO_BOLD,
+    marginHorizontal: 7,
+    marginBottom: 18,
+    textAlign: 'right'
+  },
+  characterCountError: {
+    color:'#fb8383'
+  },
   dropdownItem: {
     borderBottomWidth: 0,
     marginLeft: 5,
@@ -133,7 +148,10 @@ const styles = StyleSheet.create({
     fontFamily: fonts.LATO_REGULAR,
     fontSize: 16,
     marginTop: 18,
-    marginBottom: 18,    
+    marginBottom: 5,
     marginHorizontal: 5
+  },
+  textAreaError: {
+    backgroundColor: '#fb8383',
   }
 });

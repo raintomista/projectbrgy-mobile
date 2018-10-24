@@ -39,15 +39,34 @@ export default class MemberReports extends Component {
     />
   );
 
+  renderLoader() {
+    const { reportStore } = this.props.screenProps;
+    const { error, followingList, hasMore } = reportStore;
+    if(hasMore === false) return null;
+    return <Spinner color={colors.PRIMARY}/>
+  }
+
   renderList() {
     const { reportStore} = this.props.screenProps;
-    const { myReports } = reportStore;
+    const { myReports, refreshing } = reportStore;
 
     return (
       <FlatList
         data={Array.from(myReports)}
         renderItem={this.renderItem}
         keyExtractor={(item) => item.id}
+        ListFooterComponent={() => this.renderLoader()}
+        onEndReached={() => this.handleLoadMore()}
+        onEndReachedThreshold={3}
+        initialNumToRender={10}
+        maxToRenderPerBatch={10}    
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => this.handleRefresh()}
+            colors={[colors.PRIMARY]}
+          />
+        }
       />
     );
   }
@@ -55,11 +74,11 @@ export default class MemberReports extends Component {
     return (
       <Container>
         <HeaderWithDrawer title="Reports" />
-        <View style={styles.view}>
+        <View style={{ flex: 1 }}>
           {this.renderList()}
         </View>
         <Fab
-          style={styles.fab}
+          style={{ backgroundColor: colors.PRIMARY }}
           position="bottomRight"
           onPress={() => {
             NavigationService.push('CreateReport', {});
@@ -70,13 +89,19 @@ export default class MemberReports extends Component {
       </Container>
     );
   }
+
+  async handleLoadMore() {
+    const { reportStore } = this.props.screenProps;
+    if(!reportStore.error) {
+      await reportStore.getMyReports();
+    }
+  }
+
+  async handleRefresh() {
+    const { reportStore } = this.props.screenProps;
+    await reportStore.refreshMyReports();
+  }
 }
 
 const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-  },
-  fab: {
-    backgroundColor: colors.PRIMARY
-  }
 });

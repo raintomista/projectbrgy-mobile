@@ -21,7 +21,6 @@ export default class ReportStore {
     @observable hasMore = true;
     @observable error = false;
     @observable refreshing = false;
-
     @observable myReports = [];
 
     @action 
@@ -38,10 +37,21 @@ export default class ReportStore {
       this.page += 1;
       try {
         const response = await _getMyReports(this.page, this.limit, this.order);
-        runInAction(() => {
-          this.myReports.push(...response.data.data.reports);
-        });
+        if(response.data.data.reports.length > 0) {
+            runInAction(() => {
+                this.myReports.push(...response.data.data.reports);
+            });
+        } else {
+            runInAction(()=> {
+                this.hasMore = false;
+                this.error = true;
+            });
+        }
       } catch (e) {
+        runInAction(()=> {
+            this.hasMore = false;
+            this.error = true;
+        });
         ToastAndroid.show(localized.NETWORK_ERROR, ToastAndroid.SHORT);
       }
     }   
@@ -49,15 +59,18 @@ export default class ReportStore {
     @action
     async refreshMyReports() {
         this.page = 1;
-
+        this.refreshing = true;
         try {
             const response = await _getMyReports(this.page, this.limit, this.order);;
             runInAction(() => {
+                this.hasMore = true;
+                this.error = false;        
+                this.refreshing = false;
                 this.myReports = response.data.data.reports
             });
         } catch(e) {
+            runInAction(() => this.refreshing = false);
             ToastAndroid.show(localized.NETWORK_ERROR, ToastAndroid.SHORT);
         }
     }
-
 }

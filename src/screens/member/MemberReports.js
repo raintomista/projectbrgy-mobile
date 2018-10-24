@@ -9,6 +9,7 @@ import {
   Spinner
 } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { responsiveHeight } from 'react-native-cross-platform-responsive-dimensions'
 import { HeaderWithDrawer } from 'components/common';
 import { ReportItem } from 'components/member-reports';
 import NavigationService from 'services/NavigationService';
@@ -20,15 +21,21 @@ export default class MemberReports extends Component {
   async componentWillMount() {
     const { sessionStore, reportStore } = this.props.screenProps;
     await sessionStore.getLoggedUser();
-    await reportStore.getMyReports(sessionStore.loggedUser.user_id);
+    await reportStore.getMyReports();
+  }
+
+  componentWillUnmount() {
+    const { reportStore } = this.props.screenProps;
+    reportStore.resetStore();
   }
 
   renderItem = ({ item, index}) => (
     <ReportItem
-      dataCreated={item.date_created}    
+      dateCreated={item.date_created}    
       reportType={item.report_type}
       committeeType={item.committee_type}
       message={item.message}
+      index={index}
     />
   );
 
@@ -67,7 +74,7 @@ export default class MemberReports extends Component {
 
 const styles = StyleSheet.create({
   view: {
-    padding: 12
+    flex: 1,
   },
   fab: {
     backgroundColor: colors.PRIMARY

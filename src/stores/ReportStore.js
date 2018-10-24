@@ -34,16 +34,30 @@ export default class ReportStore {
     }
 
     @action
-    async getMyReports(id) {     
+    async getMyReports() {     
       this.page += 1;
       try {
-        const response = await _getMyReports(id, this.page, this.limit, this.order);
+        const response = await _getMyReports(this.page, this.limit, this.order);
         runInAction(() => {
           this.myReports.push(...response.data.data.reports);
         });
       } catch (e) {
         ToastAndroid.show(localized.NETWORK_ERROR, ToastAndroid.SHORT);
       }
+    }   
+
+    @action
+    async refreshMyReports() {
+        this.page = 1;
+
+        try {
+            const response = await _getMyReports(this.page, this.limit, this.order);;
+            runInAction(() => {
+                this.myReports = response.data.data.reports
+            });
+        } catch(e) {
+            ToastAndroid.show(localized.NETWORK_ERROR, ToastAndroid.SHORT);
+        }
     }
 
 }

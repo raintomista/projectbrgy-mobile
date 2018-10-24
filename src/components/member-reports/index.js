@@ -29,7 +29,7 @@ function formatDate(date) {
 }
 
 export const ReportItem = observer((props) => (
-  <Card style={styles.card}>
+  <Card style={[styles.card, props.index === 0 && styles.cardFirstChild]}>
     <CardItem style={styles.cardHeader}>
       <Body>
       <Text style={styles.cardTitle}>
@@ -43,8 +43,7 @@ export const ReportItem = observer((props) => (
     </CardItem>
     <CardItem style={styles.cardBody}>
       <Body>
-        <Text note numberOfLines={1}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley 
-        </Text>
+        <Text note numberOfLines={1}>{props.message}</Text>
       </Body>
     </CardItem>
   </Card>
@@ -55,24 +54,33 @@ export const DropdownMenu = observer((props) => (
     <Label style={styles.dropdownLabel}>
       {props.label}
     </Label>
-    <Item picker style={styles.dropdownMenu}>
-      <Picker mode="dropdown">
-        {props.data.map((item, index) => (
-          <Picker.Item
-            key={index}
-            label={item}
-            value={item} 
-          />
-        ))}
-      </Picker>
-    </Item>
+    {props.field && (
+      <Item picker style={styles.dropdownMenu}>
+        <Picker 
+          mode="dropdown"
+          enabled={!props.field.disabled}
+          selectedValue={props.field.value}
+          onValueChange={props.field.onChange}
+        >
+          {props.data.map((item, index) => (
+            <Picker.Item
+              key={index}
+              label={item}
+              value={item} 
+            />
+          ))}
+        </Picker>
+      </Item>
+    )}
   </Item>
 ));
 
 export const TextArea = observer((props) => (
   <Textarea 
+    onChangeText={(value) => props.field.set('value', value)}
     rowSpan={props.rowSpan} 
     placeholder={props.placeholder}
+    disabled={props.field.disabled}
     style={styles.textArea}
     bordered      
   />
@@ -81,7 +89,16 @@ export const TextArea = observer((props) => (
 const styles = StyleSheet.create({
   card: {
     borderRadius: 0,
-    marginBottom: 10,
+    marginTop: 0,
+    marginLeft: 12,
+    marginRight: 12,
+    marginBottom: 15,
+  },
+  cardFirstChild: {
+    marginTop: 15,
+  },
+  cardLastChild: {
+    marginBottom: 12
   },
   cardTitle: {
     color: colors.PRIMARY,

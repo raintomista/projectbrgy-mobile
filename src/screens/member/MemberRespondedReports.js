@@ -31,6 +31,7 @@ export default class MemberRespondedReports extends Component {
 
   renderItem = ({ item, index}) => (
     <RespondedReportItem
+      reportId={item.id}
       dateUpdated={item.date_updated}    
       reportType={item.report_type}
       committeeType={item.committee_type}

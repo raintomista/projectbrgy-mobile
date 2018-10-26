@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 import {
     getMyReports as _getMyReports,
-    getMyRespondedReports as _getMyRespondedReports
+    getMyRespondedReports as _getMyRespondedReports,
+    getReportById as _getReportById
 } from 'services/ReportService';
 import * as localized from 'localization/en';
 
@@ -24,7 +25,12 @@ export default class ReportStore {
     @observable hasMore = true;
     @observable error = false;
     @observable refreshing = false;
+
     @observable myReports = [];
+
+    // Report Overview
+    @observable reportId = null;    
+    @observable report = null;
 
     @action
     resetStore() {
@@ -33,6 +39,9 @@ export default class ReportStore {
         this.error = false;
         this.refreshing = false;
         this.myReports = [];
+
+        this.reportId = null;
+        this.report = null;        
     }
 
     @action
@@ -115,6 +124,22 @@ export default class ReportStore {
             });
         } catch (e) {
             runInAction(() => this.refreshing = false);
+            ToastAndroid.show(localized.NETWORK_ERROR, ToastAndroid.SHORT);
+        }
+    }
+
+    @action
+    async setReportId(id) {
+        this.reportId = id;
+    }
+
+    @action
+    async getReportById() {
+        try {
+            const response = await _getReportById(this.reportId);
+            runInAction(() => this.report = response.data.data);
+        } catch(e) {
+            runInAction(() => this.report = null);            
             ToastAndroid.show(localized.NETWORK_ERROR, ToastAndroid.SHORT);
         }
     }

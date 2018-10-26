@@ -10,6 +10,7 @@ import MemberSidebar from 'screens/member/MemberSidebar';
 import MemberReports from 'screens/member/MemberReports';
 import MemberCreateReport from 'screens/member/MemberCreateReport';
 import MemberRespondedReports from 'screens/member/MemberRespondedReports';
+import MemberReportOverview from 'screens/member/MemberReportOverview';
 import ProfileFollowing from 'screens/shared/profile/ProfileFollowing';
 
 
@@ -29,6 +30,10 @@ export const MemberDrawer = createDrawerNavigator({
   MyRespondedReportStack: createStackNavigator({
     MyRespondedReports: {
       screen: MemberRespondedReports,
+      navigationOptions: { header: null }
+    },
+    MyReportOverview: {
+      screen: MemberReportOverview,
       navigationOptions: { header: null }
     }
   })

@@ -33,3 +33,12 @@ export async function getMyRespondedReports(page, limit, order) {
         }
     });
 }
+
+export async function getReportById(id) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios.get(`${API_HOST}/inquiry/${id}`, {
+        headers: {
+            'x-access-token': token
+        }
+    });
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableNativeFeedback } from 'react-native';
 import { 
     Body,
     Card,
@@ -50,22 +50,52 @@ export const ReportItem = observer((props) => (
 ));
 
 export const RespondedReportItem = observer((props) => (
-  <Card style={[styles.card, props.index === 0 && styles.cardFirstChild]}>
+  <TouchableNativeFeedback 
+    onPress={async () => {
+      NavigationService.push('MyReportOverview', {});
+      await RootStore.reportStore.setReportId(props.reportId);
+    }}
+  >
+    <Card style={[styles.card, props.index === 0 && styles.cardFirstChild]}>
+      <CardItem style={styles.cardHeader}>
+        <Body>
+        <Text style={styles.cardTitle}>
+          {capitalize(props.reportType)} Report
+        </Text>
+        <Text note numberOfLines={1}>Responded at {formatDate(props.dateUpdated)}</Text>     
+        </Body>              
+      </CardItem>
+      <CardItem style={styles.cardBody}>
+        <Body>
+          <Text note numberOfLines={1}>{props.message}</Text>
+        </Body>
+      </CardItem>
+    </Card>
+  </TouchableNativeFeedback>
+));
+
+export const ReportOverviewItem = observer((props) => (
+  <Card style={[styles.card, {marginTop: 12, marginBottom: 12}]}>
     <CardItem style={styles.cardHeader}>
       <Body>
-      <Text style={styles.cardTitle}>
-        {capitalize(props.reportType)} Report
-      </Text>
-      <Text note numberOfLines={1}>Responded at {formatDate(props.dateUpdated)}</Text>     
+        <Text style={styles.cardTitle}>
+          {capitalize(props.reportType)} Report
+        </Text>
+        {props.committeeType 
+          ? <Text note>{capitalize(props.committeeType)} &middot; {formatDate(props.dateCreated)}</Text>  
+          : <Text note>{formatDate(props.dateCreated)}</Text>     
+        }     
       </Body>              
     </CardItem>
     <CardItem style={styles.cardBody}>
       <Body>
-        <Text note numberOfLines={1}>{props.message}</Text>
+        <Text note style={{marginRight: 0}}>
+          {props.message}
+        </Text>
       </Body>
     </CardItem>
   </Card>
-));
+))
 
 export const DropdownMenu = observer((props) => (
   <Item stackedLabel style={styles.dropdownItem}>

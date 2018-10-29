@@ -1,7 +1,9 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { StyleSheet, TouchableNativeFeedback } from 'react-native';
-import { 
+import {
+    Accordion,
+    Badge,
     Body,
     Card,
     CardItem,
@@ -9,10 +11,13 @@ import {
     Content,
     Item,
     Label,
+    Left,
     Picker,
+    Right,
     Spinner,
     Text,
     Textarea,
+    View,
   } from 'native-base';
 import moment from 'moment';
 import NavigationService from 'services/NavigationService';
@@ -30,7 +35,7 @@ function formatDate(date) {
 
 export const ReportItem = observer((props) => (
   <Card style={[styles.card, props.index === 0 && styles.cardFirstChild]}>
-    <CardItem style={styles.cardHeader}>
+    <CardItem>
       <Body>
       <Text style={styles.cardTitle}>
         {capitalize(props.reportType)} Report
@@ -57,7 +62,7 @@ export const RespondedReportItem = observer((props) => (
     }}
   >
     <Card style={[styles.card, props.index === 0 && styles.cardFirstChild]}>
-      <CardItem style={styles.cardHeader}>
+      <CardItem>
         <Body>
         <Text style={styles.cardTitle}>
           {capitalize(props.reportType)} Report
@@ -75,8 +80,8 @@ export const RespondedReportItem = observer((props) => (
 ));
 
 export const ReportOverviewItem = observer((props) => (
-  <Card style={[styles.card, {marginTop: 12, marginBottom: 12}]}>
-    <CardItem style={styles.cardHeader}>
+  <Card style={[styles.card, {marginTop: 12, marginBottom: 0}]}>
+    <CardItem>
       <Body>
         <Text style={styles.cardTitle}>
           {capitalize(props.reportType)} Report
@@ -95,6 +100,47 @@ export const ReportOverviewItem = observer((props) => (
       </Body>
     </CardItem>
   </Card>
+))
+
+export const ReportResponseHeader = observer((props) => (
+  <View style={styles.responseHeader}>
+    <Content>
+      <Text style={styles.responseHeaderTitle}>Barangay 1</Text>
+      <Text note style={styles.responseHeaderDetailsLeft}>
+        to me
+      </Text>      
+      <Text>&nbsp;</Text>
+    </Content>  
+    <Content contentContainerStyle={styles.responseHeaderRight}>
+      <Text note style={styles.responseHeaderDetailsRight}>
+        Oct 24, 2018
+      </Text>
+      <Text note style={styles.responseHeaderDetailsRight}>
+        11:26:52 PM
+      </Text>
+      <Badge style={styles.responseHeaderBadge}>
+        <Text style={styles.responseHeaderBadgeText}>
+          #2
+        </Text>
+      </Badge>
+    </Content>  
+  </View>
+));
+
+export const ReportResponseContent = observer((props) => (
+  <Content style={{marginTop: 5}}>
+    <Text note style={styles.responseContentMessage}>
+      dahdahd hajhdfahdj hdjahdha hdajhdjah jdhajdhajhda
+    </Text>
+    <Text style={styles.responseContentAttachmentsLabel}>
+      4 attachments:
+    </Text>
+    <Text style={styles.responseContentAttachmentName}>File 1 - Copy.png</Text>
+    <Text style={styles.responseContentAttachmentName}>File 1 - Copy.png</Text>
+    <Text style={styles.responseContentAttachmentName}>File 1 - Copy.png</Text>
+    <Text style={styles.responseContentAttachmentName}>File 1 - Copy.png</Text>
+        
+  </Content>
 ))
 
 export const DropdownMenu = observer((props) => (
@@ -186,6 +232,54 @@ const styles = StyleSheet.create({
     backgroundColor: colors.GRAY,
     borderBottomWidth: 0,
     marginTop: 10
+  },
+  responseContentMessage: {
+    fontFamily: fonts.LATO_REGULAR,   
+  },
+  responseHeader: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  responseHeaderTitle: {
+    fontFamily: fonts.LATO_REGULAR,    
+    fontSize: 15
+  },
+  responseHeaderDetailsLeft: {
+    color: '#808080',    
+  },
+  responseHeaderDetailsRight: {
+    color: '#808080',
+    textAlign: 'right'  
+  },
+  responseHeaderBadge: {
+    alignSelf: 'flex-end',
+    backgroundColor: colors.PRIMARY,
+    borderRadius: 5,
+    height: 20,
+    marginTop: 3
+  },
+  responseHeaderBadgeText: {
+    fontFamily: fonts.LATO_REGULAR, 
+    fontSize: 12, 
+    lineHeight: 18
+  },
+  responseContentMessage: {
+    color: '#808080',
+    marginTop: 8    
+  },
+  responseContentAttachmentsLabel: {
+    color: '#727272',
+    fontFamily: fonts.LATO_BOLD,
+    fontSize: 14,
+    marginTop: 10
+  },
+  responseContentAttachmentName: {
+    color: colors.PRIMARY,
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 14,
+    marginLeft: 5,
+    textDecorationLine: "underline"
   },
   textArea: {
     backgroundColor: colors.GRAY,

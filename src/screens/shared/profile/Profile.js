@@ -37,7 +37,14 @@ export default class Profile extends Component {
   async componentWillMount(){
     const { sessionStore, profileStore } = RootStore;
     await sessionStore.getLoggedUser();
+    await profileStore.setProfileId(sessionStore.loggedUser.user_id);
     await profileStore.getProfileData();
+  }
+
+  async componentWillUnmount() {
+    const { profileStore } = RootStore;
+    await profileStore.resetStore();
+    await profileStore.resetProfile();
   }
   
   render() {
@@ -80,7 +87,7 @@ export default class Profile extends Component {
                     <TouchableOpacity
                       style={styles.profileFollowingButton}
                       onPress={() => {
-                        NavigationService.push('ProfileInformation', {});
+                        NavigationService.push('ProfileFollowing', {});
                       }}
                     >
                       <Text 

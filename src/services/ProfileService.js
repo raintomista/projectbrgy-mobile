@@ -11,7 +11,7 @@ export async function getUserById(id) {
     });
 }
 
-async function getFollowingList(userId, page, limit, order) {
+export async function getFollowingList(userId, page, limit, order) {
     const token = await AsyncStorage.getItem('x-access-token');
     return axios.get(`${API_HOST}/following/users/${userId}?page=${page}&limit=${limit}&order=${order}`, {
         headers: {

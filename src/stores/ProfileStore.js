@@ -30,10 +30,14 @@ export default class ProfileStore {
   @observable refreshing = false;
   @observable followingList = [];
 
-  @action
-  async resetStore() {
+  @action 
+  async resetProfile() {
     this.profileId = null;
     this.profileData = null;
+  }
+
+  @action
+  async resetStore() {
     this.page = 0;
     this.hasMore = true;
     this.error = false; 
@@ -67,6 +71,8 @@ export default class ProfileStore {
         this.followingList.push(...response.data.data.items);
       });
     } catch (e) {
+      console.log(e)
+      
       runInAction(() => {
         this.hasMore = false;
         this.error = true;

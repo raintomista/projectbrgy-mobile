@@ -9,8 +9,8 @@ const routes = [
   {key: 'Home', label: 'Home'},
   {key: 'BarangayPage', label: 'My Barangay'},  
   {key: 'Messages', label: 'Messages'},  
-  {key: 'MyProfile', label: 'Profile', profile: 1},    
-  {key: 'MyFollowing', label: 'Following', profile: 1},  
+  {key: 'MyProfile', label: 'Profile'},    
+  {key: 'MyFollowing', label: 'Following'},  
   {key: 'MyReportStack', label: 'Reports'}, 
   {key: 'MyRespondedReportStack', label: 'Responded'},    
 ];
@@ -41,11 +41,6 @@ export default class MemberSidebar extends React.Component {
   }
 
   handlePress(route) {
-    const { loggedUser } = RootStore.sessionStore;
-    route.profile == 1 
-      ? RootStore.profileStore.setProfileId(loggedUser.user_id)
-      : RootStore.profileStore.setProfileId(null);
-      
     this.props.navigation.navigate(route.key);                    
   }
 }

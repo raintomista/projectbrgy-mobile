@@ -14,6 +14,8 @@ import MemberReportOverview from 'screens/member/MemberReportOverview';
 import Profile from 'screens/shared/profile/Profile';
 import ProfileInformation from 'screens/shared/profile/ProfileInformation';
 import ProfileFollowing from 'screens/shared/profile/ProfileFollowing';
+import ProfileFollowingAlt from 'screens/shared/profile/ProfileFollowingAlt';
+
 
 
 export const MemberDrawer = createDrawerNavigator({
@@ -23,10 +25,16 @@ export const MemberDrawer = createDrawerNavigator({
       screen: Profile,
       navigationOptions: { header: null }
     },
+    ProfileFollowing: {
+      screen: ProfileFollowingAlt,
+      navigationOptions: { header: null }
+    },
     ProfileInformation: {
       screen: ProfileInformation,
       navigationOptions: { header: null }
     }
+  }, {
+    initialRouteName: 'Profile'
   }),
   MyFollowing: { screen: ProfileFollowing },
   MyReportStack: createStackNavigator({

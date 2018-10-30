@@ -25,7 +25,6 @@ import * as fonts from 'styles/fonts';
 export default class ProfileInformation extends Component {
   render() {
     const { profileData } = RootStore.profileStore;
-    console.log(profileData);
     return (
       <Container>
         <HeaderWithGoBack 

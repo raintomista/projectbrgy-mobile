@@ -16,10 +16,18 @@ import ProfileInformation from 'screens/shared/profile/ProfileInformation';
 import ProfileFollowing from 'screens/shared/profile/ProfileFollowing';
 import ProfileFollowingAlt from 'screens/shared/profile/ProfileFollowingAlt';
 
+import MyBarangay from 'screens/shared/barangay-page/MyBarangay';
+
 
 
 export const MemberDrawer = createDrawerNavigator({
   Home: { screen: MemberHome },
+  MyBarangay: createStackNavigator({
+    Barangay: {
+      screen: MyBarangay,
+      navigationOptions: { header: null }      
+    }
+  }), 
   MyProfile: createStackNavigator({
     Profile: { 
       screen: Profile,
@@ -60,7 +68,7 @@ export const MemberDrawer = createDrawerNavigator({
 }, {
   contentComponent: MemberSidebar,
   width: 200,
-  initialRouteName: 'MyProfile'
+  initialRouteName: 'MyBarangay'
 })
 
 export const AppStack = createStackNavigator({

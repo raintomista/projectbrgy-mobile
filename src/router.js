@@ -11,11 +11,13 @@ import MemberReports from 'screens/member/MemberReports';
 import MemberCreateReport from 'screens/member/MemberCreateReport';
 import MemberRespondedReports from 'screens/member/MemberRespondedReports';
 import MemberReportOverview from 'screens/member/MemberReportOverview';
+import Profile from 'screens/shared/profile/Profile';
 import ProfileFollowing from 'screens/shared/profile/ProfileFollowing';
 
 
 export const MemberDrawer = createDrawerNavigator({
   Home: { screen: MemberHome },
+  MemberProfile: { screen: Profile },
   MemberFollowing: { screen: ProfileFollowing },
   MyReportStack: createStackNavigator({
     MyReports: { 
@@ -40,7 +42,7 @@ export const MemberDrawer = createDrawerNavigator({
 }, {
   contentComponent: MemberSidebar,
   width: 200,
-  initialRouteName: 'MyReportStack'
+  initialRouteName: 'MemberProfile'
 })
 
 export const AppStack = createStackNavigator({

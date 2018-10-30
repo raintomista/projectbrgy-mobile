@@ -28,73 +28,93 @@ import MemberAvatar from '../../../../assets/images/default-member.png';
 import { HeaderWithDrawer } from 'components/common';
 import { FollowingListItem } from 'components/profile-following';
 import NavigationService from 'services/NavigationService';
+import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
 @observer
 export default class Profile extends Component {
+  async componentWillMount(){
+    const { sessionStore, profileStore } = RootStore;
+    await sessionStore.getLoggedUser();
+    await profileStore.getProfileData();
+  }
+  
   render() {
+    const { profileData } = RootStore.profileStore;
+
     return (
       <Container>
         <HeaderWithDrawer 
           title="Profile" 
           navigation={this.props.navigation} 
         />
-        <View style={styles.view}>
-          <React.Fragment>
-            <LinearGradient 
-              colors={[colors.PRIMARY, colors.SECONDARY]} 
-              style={styles.profileHeader}
-            />
-            <Thumbnail 
-              circle 
-              source={MemberAvatar} 
-              style={styles.profileAvatar}
-            />
-            <Card style={styles.profileCard}>            
-              <CardItem>
-                <Body>
-                  <Text 
-                    style={styles.profileName}
-                    numberOfLines={3}
-                  >
-                    Rainier Francis Santos Tomista
-                  </Text>
-                  <Text style={styles.profileLocation}>Caloocan City</Text>  
-                  <TouchableOpacity
-                    style={styles.profileFollowingButton}
-                    onPress={() => {
-                      NavigationService.push('ProfileInformation', {});
-                    }}
-                  >
+        {!profileData && (
+          <Spinner color={colors.PRIMARY} />
+        )}
+
+        {profileData && (
+          <View style={styles.view}>
+            <React.Fragment>
+              <LinearGradient 
+                colors={[colors.PRIMARY, colors.SECONDARY]} 
+                style={styles.profileHeader}
+              />
+              <Thumbnail 
+                circle 
+                source={MemberAvatar} 
+                style={styles.profileAvatar}
+              />
+              <Card style={styles.profileCard}>            
+                <CardItem>
+                  <Body>
                     <Text 
-                      style={styles.profileFollowingLabel}
-                      uppercase={false}
+                      style={styles.profileName}
+                      numberOfLines={3}
                     >
-                      Following
+                      {`${profileData.user_first_name} ${profileData.user_last_name}`}
                     </Text>
-                    <Text
-                      style={styles.profileFollowingCount}
-                      uppercase={false}
+                    <Text style={styles.profileLocation}>
+                      {profileData.barangay_page_municipality}
+                    </Text>  
+                    <TouchableOpacity
+                      style={styles.profileFollowingButton}
+                      onPress={() => {
+                        NavigationService.push('ProfileInformation', {});
+                      }}
                     >
-                      {numeral('1234561').format('0.00a')}
-                    </Text>                    
-                  </TouchableOpacity>
-                  <TouchableOpacity 
-                    style={{alignSelf: 'center'}}
-                    onPress={() => {
-                      NavigationService.push('ProfileInformation', {});
-                    }}
-                  >
-                    <Text style={styles.profileSeeMore} >
-                    See More
-                    </Text>    
-                  </TouchableOpacity>            
-                </Body>
-              </CardItem>
-            </Card>
-          </React.Fragment>
-        </View>
+                      <Text 
+                        style={styles.profileFollowingLabel}
+                        uppercase={false}
+                      >
+                        Following
+                      </Text>
+                      <Text
+                        style={styles.profileFollowingCount}
+                        uppercase={false}
+                      >
+                        { profileData.stats.following_count < 10000
+                          ? profileData.stats.following_count
+                          : numeral(profileData.stats.following_count).format('0.00a')
+                        }
+                      </Text>                    
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                      style={{alignSelf: 'center'}}
+                      onPress={() => {
+                        NavigationService.push('ProfileInformation', {});
+                      }}
+                    >
+                      <Text style={styles.profileSeeMore} >
+                      See More
+                      </Text>    
+                    </TouchableOpacity>            
+                  </Body>
+                </CardItem>
+              </Card>
+            </React.Fragment>
+          </View>
+        )}
       </Container>
     );
   }

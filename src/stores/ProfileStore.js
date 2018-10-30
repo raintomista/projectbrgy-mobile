@@ -6,6 +6,7 @@ import {
 } from 'mobx';
 import { ToastAndroid } from 'react-native';
 import {
+  getUserById,
   getFollowingList
 } from 'services/ProfileService';
 import {
@@ -19,6 +20,8 @@ configure({
 });
 
 export default class ProfileStore {
+  @observable profileId = null;
+  @observable profileData = null;
   @observable page = 0;
   @observable limit = 20;
   @observable order = 'desc';
@@ -29,11 +32,30 @@ export default class ProfileStore {
 
   @action
   async resetStore() {
+    this.profileId = null;
+    this.profileData = null;
     this.page = 0;
     this.hasMore = true;
     this.error = false; 
     this.refreshing = false; 
     this.followingList = [];    
+  }
+
+  @action
+  async setProfileId(profileId) {
+    this.profileId = profileId;
+  }
+
+  @action
+  async getProfileData() {
+    try {
+      const response = await getUserById(this.profileId);
+      runInAction(() => {
+        this.profileData = response.data.data;
+      })
+    } catch(e) {
+      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+    }
   }
 
   @action

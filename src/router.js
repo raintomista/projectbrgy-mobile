@@ -12,12 +12,24 @@ import MemberCreateReport from 'screens/member/MemberCreateReport';
 import MemberRespondedReports from 'screens/member/MemberRespondedReports';
 import MemberReportOverview from 'screens/member/MemberReportOverview';
 import Profile from 'screens/shared/profile/Profile';
+import ProfileInformation from 'screens/shared/profile/ProfileInformation';
 import ProfileFollowing from 'screens/shared/profile/ProfileFollowing';
 
 
 export const MemberDrawer = createDrawerNavigator({
   Home: { screen: MemberHome },
-  MemberProfile: { screen: Profile },
+  MemberProfile: createStackNavigator({
+    Profile: { 
+      screen: Profile,
+      navigationOptions: { header: null }
+    },
+    ProfileInformation: {
+      screen: ProfileInformation,
+      navigationOptions: { header: null }
+    }
+  }, {
+    initialRouteName: 'ProfileInformation'
+  }),
   MemberFollowing: { screen: ProfileFollowing },
   MyReportStack: createStackNavigator({
     MyReports: { 

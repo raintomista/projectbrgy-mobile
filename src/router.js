@@ -18,7 +18,7 @@ import ProfileFollowing from 'screens/shared/profile/ProfileFollowing';
 
 export const MemberDrawer = createDrawerNavigator({
   Home: { screen: MemberHome },
-  MemberProfile: createStackNavigator({
+  MyProfile: createStackNavigator({
     Profile: { 
       screen: Profile,
       navigationOptions: { header: null }
@@ -27,10 +27,8 @@ export const MemberDrawer = createDrawerNavigator({
       screen: ProfileInformation,
       navigationOptions: { header: null }
     }
-  }, {
-    initialRouteName: 'ProfileInformation'
   }),
-  MemberFollowing: { screen: ProfileFollowing },
+  MyFollowing: { screen: ProfileFollowing },
   MyReportStack: createStackNavigator({
     MyReports: { 
       screen: MemberReports,
@@ -54,7 +52,7 @@ export const MemberDrawer = createDrawerNavigator({
 }, {
   contentComponent: MemberSidebar,
   width: 200,
-  initialRouteName: 'MemberProfile'
+  initialRouteName: 'MyProfile'
 })
 
 export const AppStack = createStackNavigator({

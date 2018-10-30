@@ -5,11 +5,13 @@ import {
   FlatList, 
   Image, 
   RefreshControl, 
-  StyleSheet, 
+  StyleSheet,
+  TouchableOpacity, 
   View 
 } from 'react-native';
 import { 
   Body,
+  Button,
   Card, 
   CardItem, 
   Container, 
@@ -19,11 +21,13 @@ import {
   Text,
   Thumbnail
 } from 'native-base';
+import numeral from 'numeral';
 import LinearGradient from 'react-native-linear-gradient';
 import { responsiveHeight } from 'react-native-cross-platform-responsive-dimensions'
 import MemberAvatar from '../../../../assets/images/default-member.png';
 import { HeaderWithDrawer } from 'components/common';
 import { FollowingListItem } from 'components/profile-following';
+import NavigationService from 'services/NavigationService';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
@@ -31,13 +35,13 @@ import * as fonts from 'styles/fonts';
 export default class Profile extends Component {
   render() {
     return (
-      <Content>
+      <Container>
         <HeaderWithDrawer 
           title="Profile" 
           navigation={this.props.navigation} 
         />
         <View style={styles.view}>
-          <React.Fragment style={{flex: 1}}>
+          <React.Fragment>
             <LinearGradient 
               colors={[colors.PRIMARY, colors.SECONDARY]} 
               style={styles.profileHeader}
@@ -56,14 +60,42 @@ export default class Profile extends Component {
                   >
                     Rainier Francis Santos Tomista
                   </Text>
-                  <Text style={styles.profileLocation}>Caloocan City</Text>         
-                  <Text style={styles.profileSeeMore}>See More</Text>         
+                  <Text style={styles.profileLocation}>Caloocan City</Text>  
+                  <TouchableOpacity
+                    style={styles.profileFollowingButton}
+                    onPress={() => {
+                      NavigationService.push('ProfileInformation', {});
+                    }}
+                  >
+                    <Text 
+                      style={styles.profileFollowingLabel}
+                      uppercase={false}
+                    >
+                      Following
+                    </Text>
+                    <Text
+                      style={styles.profileFollowingCount}
+                      uppercase={false}
+                    >
+                      {numeral('1234561').format('0.00a')}
+                    </Text>                    
+                  </TouchableOpacity>
+                  <TouchableOpacity 
+                    style={{alignSelf: 'center'}}
+                    onPress={() => {
+                      NavigationService.push('ProfileInformation', {});
+                    }}
+                  >
+                    <Text style={styles.profileSeeMore} >
+                    See More
+                    </Text>    
+                  </TouchableOpacity>            
                 </Body>
               </CardItem>
             </Card>
           </React.Fragment>
         </View>
-      </Content>
+      </Container>
     );
   }
 }
@@ -117,6 +149,25 @@ const styles = StyleSheet.create({
     fontFamily: fonts.LATO_REGULAR,
     fontSize: 25,
     textAlign: 'center'    
+  },
+  profileFollowingButton: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    height: 55,
+    marginTop: 15,
+    paddingRight: 0
+  },
+  profileFollowingLabel: {
+    color: colors.PRIMARY,
+    fontFamily: fonts.MONTSERRAT_BOLD,
+    fontSize: 22,
+  },
+  profileFollowingCount: {
+    color: colors.PRIMARY,
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 22,
+    textAlign: 'center'
   },
   profileSeeMore: {
     alignSelf: 'center',

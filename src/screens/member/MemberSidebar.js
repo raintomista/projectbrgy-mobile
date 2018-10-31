@@ -1,13 +1,13 @@
 import React from "react";
 import { observer } from 'mobx-react';
-import { AppRegistry, Image, StatusBar } from "react-native";
+import { AppRegistry, AsyncStorage, Image, StatusBar } from "react-native";
 import { Container, Content, Text, List, ListItem } from "native-base";
 import { getUserDetails } from '../../services/AuthService';
 import RootStore from 'stores/RootStore';
 
 const routes = [
   {key: 'Home', label: 'Home'},
-  {key: 'BarangayPage', label: 'My Barangay'},  
+  {key: 'MyBarangay', label: 'My Barangay'},  
   {key: 'Messages', label: 'Messages'},  
   {key: 'MyProfile', label: 'Profile'},    
   {key: 'MyFollowing', label: 'Following'},  
@@ -40,7 +40,11 @@ export default class MemberSidebar extends React.Component {
     );
   }
 
-  handlePress(route) {
+  async handlePress(route) {
+    if(route.key === 'MyBarangay') {
+      const brgyId = await AsyncStorage.getItem('brgy-id');
+      await RootStore.brgyPageStore.setBrgyId(brgyId);
+    }
     this.props.navigation.navigate(route.key);                    
   }
 }

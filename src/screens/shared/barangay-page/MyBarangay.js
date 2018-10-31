@@ -21,12 +21,11 @@ import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
 @observer
-export default class MyBarangay extends Component {
+export default class BarangayPage extends Component {
   async componentWillMount(){
-    const { sessionStore, profileStore } = RootStore;
+    const { brgyPageStore, sessionStore } = RootStore;
     await sessionStore.getLoggedUser();
-    // await profileStore.setProfileId(sessionStore.loggedUser.user_id);
-    // await profileStore.getProfileData();
+    await brgyPageStore.getBrgyData();
   }
 
   async componentWillUnmount() {
@@ -36,19 +35,34 @@ export default class MyBarangay extends Component {
   }
   
   render() {
+    const { brgyData } = RootStore.brgyPageStore;
     return (
       <Container>
         <HeaderWithDrawer 
           title="My Barangay" 
           navigation={this.props.navigation} 
         />
-        <View style={styles.view}>
-          <ScrollView>
-            <BarangayPageCard
-            />
-            <FeedTabs />
-          </ScrollView>
-        </View>
+
+        {!brgyData && (
+          <Spinner color={colors.PRIMARY} />
+        )}
+        
+        {brgyData && (
+          <View style={styles.view}>
+            <ScrollView>
+              <BarangayPageCard
+                name={brgyData.name}
+                municipality={brgyData.municipality}
+                followingCount={brgyData.stats.following_count}
+                followersCount={brgyData.stats.followers_count}
+                email={brgyData.email}
+                landline={brgyData.landline_number}
+                website={brgyData.website}
+              />
+              <FeedTabs />
+            </ScrollView>
+          </View>
+        )}
       </Container>
     );
   }

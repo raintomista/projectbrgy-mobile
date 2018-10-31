@@ -45,23 +45,27 @@ export const BarangayPageCard = observer((props) => (
           <Text 
             style={styles.brgyPageName}
             numberOfLines={3}>
-              Barangay 1
+              {props.name}
           </Text>
           <Text style={styles.brgyPageLocation}>
-            Caloocan City
+            {props.municipality}
           </Text>  
-          <BarangayDetails />
+          <BarangayDetails
+            email={props.email}
+            landline={props.landline}
+            website={props.website} 
+          />
           <Grid>
             <Col>
               <StatCount
                 label="Following"
-                value="100314310"
+                value={props.followingCount}
               />
             </Col>
             <Col>
               <StatCount
                 label="Followers"
-                value="454445121"
+                value={props.followersCount}
               />
             </Col>
           </Grid>
@@ -85,23 +89,7 @@ export const BarangayDetails = observer((props) => (
       </Left>
       <Right style={{borderBottomWidth: 0}}>
         <Text style={styles.brgyDetail}>
-          brgy1@b2p.com
-        </Text>
-      </Right>
-    </ListItem>
-    <ListItem style={styles.brgyDetailListItem} icon>
-      <Left style={styles.brgyDetailIcon}>
-        <FontAwesome5 
-          name="mobile-alt" 
-          color={colors.PRIMARY} 
-          style={{alignSelf: 'center'}}                      
-          size={15} 
-          solid 
-        />
-      </Left>
-      <Right style={{borderBottomWidth: 0}}>
-        <Text style={styles.brgyDetail}>
-          (0995) 978 6692
+          {props.email ? props.email : 'n/a'}
         </Text>
       </Right>
     </ListItem>
@@ -117,7 +105,23 @@ export const BarangayDetails = observer((props) => (
       </Left>
       <Right style={{borderBottomWidth: 0}}>
         <Text style={styles.brgyDetail}>
-          n/a
+          {props.landline ? props.landline : 'n/a'}
+        </Text>
+      </Right>
+    </ListItem>
+    <ListItem style={styles.brgyDetailListItem} icon>
+      <Left style={styles.brgyDetailIcon}>
+        <FontAwesome5 
+          name="globe" 
+          color={colors.PRIMARY} 
+          style={{alignSelf: 'center'}}                      
+          size={15} 
+          solid 
+        />
+      </Left>
+      <Right style={{borderBottomWidth: 0}}>
+        <Text style={styles.brgyDetail}>
+          {props.website ? props.website : 'n/a'}
         </Text>
       </Right>
     </ListItem>

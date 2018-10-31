@@ -2,6 +2,15 @@ import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import API_HOST from '../config';
 
+export async function getBrgyById(brgyId) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios.get(`${API_HOST}/barangay/${brgyId}`, {
+        headers: {
+            'x-access-token': token
+        }
+    });
+}
+
 export async function followBrgy(brgyId) {
     const token = await AsyncStorage.getItem('x-access-token');
     return axios.post(`${API_HOST}/follow/${brgyId}`, null, {

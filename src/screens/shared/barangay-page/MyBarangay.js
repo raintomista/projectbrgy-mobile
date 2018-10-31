@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { 
+  AsyncStorage,
   ScrollView,
   StyleSheet,
   View 
@@ -25,6 +26,8 @@ export default class BarangayPage extends Component {
   async componentWillMount(){
     const { brgyPageStore, sessionStore } = RootStore;
     await sessionStore.getLoggedUser();
+    const brgyId = await AsyncStorage.getItem('brgy-id');
+    await brgyPageStore.setBrgyId(brgyId);
     await brgyPageStore.getBrgyData();
   }
 
@@ -36,6 +39,7 @@ export default class BarangayPage extends Component {
   
   render() {
     const { brgyData } = RootStore.brgyPageStore;
+    
     return (
       <Container>
         <HeaderWithDrawer 
@@ -46,7 +50,7 @@ export default class BarangayPage extends Component {
         {!brgyData && (
           <Spinner color={colors.PRIMARY} />
         )}
-        
+
         {brgyData && (
           <View style={styles.view}>
             <ScrollView>
@@ -58,6 +62,7 @@ export default class BarangayPage extends Component {
                 email={brgyData.email}
                 landline={brgyData.landline_number}
                 website={brgyData.website}
+                isFollowing={brgyData.is_following}
               />
               <FeedTabs />
             </ScrollView>

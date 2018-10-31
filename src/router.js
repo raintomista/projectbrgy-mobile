@@ -66,7 +66,7 @@ export const MemberDrawer = createDrawerNavigator({
 }, {
   contentComponent: MemberSidebar,
   width: 200,
-  initialRouteName: 'Home'
+  initialRouteName: 'MyBarangay'
 })
 
 export const AppStack = createStackNavigator({

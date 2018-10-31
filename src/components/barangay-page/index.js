@@ -8,6 +8,7 @@ import {
     View
 } from 'react-native';
 import {
+  Button,
   Body,
   Card,
   CardItem,
@@ -49,12 +50,15 @@ export const BarangayPageCard = observer((props) => (
           </Text>
           <Text style={styles.brgyPageLocation}>
             {props.municipality}
-          </Text>  
-          <BarangayDetails
-            email={props.email}
-            landline={props.landline}
-            website={props.website} 
-          />
+          </Text>
+          <View style={styles.brgyPageButtons}>
+            {props.isFollowing
+              ? <RoundedButton label="Following" solid />
+              : <RoundedButton label="Follow" />
+            }
+            
+            <RoundedButton label="Message" />            
+          </View>
           <Grid>
             <Col>
               <StatCount
@@ -69,6 +73,7 @@ export const BarangayPageCard = observer((props) => (
               />
             </Col>
           </Grid>
+          <SeeMoreButton />
         </Body>
       </CardItem>
     </Card>
@@ -126,6 +131,47 @@ export const BarangayDetails = observer((props) => (
       </Right>
     </ListItem>
   </React.Fragment>
+));
+
+export const SeeMoreButton = observer((props) => (
+  <TouchableOpacity 
+    style={{alignSelf: 'center'}}
+    onPress={() => {
+      NavigationService.push('ProfileInformation', {});
+    }}
+  >
+    <Text style={styles.brgyPageSeeMore}>
+      <FontAwesome5 
+        name="chevron-circle-down" 
+        color={colors.PRIMARY} 
+        size={13} 
+        solid 
+      />
+      &nbsp;More Details
+    </Text>    
+  </TouchableOpacity>    
+));
+
+export const RoundedButton = observer((props) => (
+  <Button
+    rounded   
+    style={
+      props.solid 
+        ? styles.brgyPageActiveButton 
+        : styles.brgyPageButton
+    }
+  >
+  <Text 
+    uppercase={false}  
+    style={
+      props.solid
+        ? styles.brgyPageActiveButtonText
+        : styles.brgyPageButtonText
+    }
+  >
+    {props.label}
+  </Text>
+</Button>
 ));
 
 export const StatCount = observer((props) => (
@@ -214,8 +260,45 @@ const styles = StyleSheet.create({
     color: colors.PRIMARY,
     fontFamily: fonts.LATO_REGULAR,
     fontSize: 25,
-    marginBottom: 10,
+    marginBottom: 20,
     textAlign: 'center'    
+  },
+  brgyPageButtons: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    marginBottom: 25,
+    width: Dimensions.get('window').width - 34
+  },
+  brgyPageActiveButton: {
+    flex: 1,
+    flexGrow: 1,    
+    backgroundColor: colors.PRIMARY,
+    borderColor: colors.PRIMARY,
+    elevation: 0,
+    marginHorizontal: 8,
+    paddingHorizontal: 2,
+    paddingVertical: 8 
+  },
+  brgyPageActiveButtonText: {
+    alignSelf: 'center',
+    color: colors.LIGHT,
+    fontFamily: fonts.LATO_BOLD,
+    fontSize: 16,
+  },
+  brgyPageButton: {
+    flex: 1,
+    flexGrow: 1,    
+    backgroundColor: colors.TRANSPARENT,
+    borderColor: colors.PRIMARY,
+    borderWidth: 2,
+    elevation: 0,
+    marginHorizontal: 8, 
+  },
+  brgyPageButtonText: {
+    alignSelf: 'center',
+    color: colors.PRIMARY,
+    fontFamily: fonts.LATO_BOLD,
+    fontSize: 16,
   },
   brgyDetailListItem: {
     height: 35,
@@ -230,10 +313,17 @@ const styles = StyleSheet.create({
     fontSize: 16.5,
     height: 35,
   },
+  brgyPageSeeMore: {
+    alignSelf: 'center',
+    color: colors.PRIMARY,    
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 15,
+    paddingTop: 25,
+    textAlign: 'center'    
+  },
   brgyPageStatBtn: {
     alignSelf: 'center',
     justifyContent: 'center',
-    marginTop: 15,
     paddingRight: 0
   },
   brgyPageStatCount: {

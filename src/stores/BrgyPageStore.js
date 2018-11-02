@@ -89,6 +89,36 @@ export default class BrgyPageStore {
   }
 
   @action
+  async followPage() {
+    try {
+      await followBrgy(this.brgyId);
+
+      runInAction(() => {
+        this.brgyData.is_following = true;
+      });
+
+      ToastAndroid.show(localized.FOLLOW_SUCCESS, ToastAndroid.SHORT);
+    } catch(e) {
+      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+    }
+  }
+
+  @action
+  async unfollowPage() {
+    try {
+      await unfollowBrgy(this.brgyId);
+
+      runInAction(() => {
+        this.brgyData.is_following = false;
+      });
+
+      ToastAndroid.show(localized.UNFOLLOW_SUCCESS, ToastAndroid.SHORT);    
+    } catch(e) {
+      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+    }
+  }
+
+  @action
   async getFollowers() {     
     this.page += 1;
     try {
@@ -173,7 +203,6 @@ export default class BrgyPageStore {
       });
       ToastAndroid.show(localized.UNFOLLOW_SUCCESS, ToastAndroid.SHORT);    
     } catch(e) {
-      console.log(e);
       ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
     }
   }

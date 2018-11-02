@@ -27,6 +27,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import BrgyAvatar from '../../../assets/images/default-brgy.png';
 import NavigationService from 'services/NavigationService';
+import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
@@ -54,11 +55,11 @@ export const BarangayPageCard = observer((props) => (
           </Text>
           <View style={styles.brgyPageButtons}>
             {props.isFollowing
-              ? <RoundedButton label="Following" solid />
-              : <RoundedButton label="Follow" />
+              ? <FollowingButton />
+              : <FollowButton />
             }
             
-            <RoundedButton label="Message" />            
+            <MessageButton label="Message" />            
           </View>
           <Grid>
             <Col>
@@ -155,27 +156,51 @@ export const SeeMoreButton = observer((props) => (
   </TouchableOpacity>    
 ));
 
-export const RoundedButton = observer((props) => (
+export const FollowButton = observer((props) => (
   <Button
     rounded   
-    style={
-      props.solid 
-        ? styles.brgyPageActiveButton 
-        : styles.brgyPageButton
-    }
+    style={styles.brgyPageButton}
+    onPress={() => RootStore.brgyPageStore.followPage()}
   >
-  <Text 
-    uppercase={false}  
-    style={
-      props.solid
-        ? styles.brgyPageActiveButtonText
-        : styles.brgyPageButtonText
-    }
-  >
-    {props.label}
-  </Text>
-</Button>
+    <Text 
+      uppercase={false}  
+      style={styles.brgyPageButtonText}
+    >
+      Follow
+    </Text>
+  </Button>
 ));
+
+export const FollowingButton = observer((props) => (
+  <Button
+    rounded   
+    style={styles.brgyPageActiveButton }
+    onPress={() => RootStore.brgyPageStore.unfollowPage()}    
+  >
+    <Text 
+      uppercase={false}  
+      style={styles.brgyPageActiveButtonText}
+    >
+      Following
+    </Text>
+  </Button>
+));
+
+export const MessageButton = observer((props) => (
+  <Button
+    rounded   
+    style={styles.brgyPageButton}
+  >
+    <Text 
+      uppercase={false}  
+      style={styles.brgyPageButtonText}
+    >
+      {props.label}
+    </Text>
+  </Button>
+));
+
+
 
 export const StatCount = observer((props) => (
   <TouchableOpacity 

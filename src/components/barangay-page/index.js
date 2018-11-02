@@ -26,6 +26,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import BrgyAvatar from '../../../assets/images/default-brgy.png';
+import NavigationService from 'services/NavigationService';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
@@ -64,12 +65,14 @@ export const BarangayPageCard = observer((props) => (
               <StatCount
                 label="Following"
                 value={props.followingCount}
+                navigationKey="BarangayFollowing"
               />
             </Col>
             <Col>
               <StatCount
                 label="Followers"
                 value={props.followersCount}
+                navigationKey="BarangayFollowing"                
               />
             </Col>
           </Grid>
@@ -175,7 +178,12 @@ export const RoundedButton = observer((props) => (
 ));
 
 export const StatCount = observer((props) => (
-  <TouchableOpacity style={styles.brgyPageStatBtn}>
+  <TouchableOpacity 
+    style={styles.brgyPageStatBtn}
+    onPress={() => {
+      NavigationService.push(props.navigationKey, {});
+    }}
+  >
     <Text uppercase={true}>
       <Text style={styles.brgyPageStatCount} uppercase={true}>
           { props.value < 10000

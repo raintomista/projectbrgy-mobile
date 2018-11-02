@@ -22,7 +22,7 @@ import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
 @observer
-export default class BarangayPage extends Component {
+export default class MyBarangay extends Component {
   async componentWillMount(){
     const { brgyPageStore, sessionStore } = RootStore;
     await sessionStore.getLoggedUser();

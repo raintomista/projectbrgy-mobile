@@ -18,7 +18,7 @@ import ProfileFollowingAlt from 'screens/shared/profile/ProfileFollowingAlt';
 
 import MyBarangay from 'screens/shared/barangay-page/MyBarangay';
 import BarangayFollowing from 'screens/shared/barangay-page/BarangayFollowing';
-
+import BarangayFollowers from 'screens/shared/barangay-page/BarangayFollowers';
 
 
 export const MemberDrawer = createDrawerNavigator({
@@ -30,6 +30,10 @@ export const MemberDrawer = createDrawerNavigator({
     },
     BarangayFollowing: {
       screen: BarangayFollowing,
+      navigationOptions: { header: null }     
+    },
+    BarangayFollowers: {
+      screen: BarangayFollowers,
       navigationOptions: { header: null }     
     }
   }, {

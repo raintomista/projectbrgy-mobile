@@ -8,6 +8,7 @@ import { ToastAndroid } from 'react-native';
 import {
   getBrgyById,
   getBrgyFollowingList,
+  getBrgyFollowersList,
   followBrgy,
   unfollowBrgy
 } from 'services/BrgyPageService';
@@ -72,6 +73,52 @@ export default class BrgyPageStore {
         this.hasMore = false;
         this.error = true;
       });
+    }
+  }
+
+  @action
+  async getBrgyData() {
+    try {
+      const response = await getBrgyById(this.brgyId);
+      runInAction(() => {
+        this.brgyData = response.data.data;
+      })
+    } catch(e) {
+      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+    }
+  }
+
+  @action
+  async getFollowers() {     
+    this.page += 1;
+    try {
+      const response = await getBrgyFollowersList(this.brgyId, this.page, this.limit, this.order);
+      runInAction(() => {
+        this.followList.push(...response.data.data.items);
+      });
+    } catch (e) {
+      runInAction(() => {
+        this.hasMore = false;
+        this.error = true;
+      });
+    }
+  }
+
+  @action
+  async refreshFollowers(id) {
+    this.page = 1;
+    this.refreshing = true;
+    try {
+      const response = await getBrgyFollowersList(this.brgyId, this.page, this.limit, this.order);
+      runInAction(() => {
+        this.hasMore = true;
+        this.error = false;        
+        this.refreshing = false;
+        this.followingList = response.data.data.items;        
+      });
+    } catch (e) {
+      runInAction(() => this.refreshing = false);
+      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
     }
   }
 

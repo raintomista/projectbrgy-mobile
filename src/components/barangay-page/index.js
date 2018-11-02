@@ -72,7 +72,7 @@ export const BarangayPageCard = observer((props) => (
               <StatCount
                 label="Followers"
                 value={props.followersCount}
-                navigationKey="BarangayFollowing"                
+                navigationKey="BarangayFollowers"                
               />
             </Col>
           </Grid>

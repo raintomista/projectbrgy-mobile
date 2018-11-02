@@ -20,12 +20,12 @@ import MyBarangay from 'screens/shared/barangay-page/MyBarangay';
 import BarangayInformation from 'screens/shared/barangay-page/BarangayInformation';
 import BarangayFollowing from 'screens/shared/barangay-page/BarangayFollowing';
 import BarangayFollowers from 'screens/shared/barangay-page/BarangayFollowers';
-
+import BarangayPage from 'screens/shared/barangay-page/BarangayPage';
 
 export const MemberDrawer = createDrawerNavigator({
   Home: { screen: MemberHome },
   MyBarangay: createStackNavigator({
-    Barangay: {
+    MyBarangay: {
       screen: MyBarangay,
       navigationOptions: { header: null }      
     },
@@ -40,9 +40,13 @@ export const MemberDrawer = createDrawerNavigator({
     BarangayFollowers: {
       screen: BarangayFollowers,
       navigationOptions: { header: null }     
+    },
+    BarangayPage: {
+      screen: BarangayPage,
+      navigationOptions: { header: null }      
     }
   }, {
-    initialRouteName: 'Barangay'
+    initialRouteName: 'MyBarangay'
   }), 
   MyProfile: createStackNavigator({
     Profile: { 

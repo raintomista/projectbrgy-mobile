@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { observer } from 'mobx-react';
 import { DrawerActions, StackActions } from "react-navigation";
 import { 
   Header,
@@ -36,7 +37,7 @@ export const HeaderWithDrawer = (props) => (
   </Header>
 );
 
-export const HeaderWithGoBack = (props) => (
+export const HeaderWithGoBack = observer((props) => (
   <Header style={styles.header}>
     <Left>
       <Button
@@ -53,7 +54,7 @@ export const HeaderWithGoBack = (props) => (
     </Body>
     <Right />
   </Header>
-);
+));
 
 const styles = StyleSheet.create({
   header: {

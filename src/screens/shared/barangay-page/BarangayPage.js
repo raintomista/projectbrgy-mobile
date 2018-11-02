@@ -11,7 +11,7 @@ import {
   Content, 
   Spinner, 
 } from 'native-base';
-import { HeaderWithDrawer } from 'components/common';
+import { HeaderWithGoBack } from 'components/common';
 import { 
   BarangayPageCard,
   FeedTabs
@@ -22,12 +22,10 @@ import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
 @observer
-export default class MyBarangay extends Component {
+export default class BarangayPage extends Component {
   async componentWillMount(){
     const { brgyPageStore, sessionStore } = RootStore;
     await sessionStore.getLoggedUser();
-    const brgyId = await AsyncStorage.getItem('brgy-id');
-    await brgyPageStore.setBrgyId(brgyId);
     await brgyPageStore.getBrgyData();
   }
 
@@ -42,8 +40,8 @@ export default class MyBarangay extends Component {
     
     return (
       <Container>
-        <HeaderWithDrawer 
-          title="My Barangay" 
+        <HeaderWithGoBack 
+          title={brgyData ? brgyData.name : ''} 
           navigation={this.props.navigation} 
         />
 

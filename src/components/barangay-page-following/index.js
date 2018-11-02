@@ -40,7 +40,7 @@ export const FollowingButton = observer((props) => (
 ));
 
 export const FollowingListItem = observer((props) => (
-  <ListItem thumbnail onPress={() => {}}>
+  <ListItem thumbnail onPress={() => openBarangayPage(props.id)}>
     <Left>
       <Thumbnail 
         circle 
@@ -66,6 +66,13 @@ export const FollowingListItem = observer((props) => (
     </Right>
   </ListItem>
 ));
+
+async function openBarangayPage(brgyId) {
+  await RootStore.brgyPageStore.resetStore()  
+  await RootStore.brgyPageStore.resetPage()
+  await RootStore.brgyPageStore.setBrgyId(brgyId);
+  NavigationService.push('BarangayPage', {});
+}
 
 const styles = StyleSheet.create({
   itemAvatar: {

@@ -85,63 +85,79 @@ export const BarangayPageCard = observer((props) => (
 ));
 
 export const BarangayDetails = observer((props) => (
-  <React.Fragment>
-    <ListItem style={styles.brgyDetailListItem} icon>
-      <Left style={styles.brgyDetailIcon}>
-        <FontAwesome5 
-          name="envelope" 
-          color={colors.PRIMARY} 
-          style={{alignSelf: 'center'}}                      
-          size={15} 
-          solid 
-        />
-      </Left>
-      <Right style={{borderBottomWidth: 0}}>
-        <Text style={styles.brgyDetail}>
-          {props.email ? props.email : 'n/a'}
+  <Card style={styles.brgyDetailsCard}>
+    <CardItem>
+      <Body>
+        <Text style={styles.brgyDetailsTitle}>
+          Contact Information
         </Text>
-      </Right>
-    </ListItem>
-    <ListItem style={styles.brgyDetailListItem} icon>
-      <Left style={styles.brgyDetailIcon}>
-        <FontAwesome5 
-          name="phone" 
-          color={colors.PRIMARY} 
-          style={{alignSelf: 'center'}}                      
-          size={15} 
-          solid 
-        />
-      </Left>
-      <Right style={{borderBottomWidth: 0}}>
-        <Text style={styles.brgyDetail}>
-          {props.landline ? props.landline : 'n/a'}
-        </Text>
-      </Right>
-    </ListItem>
-    <ListItem style={styles.brgyDetailListItem} icon>
-      <Left style={styles.brgyDetailIcon}>
-        <FontAwesome5 
-          name="globe" 
-          color={colors.PRIMARY} 
-          style={{alignSelf: 'center'}}                      
-          size={15} 
-          solid 
-        />
-      </Left>
-      <Right style={{borderBottomWidth: 0}}>
-        <Text style={styles.brgyDetail}>
-          {props.website ? props.website : 'n/a'}
-        </Text>
-      </Right>
-    </ListItem>
-  </React.Fragment>
+
+        {props.email && (
+          <ListItem style={styles.brgyDetailListItem} icon>
+            <Left style={styles.brgyDetailIcon}>
+              <FontAwesome5 
+                name="envelope" 
+                color={colors.PRIMARY} 
+                style={{alignSelf: 'center'}}                      
+                size={15} 
+                solid 
+              />
+            </Left>
+            <Right style={{borderBottomWidth: 0}}>
+              <Text style={styles.brgyDetail}>
+                {props.email}
+              </Text>
+            </Right>
+          </ListItem>
+        )}
+
+        {props.landline && (
+          <ListItem style={styles.brgyDetailListItem} icon>
+            <Left style={styles.brgyDetailIcon}>
+              <FontAwesome5 
+                name="phone" 
+                color={colors.PRIMARY} 
+                style={{alignSelf: 'center'}}                      
+                size={15} 
+                solid 
+              />
+            </Left>
+            <Right style={{borderBottomWidth: 0}}>
+              <Text style={styles.brgyDetail}>
+                {props.landline}
+              </Text>
+            </Right>
+          </ListItem>
+        )}
+
+        {props.website && (
+          <ListItem style={styles.brgyDetailListItem} icon>
+            <Left style={styles.brgyDetailIcon}>
+              <FontAwesome5 
+                name="globe" 
+                color={colors.PRIMARY} 
+                style={{alignSelf: 'center'}}                      
+                size={15} 
+                solid 
+              />
+            </Left>
+            <Right style={{borderBottomWidth: 0}}>
+              <Text style={styles.brgyDetail}>
+                {props.website}
+              </Text>
+            </Right>
+          </ListItem>
+        )}
+      </Body>
+    </CardItem>
+  </Card>
 ));
 
 export const SeeMoreButton = observer((props) => (
   <TouchableOpacity 
     style={{alignSelf: 'center'}}
     onPress={() => {
-      NavigationService.push('ProfileInformation', {});
+      NavigationService.push('BarangayInformation', {});
     }}
   >
     <Text style={styles.brgyPageSeeMore}>
@@ -333,6 +349,20 @@ const styles = StyleSheet.create({
     fontFamily: fonts.LATO_BOLD,
     fontSize: 16,
   },
+  brgyDetailsCard: {
+    borderRadius: 0,
+    elevation: 0,
+    marginTop: 12,
+    marginBottom: 0,
+    marginLeft: 12,
+    marginRight: 12
+  },
+  brgyDetailsTitle: {
+    color: colors.PRIMARY,
+    fontFamily: fonts.MONTSERRAT_BOLD,
+    fontSize: 20,
+    marginBottom: 10
+  },
   brgyDetailListItem: {
     height: 35,
     marginLeft: 10
@@ -343,7 +373,7 @@ const styles = StyleSheet.create({
   brgyDetail: {
     color: colors.PRIMARY,
     fontFamily: fonts.LATO_REGULAR,
-    fontSize: 16.5,
+    fontSize: 17,
     height: 35,
   },
   brgyPageSeeMore: {

@@ -22,8 +22,11 @@ import BarangayFollowing from 'screens/shared/barangay-page/BarangayFollowing';
 import BarangayFollowers from 'screens/shared/barangay-page/BarangayFollowers';
 import BarangayPage from 'screens/shared/barangay-page/BarangayPage';
 
+import Search from 'screens/shared/search/Search';
+
 export const MemberDrawer = createDrawerNavigator({
   Home: { screen: MemberHome },
+  Search: { screen: Search },
   MyBarangay: createStackNavigator({
     MyBarangay: {
       screen: MyBarangay,
@@ -86,7 +89,7 @@ export const MemberDrawer = createDrawerNavigator({
 }, {
   contentComponent: MemberSidebar,
   width: 200,
-  initialRouteName: 'MyBarangay'
+  initialRouteName: 'Search'
 })
 
 export const AppStack = createStackNavigator({

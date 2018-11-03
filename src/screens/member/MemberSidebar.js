@@ -7,6 +7,7 @@ import RootStore from 'stores/RootStore';
 
 const routes = [
   {key: 'Home', label: 'Home'},
+  {key: 'Search', label: 'Search'},
   {key: 'MyBarangay', label: 'My Barangay'},  
   {key: 'Messages', label: 'Messages'},  
   {key: 'MyProfile', label: 'Profile'},    

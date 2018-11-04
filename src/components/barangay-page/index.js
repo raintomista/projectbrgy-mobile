@@ -55,8 +55,8 @@ export const BarangayPageCard = observer((props) => (
           </Text>
           <View style={styles.brgyPageButtons}>
             {props.isFollowing
-              ? <FollowingButton />
-              : <FollowButton />
+              ? <FollowingButton handleUnfollow={props.handleUnfollow} />
+              : <FollowButton handleFollow={props.handleFollow} />
             }
             
             <MessageButton label="Message" />            
@@ -174,9 +174,9 @@ export const SeeMoreButton = observer((props) => (
 
 export const FollowButton = observer((props) => (
   <Button
-    rounded   
+    onPress={props.handleFollow}
     style={styles.brgyPageButton}
-    onPress={() => RootStore.brgyPageStore.followPage()}
+    rounded       
   >
     <Text 
       uppercase={false}  
@@ -189,9 +189,9 @@ export const FollowButton = observer((props) => (
 
 export const FollowingButton = observer((props) => (
   <Button
-    rounded   
-    style={styles.brgyPageActiveButton }
-    onPress={() => RootStore.brgyPageStore.unfollowPage()}    
+    onPress={props.handleUnfollow}   
+    style={styles.brgyPageActiveButton}
+    rounded       
   >
     <Text 
       uppercase={false}  

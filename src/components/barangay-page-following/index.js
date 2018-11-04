@@ -68,10 +68,7 @@ export const FollowingListItem = observer((props) => (
 ));
 
 async function openBarangayPage(brgyId) {
-  await RootStore.brgyPageStore.resetStore()  
-  await RootStore.brgyPageStore.resetPage()
-  await RootStore.brgyPageStore.setBrgyId(brgyId);
-  NavigationService.push('BarangayPage', {});
+  NavigationService.push('BarangayPage', { brgyId });
 }
 
 const styles = StyleSheet.create({

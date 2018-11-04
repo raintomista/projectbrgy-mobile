@@ -65,11 +65,7 @@ export const MessageButton = observer((props) => (
 ));
 
 export const FollowersListItem = observer((props) => (
-  <ListItem thumbnail onPress={() => { 
-    NavigationService.push('BarangayPage', { 
-      brgyId: props.id
-    });
-  }}>
+  <ListItem thumbnail onPress={() => openBarangayPage(props.id)}>
     <Left>
       <Thumbnail 
         circle 
@@ -103,6 +99,10 @@ export const FollowersListItem = observer((props) => (
     </Right>
   </ListItem>
 ));
+
+async function openBarangayPage(brgyId) {
+  NavigationService.push('BarangayPage', { brgyId });
+}
 
 const styles = StyleSheet.create({
   itemAvatar: {

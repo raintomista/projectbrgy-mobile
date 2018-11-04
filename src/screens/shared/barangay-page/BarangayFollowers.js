@@ -1,26 +1,108 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { AsyncStorage, FlatList, RefreshControl, StyleSheet, View } from 'react-native';
+import { action, observable, runInAction } from 'mobx';
+import { AsyncStorage, FlatList, RefreshControl, StyleSheet, ToastAndroid, View } from 'react-native';
 import { Container, Content, List, Spinner } from 'native-base';
+
 import { HeaderWithGoBack } from 'components/common';
 import { FollowersListItem } from 'components/barangay-page-followers';
+import * as localized from 'localization/en';
+import { getBrgyFollowersList, followBrgy, unfollowBrgy } from 'services/BrgyPageService';
+import NavigationService from 'services/NavigationService';
 import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
 
 @observer
 export default class BaraganyFollowers extends Component {
-  async componentWillMount(){
-    const { brgyPageStore, sessionStore } = RootStore;
-    await sessionStore.getLoggedUser();
-    await brgyPageStore.getFollowers();
+  @observable brgyId = null;
+  @observable page = 0;
+  @observable limit = 20;
+  @observable order = 'desc';
+  @observable hasMore = true;
+  @observable error = false;  
+  @observable refreshing = false;
+  @observable followersList = [];
+
+  @action
+  setBrgyId(brgyId) {
+    this.brgyId = brgyId;
   }
 
-  async componentWillUnmount() {
-    const { brgyPageStore } = RootStore;
-    await brgyPageStore.resetStore();
+  @action
+  async getFollowers() {     
+    this.page += 1;
+    try {
+      const response = await getBrgyFollowersList(this.brgyId, this.page, this.limit, this.order);
+      runInAction(() => this.followersList.push(...response.data.data.items));
+    } catch (e) {
+      runInAction(() => {
+        this.hasMore = false;
+        this.error = true;
+      });
+    }
+  }
+
+  @action
+  async refreshFollowers() {
+    this.page = 1;
+    this.refreshing = true;
+    try {
+      const response = await getBrgyFollowersList(this.brgyId, this.page, this.limit, this.order);
+      runInAction(() => {
+        this.hasMore = true;
+        this.error = false;        
+        this.refreshing = false;
+        this.followersList = response.data.data.items;        
+      });
+    } catch (e) {
+      runInAction(() => this.refreshing = false);
+      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+    }
+  }
+
+
+  @action
+  async follow(brgyId, index) {
+    try {
+      await followBrgy(brgyId);
+      runInAction(() => {
+        const followersList = this.followersList.slice();
+        followersList[index].is_following = 1;
+        this.followersList = followersList;
+      });
+      ToastAndroid.show(localized.FOLLOW_SUCCESS, ToastAndroid.SHORT);
+    } catch(e) {
+      console.log(e.response)
+      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+    }
+  }
+
+  @action
+  async unfollow(brgyId, index) {
+    try {
+      await unfollowBrgy(brgyId);
+      runInAction(() => {
+        const followersList = this.followersList.slice();
+        followersList[index].is_following = 0;
+        this.followersList = followersList;
+      });
+      ToastAndroid.show(localized.UNFOLLOW_SUCCESS, ToastAndroid.SHORT);    
+    } catch(e) {
+      console.log(e.response)
+      
+      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+    }
+  }
+
+  async componentWillMount(){
+    await RootStore.sessionStore.getLoggedUser();
+    const params = NavigationService.getActiveScreenParams();
+    await this.setBrgyId(params.brgyId);
+    await this.getFollowers();
   }
 
   renderItem = ({item, index}) => {
+    const followerId = item.user_id ? item.user_id : item.barangay_page_id;
     const followerName = item.user_role === 'barangay_member' 
       ? `${item.user_first_name} ${item.user_last_name}` 
       : item.barangay_page_name;
@@ -32,11 +114,13 @@ export default class BaraganyFollowers extends Component {
     return (
       <FollowersListItem
         index={index}
-        id={item.user_id ? item.user_id : item.barangay_page_id}
+        id={followerId}
         title={followerName}
         isFollowing={item.is_following}
         details={followerLocation}
         followerRole={item.user_role}
+        handleFollow={() => this.follow(item.barangay_page_id, index)}
+        handleUnfollow={() => this.unfollow(item.barangay_page_id, index)}
       />
     );
   }
@@ -46,14 +130,10 @@ export default class BaraganyFollowers extends Component {
     return <Spinner color={colors.PRIMARY}/>
   }
 
-  renderList() {
-    const { brgyPageStore, sessionStore } = this.props.screenProps;
-    const { followList, hasMore, refreshing } = brgyPageStore;
-    const { loggedUser } = sessionStore;
-    
+  renderList(followersList, hasMore, refreshing) {
     return (
       <FlatList
-        data={Array.from(followList)}
+        data={Array.from(followersList)}
         renderItem={this.renderItem}
         keyExtractor={item => item.user_id ? item.user_id : item.barangay_page_id}
         ListFooterComponent={() => this.renderLoader(hasMore)}
@@ -79,22 +159,20 @@ export default class BaraganyFollowers extends Component {
         <View 
           style={styles.list}
         >
-          {this.renderList()}
+          {this.renderList(this.followersList, this.hasMore, this.refreshing)}
         </View> 
       </Container>
     );
   }
 
-  async handleLoadMore() {
-    const { brgyPageStore } = this.props.screenProps;
-    if(!brgyPageStore.error) {
-      await brgyPageStore.getFollowers();
+  handleLoadMore() {
+    if(!this.error) {
+      this.getFollowers();
     }
   }
 
-  async handleRefresh() {
-    const { brgyPageStore, sessionStore } = this.props.screenProps;
-    await brgyPageStore.refreshFollowers();
+  handleRefresh() {
+    this.refreshFollowers();
   }
 }
 

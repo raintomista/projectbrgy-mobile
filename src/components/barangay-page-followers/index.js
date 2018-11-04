@@ -12,7 +12,7 @@ import * as fonts from 'styles/fonts';
 
 export const FollowButton = observer((props) => (
   <Button 
-    onPress={() => RootStore.brgyPageStore.follow(props.id, props.index)} 
+    onPress={props.handleFollow} 
     style={styles.followButton} 
     rounded
   >
@@ -27,7 +27,7 @@ export const FollowButton = observer((props) => (
 
 export const FollowingButton = observer((props) => (
   <Button
-    onPress={() => RootStore.brgyPageStore.unfollow(props.id, props.index)} 
+    onPress={props.handleUnfollow} 
     style={styles.followingButton} 
     rounded 
   >
@@ -43,8 +43,8 @@ export const FollowingButton = observer((props) => (
 export const FollowFollowingButton = observer((props) => (
   <React.Fragment>
     {props.isFollowing === 1
-      ? <FollowingButton id={props.id} index={props.index} />
-      : <FollowButton id={props.id} index={props.index} />
+      ? <FollowingButton id={props.id} index={props.index} handleUnfollow={props.handleUnfollow} />
+      : <FollowButton id={props.id} index={props.index} handleFollow={props.handleFollow} />
     }
   </React.Fragment>
 ));
@@ -88,14 +88,16 @@ export const FollowersListItem = observer((props) => (
       </Text>
     </Body>
     <Right style={styles.itemBody}>
-      {props.followerRole === 'barangay_member'
+      {/* {props.followerRole === 'barangay_member'
         ? <MessageButton />
         : <FollowFollowingButton 
             id={props.id}
             index={props.index}
             isFollowing={props.isFollowing}
+            handleFollow={props.handleFollow}
+            handleUnfollow={props.handleUnfollow}
           />
-      }
+      } */}
     </Right>
   </ListItem>
 ));

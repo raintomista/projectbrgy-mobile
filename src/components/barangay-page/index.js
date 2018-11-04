@@ -67,13 +67,15 @@ export const BarangayPageCard = observer((props) => (
                 label="Following"
                 value={props.followingCount}
                 navigationKey="BarangayFollowing"
+                id={props.id}
               />
             </Col>
             <Col>
               <StatCount
                 label="Followers"
                 value={props.followersCount}
-                navigationKey="BarangayFollowers"                
+                navigationKey="BarangayFollowers" 
+                id={props.id}               
               />
             </Col>
           </Grid>
@@ -222,7 +224,7 @@ export const StatCount = observer((props) => (
   <TouchableOpacity 
     style={styles.brgyPageStatBtn}
     onPress={() => {
-      NavigationService.push(props.navigationKey, {});
+      NavigationService.push(props.navigationKey, {brgyId: props.id});
     }}
   >
     <Text uppercase={true}>

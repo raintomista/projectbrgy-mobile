@@ -55,6 +55,7 @@ export default class MyBarangay extends Component {
           <View style={styles.view}>
             <ScrollView>
               <BarangayPageCard
+                id={brgyData.id}              
                 name={brgyData.name}
                 municipality={brgyData.municipality}
                 followingCount={brgyData.stats.following_count}

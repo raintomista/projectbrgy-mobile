@@ -25,33 +25,33 @@ import BarangayPage from 'screens/shared/barangay-page/BarangayPage';
 
 import Search from 'screens/shared/search/Search';
 
+const MyBarangayStack = createStackNavigator({
+  MyBarangay: {
+    screen: MyBarangay,
+    navigationOptions: { header: null }      
+  },
+  BarangayInformation: {
+    screen: BarangayInformation,
+    navigationOptions: { header: null }  
+  },
+  BarangayFollowing: {
+    screen: BarangayFollowing,
+    navigationOptions: { header: null }     
+  },
+  BarangayFollowers: {
+    screen: BarangayFollowers,
+    navigationOptions: { header: null }     
+  },
+  BarangayPage: {
+    screen: BarangayPage,
+    navigationOptions: { header: null }      
+  }
+});
+
 export const MemberDrawer = createDrawerNavigator({
   Home: { screen: MemberHome },
   Search: { screen: Search },
-  MyBarangay: createStackNavigator({
-    MyBarangay: {
-      screen: MyBarangay,
-      navigationOptions: { header: null }      
-    },
-    BarangayInformation: {
-      screen: BarangayInformation,
-      navigationOptions: { header: null }  
-    },
-    BarangayFollowing: {
-      screen: BarangayFollowing,
-      navigationOptions: { header: null }     
-    },
-    BarangayFollowers: {
-      screen: BarangayFollowers,
-      navigationOptions: { header: null }     
-    },
-    BarangayPage: {
-      screen: BarangayPage,
-      navigationOptions: { header: null }      
-    }
-  }, {
-    initialRouteName: 'MyBarangay'
-  }), 
+  MyBarangay: { screen: MyBarangayStack },
   MyProfile: createStackNavigator({
     Profile: { 
       screen: Profile,

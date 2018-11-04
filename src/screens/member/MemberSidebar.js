@@ -96,9 +96,10 @@ export default class MemberSidebar extends React.Component {
   async handlePress(route) {
     if(route.key === 'MyBarangay') {
       const brgyId = await AsyncStorage.getItem('brgy-id');
-      await RootStore.brgyPageStore.setBrgyId(brgyId);
+      NavigationService.navigate(route.key, { brgyId });   
+    } else {
+      NavigationService.navigate(route.key);                    
     }
-    NavigationService.navigate(route.key);                    
   }
 }
 

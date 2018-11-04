@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { 
+  action, 
+  observable,
+  runInAction,
+} from 'mobx';
+import { 
+  observer 
+} from 'mobx-react';
 import { 
   AsyncStorage,
   ScrollView,
   StyleSheet,
+  ToastAndroid,
   View 
 } from 'react-native';
 import { 
@@ -11,59 +19,97 @@ import {
   Content, 
   Spinner, 
 } from 'native-base';
-import { HeaderWithDrawer } from 'components/common';
+import { 
+  HeaderWithDrawer 
+} from 'components/common';
 import { 
   BarangayPageCard,
   FeedTabs
 } from 'components/barangay-page';
+import * as localized from 'localization/en';
+import {
+  getBrgyById,
+  followBrgy,
+  unfollowBrgy
+} from 'services/BrgyPageService';
 import NavigationService from 'services/NavigationService';
 import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
 @observer
-export default class MyBarangay extends Component {
-  async componentWillMount(){
-    const { brgyPageStore, sessionStore } = RootStore;
-    await sessionStore.getLoggedUser();
-    const brgyId = await AsyncStorage.getItem('brgy-id');
-    await brgyPageStore.setBrgyId(brgyId);
-    await brgyPageStore.getBrgyData();
+export default class BarangayPage extends Component {
+  @observable brgyId = null;
+  @observable brgyData = null;
+
+  @action
+  setBrgyId(brgyId) {
+    this.brgyId = brgyId;
   }
 
-  async componentWillUnmount() {
-    const { brgyPageStore } = RootStore;
-    await brgyPageStore.resetStore();
-    await brgyPageStore.resetPage();
+  @action
+  async getBrgyData() {
+    try {
+      const response = await getBrgyById(this.brgyId);
+      runInAction(() => this.brgyData = response.data.data);
+    } catch(e) {
+      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+    }
   }
-  
+
+  @action
+  async followPage() {
+    try {
+      await followBrgy(this.brgyId);
+      runInAction(() => this.brgyData.is_following = true);
+      ToastAndroid.show(localized.FOLLOW_SUCCESS, ToastAndroid.SHORT);
+    } catch(e) {
+      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+    }
+  }
+
+  @action
+  async unfollowPage() {
+    try {
+      await unfollowBrgy(this.brgyId);
+      runInAction(() => this.brgyData.is_following = false);
+      ToastAndroid.show(localized.UNFOLLOW_SUCCESS, ToastAndroid.SHORT);    
+    } catch(e) {
+      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+    }
+  }
+
+  async componentWillMount(){
+    await RootStore.sessionStore.getLoggedUser();    
+    const params = NavigationService.getStackScreenParams();
+    this.setBrgyId(params.brgyId);
+    this.getBrgyData();
+  }
+
   render() {
-    const { brgyData } = RootStore.brgyPageStore;
-    
     return (
       <Container>
-        <HeaderWithDrawer 
-          title="My Barangay" 
-          navigation={this.props.navigation} 
-        />
+        <HeaderWithDrawer title={'My Barangay'} />
 
-        {!brgyData && (
+        {!this.brgyData && (
           <Spinner color={colors.PRIMARY} />
         )}
 
-        {brgyData && (
+        {this.brgyData && (
           <View style={styles.view}>
             <ScrollView>
               <BarangayPageCard
-                id={brgyData.id}              
-                name={brgyData.name}
-                municipality={brgyData.municipality}
-                followingCount={brgyData.stats.following_count}
-                followersCount={brgyData.stats.followers_count}
-                email={brgyData.email}
-                landline={brgyData.landline_number}
-                website={brgyData.website}
-                isFollowing={brgyData.is_following}
+                id={this.brgyData.id}
+                name={this.brgyData.name}
+                municipality={this.brgyData.municipality}
+                followingCount={this.brgyData.stats.following_count}
+                followersCount={this.brgyData.stats.followers_count}
+                isFollowing={this.brgyData.is_following}
+                handleFollow={() => this.followPage()}
+                handleUnfollow={() => this.unfollowPage()}
+                email={this.brgyData.email}
+                landline={this.brgyData.landline_number}
+                website={this.brgyData.website}
               />
               <FeedTabs />
             </ScrollView>

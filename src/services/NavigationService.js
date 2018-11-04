@@ -35,7 +35,17 @@ function getActiveScreenParams() {
   const stackScreen = switchScreen.routes[stackIndex];
   const activeIndex = stackScreen.index;
   const activeScreen = stackScreen.routes[activeIndex];
+
   return activeScreen.params;
+}
+
+function getStackScreenParams() {
+  const switchIndex = _navigator.state.nav.index;
+  const switchScreen = _navigator.state.nav.routes[switchIndex];
+  const stackIndex = switchScreen.index;
+  const stackScreen = switchScreen.routes[stackIndex];
+
+  return stackScreen.params;
 }
 
 function push(routeName, params) {
@@ -51,6 +61,7 @@ export default {
   dispatch,
   getActiveScreen,
   getActiveScreenParams,
+  getStackScreenParams,
   navigate,
   push,
   setTopLevelNavigator,

@@ -25,6 +25,29 @@ import BarangayPage from 'screens/shared/barangay-page/BarangayPage';
 
 import Search from 'screens/shared/search/Search';
 
+const SearchStack = createStackNavigator({
+  Search: {
+    screen: Search,
+    navigationOptions: { header: null }     
+  },
+  BarangayPage: {
+    screen: BarangayPage,
+    navigationOptions: { header: null }      
+  },
+  BarangayInformation: {
+    screen: BarangayInformation,
+    navigationOptions: { header: null }  
+  },
+  BarangayFollowing: {
+    screen: BarangayFollowing,
+    navigationOptions: { header: null }     
+  },
+  BarangayFollowers: {
+    screen: BarangayFollowers,
+    navigationOptions: { header: null }     
+  }
+});
+
 const MyBarangayStack = createStackNavigator({
   MyBarangay: {
     screen: MyBarangay,
@@ -50,7 +73,7 @@ const MyBarangayStack = createStackNavigator({
 
 export const MemberDrawer = createDrawerNavigator({
   Home: { screen: MemberHome },
-  Search: { screen: Search },
+  Search: { screen: SearchStack },
   MyBarangay: { screen: MyBarangayStack },
   MyProfile: createStackNavigator({
     Profile: { 

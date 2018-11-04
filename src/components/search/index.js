@@ -4,7 +4,6 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { ListItem,  Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
 import BrgyAvatar from '../../../assets/images/default-brgy.png';
 import NavigationService from 'services/NavigationService';
-import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
@@ -32,10 +31,7 @@ export const FollowingListItem = observer((props) => (
 ));
 
 async function openBarangayPage(brgyId) {
-  await RootStore.brgyPageStore.resetStore()  
-  await RootStore.brgyPageStore.resetPage()
-  await RootStore.brgyPageStore.setBrgyId(brgyId);
-  NavigationService.push('BarangayPage', {});
+  NavigationService.push('BarangayPage', { brgyId });
 }
 
 const styles = StyleSheet.create({

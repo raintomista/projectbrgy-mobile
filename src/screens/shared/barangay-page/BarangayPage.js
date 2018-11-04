@@ -27,6 +27,7 @@ export default class BarangayPage extends Component {
     const { brgyPageStore, sessionStore } = RootStore;
     await sessionStore.getLoggedUser();
     await brgyPageStore.getBrgyData();
+    NavigationService.getActiveScreen();
   }
 
   async componentWillUnmount() {

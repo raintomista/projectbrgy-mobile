@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   createStackNavigator,
+  createSwitchNavigator,
   createDrawerNavigator
 } from 'react-navigation'
 
@@ -92,7 +93,7 @@ export const MemberDrawer = createDrawerNavigator({
   initialRouteName: 'Search'
 })
 
-export const AppStack = createStackNavigator({
+export const AppStack = createSwitchNavigator({
   Login: {
     screen: Login,
     navigationOptions: {

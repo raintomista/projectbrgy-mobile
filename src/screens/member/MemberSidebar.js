@@ -11,6 +11,7 @@ import {
 import { Container, Content, Text, List, ListItem, Thumbnail} from "native-base";
 import MemberAvatar from '../../../assets/images/default-member.png';
 import { getUserDetails } from '../../services/AuthService';
+import NavigationService from 'services/NavigationService';
 import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
@@ -97,7 +98,7 @@ export default class MemberSidebar extends React.Component {
       const brgyId = await AsyncStorage.getItem('brgy-id');
       await RootStore.brgyPageStore.setBrgyId(brgyId);
     }
-    this.props.navigation.navigate(route.key);                    
+    NavigationService.navigate(route.key);                    
   }
 }
 

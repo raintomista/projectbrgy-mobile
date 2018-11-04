@@ -65,7 +65,11 @@ export const MessageButton = observer((props) => (
 ));
 
 export const FollowersListItem = observer((props) => (
-  <ListItem thumbnail onPress={() => {}}>
+  <ListItem thumbnail onPress={() => { 
+    NavigationService.push('BarangayPage', { 
+      brgyId: props.id
+    });
+  }}>
     <Left>
       <Thumbnail 
         circle 

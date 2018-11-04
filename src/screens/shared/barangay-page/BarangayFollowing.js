@@ -44,7 +44,7 @@ export default class BarangayFollowing extends Component {
       <FlatList
         data={Array.from(followList)}
         renderItem={this.renderItem}
-        keyExtractor={item => item.barangay_page_id}
+        keyExtractor={item => item.user_id ? item.user_id : item.barangay_page_id}
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore()}
         onEndReachedThreshold={0.5}

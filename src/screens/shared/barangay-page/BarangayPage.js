@@ -116,6 +116,9 @@ export default class BarangayPage extends Component {
                 isFollowing={this.brgyData.is_following}
                 handleFollow={() => this.followPage()}
                 handleUnfollow={() => this.unfollowPage()}
+                email={this.brgyData.email}
+                landline={this.brgyData.landline_number}
+                website={this.brgyData.website}
               />
               <FeedTabs />
             </ScrollView>

@@ -8,14 +8,25 @@ import {
 import { Container } from 'native-base';
 import { HeaderWithGoBack } from 'components/common';
 import { BarangayDetails } from 'components/barangay-page';
-import RootStore from 'stores/RootStore';
+import NavigationService from 'services/NavigationService';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
+import { observable, action } from 'mobx';
 
 @observer
 export default class BarangayInformation extends Component {
+  @observable brgyInfo = null;
+
+  @action
+  setBrgyInfo(brgyInfo) {
+    this.brgyInfo = brgyInfo;
+  }
+
+  componentWillMount() {
+    this.setBrgyInfo(NavigationService.getActiveScreenParams());
+  }
+
   render() {
-    const { brgyData } = RootStore.brgyPageStore;
     return (
       <Container>
         <HeaderWithGoBack 
@@ -24,9 +35,9 @@ export default class BarangayInformation extends Component {
         />
         <View style={styles.view}>
           <BarangayDetails
-            email={brgyData.email}
-            landline={brgyData.landline_number}
-            website={brgyData.website}
+            email={this.brgyInfo.email}
+            landline={this.brgyInfo.landline}
+            website={this.brgyInfo.website}
           />
         </View>
       </Container>

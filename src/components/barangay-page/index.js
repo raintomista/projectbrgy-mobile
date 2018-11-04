@@ -79,7 +79,11 @@ export const BarangayPageCard = observer((props) => (
               />
             </Col>
           </Grid>
-          <SeeMoreButton />
+          <SeeMoreButton 
+            email={props.email}
+            landline={props.landline}
+            website={props.website}
+          />
         </Body>
       </CardItem>
     </Card>
@@ -159,7 +163,11 @@ export const SeeMoreButton = observer((props) => (
   <TouchableOpacity 
     style={{alignSelf: 'center'}}
     onPress={() => {
-      NavigationService.push('BarangayInformation', {});
+      NavigationService.push('BarangayInformation', {
+        email: props.email,
+        landline: props.landline,
+        website: props.website
+      });
     }}
   >
     <Text style={styles.brgyPageSeeMore}>

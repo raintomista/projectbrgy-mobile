@@ -89,7 +89,6 @@ export const MemberDrawer = createDrawerNavigator({
       navigationOptions: { header: null }
     }
   }),
-  MyFollowing: { screen: ProfileFollowing },
   MyReportStack: createStackNavigator({
     MyReports: { 
       screen: MemberReports,
@@ -113,7 +112,7 @@ export const MemberDrawer = createDrawerNavigator({
 }, {
   contentComponent: MemberSidebar,
   width: 200,
-  initialRouteName: 'Search'
+  initialRouteName: 'Home'
 })
 
 export const AppStack = createSwitchNavigator({

@@ -22,7 +22,6 @@ const routes = [
   {key: 'Search', label: 'Search'},
   {key: 'MyBarangay', label: 'My Barangay'},  
   {key: 'Messages', label: 'Messages'},  
-  {key: 'MyFollowing', label: 'Following'},  
   {key: 'MyReportStack', label: 'Reports'}, 
   {key: 'MyRespondedReportStack', label: 'Responded'},    
 ];
@@ -40,9 +39,9 @@ export default class MemberSidebar extends React.Component {
         <ScrollView>
           {loggedUser && (
             <TouchableNativeFeedback
-            onPress={() => {
-              this.handlePress({key: 'MyProfile'})
-            }}
+              onPress={() => {
+                this.handlePress({key: 'MyProfile'})
+              }}
             >
               <View style={styles.loggedMemberContainer}>
                 <Thumbnail 
@@ -88,17 +87,22 @@ export default class MemberSidebar extends React.Component {
             }}
           />
         </ScrollView>
-
       </Container>
     );
   }
 
   async handlePress(route) {
-    if(route.key === 'MyBarangay') {
-      const brgyId = await AsyncStorage.getItem('brgy-id');
-      NavigationService.navigate(route.key, { brgyId });   
-    } else {
-      NavigationService.navigate(route.key);                    
+    switch(route.key) {
+      case 'MyBarangay': 
+        const brgyId = await AsyncStorage.getItem('brgy-id');
+        NavigationService.navigate(route.key, { brgyId });   
+        break;
+      case 'MyProfile':
+        const profileId = await AsyncStorage.getItem('user-id');
+        NavigationService.navigate(route.key, { profileId });   
+        break;
+      default:
+        NavigationService.navigate(route.key);                    
     }
   }
 }

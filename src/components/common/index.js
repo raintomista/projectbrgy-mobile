@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
-import Image from 'react-native-scalable-image';
+import Image from 'react-native-image-progress';
+// import ProgressBar from 'react-native-progress/Bar';
 import { observer } from 'mobx-react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { DrawerActions, StackActions } from "react-navigation";
@@ -15,6 +16,7 @@ import {
   Title, 
   Content,
   Icon,  
+  Spinner,
   Button, 
   Text,
   Thumbnail,  
@@ -101,9 +103,12 @@ export const AnnouncementCard = observer((props) => (
         {props.message}
       </Text>
     </CardItem>
-    {/* {props.attachment && props.attachment.preview_type === 'photo' && (
-      <CardImageAttachment />
-    )} */}
+
+    {props.attachment && props.attachment.preview_type === 'photo' && (
+      <CardImageAttachment 
+        imageUri={props.attachment.link.replace('?dl=0', '?dl=1')}
+      />
+    )}
 
     {props.attachment && props.attachment.preview_type !== 'photo' && (
       <CardFileAttachment 
@@ -123,11 +128,17 @@ export const AnnouncementCard = observer((props) => (
   </Card>
 ));
 
+const ImageLoader = (props) => (
+  <Spinner color={colors.PRIMARY} />
+)
+
 const CardImageAttachment = observer((props) => (
   <CardItem cardBody>
     <Image 
-      // source={props.image} 
-      width={Dimensions.get('window').width - 20}
+      source={{uri: props.imageUri}} 
+      indicator={ImageLoader}      
+      resizeMode='cover'
+      style={styles.cardImageAttachment}
     />
   </CardItem>
 ));
@@ -215,7 +226,9 @@ const styles = StyleSheet.create({
     marginBottom: 22
   },
   cardImageAttachment: {
-    width: '100%'
+    backgroundColor: colors.GRAY,
+    width: Dimensions.get('window').width - 20, 
+    minHeight: 250, 
   },
   cardActionButtons: {
     flexDirection: 'row',

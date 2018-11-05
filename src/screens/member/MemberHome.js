@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FlatList, Linking, RefreshControl, StyleSheet, ToastAndroid, View } from 'react-native';
 import { ActionSheet, Container, Spinner } from 'native-base';
 import { observer } from 'mobx-react';
+import Moment from 'moment';
 import { action, observable, runInAction } from 'mobx';
 import { AnnouncementCard, HeaderWithDrawer } from 'components/common';
 import NavigationService from 'services/NavigationService';
@@ -62,7 +63,7 @@ export default class MemberHome extends Component {
     <AnnouncementCard 
       index={index}
       author={item.barangay_page_name}
-      dateCreated={item.post_date_created}
+      dateCreated={this.formatDate(item.post_date_created)}
       location={item.barangay_page_municipality}
       message={item.post_message}
       isLiked={item.is_liked}
@@ -200,6 +201,17 @@ export default class MemberHome extends Component {
   handleOpenDownloadLink(url) {
     const downloadUrl = url.replace('?dl=0', '?dl=1');
     Linking.openURL(downloadUrl);
+  }
+
+  formatDate(date) {
+    const currentDate = Moment();
+    const diff = Moment(date).diff(currentDate, 'hours');
+
+    if (parseInt(diff, 10) <= -21) {
+      return Moment(date).format('MMM D, YYYY [at] h:mm a');
+    } else {
+      return Moment(date).fromNow();
+    }
   }
 }
 

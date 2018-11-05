@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { Dimensions, Modal, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
 import Image from 'react-native-image-progress';
 // import ProgressBar from 'react-native-progress/Bar';
 import { observer } from 'mobx-react';
@@ -21,6 +21,7 @@ import {
   Text,
   Thumbnail,  
 } from 'native-base';
+import ImageViewer from 'react-native-image-zoom-viewer';
 import BrgyAvatar from '../../../assets/images/default-brgy.png';
 import NavigationService from 'services/NavigationService';
 import * as colors from 'styles/colors';
@@ -64,6 +65,32 @@ export const HeaderWithGoBack = observer((props) => (
   </Header>
 ));
 
+export const LightboxClose = (props) => (
+  <TouchableOpacity onPress={props.handleCloseImage} style={styles.imageViewerHeader}>
+    <Icon
+      ios="ios-close"
+      android="md-close"
+      style={{ color: 'white'}}
+    />
+  </TouchableOpacity>
+);
+
+export const Lightbox = observer((props) => (
+  <Modal 
+    onRequestClose={props.handleCloseImage}
+    visible={props.visible} 
+    transparent={true}
+  >
+    <ImageViewer 
+      imageUrls={props.images}
+      saveToLocalByLongPress={false}
+      maxOverflow={0}
+      renderHeader={() => <LightboxClose handleCloseImage={props.handleCloseImage} />}
+      renderIndicator={() => null}
+      loadingRender={() => <Spinner color={colors.PRIMARY} />}
+    />
+  </Modal>
+));
 
 export const AnnouncementCard = observer((props) => (
   <Card style={[styles.card, props.index == 0 ? {marginTop: 12} : null]}>
@@ -107,6 +134,7 @@ export const AnnouncementCard = observer((props) => (
     {props.attachment && props.attachment.preview_type === 'photo' && (
       <CardImageAttachment 
         imageUri={props.attachment.link.replace('?dl=0', '?dl=1')}
+        handleViewImage={props.handleViewImage}
       />
     )}
 
@@ -144,12 +172,14 @@ const ImageLoader = (props) => (
 
 const CardImageAttachment = observer((props) => (
   <CardItem cardBody>
-    <Image 
-      source={{uri: props.imageUri}} 
-      indicator={ImageLoader}      
-      resizeMode='cover'
-      style={styles.cardImageAttachment}
-    />
+    <TouchableHighlight onPress={props.handleViewImage}>
+      <Image 
+        source={{uri: props.imageUri}} 
+        indicator={ImageLoader}      
+        resizeMode='cover'
+        style={styles.cardImageAttachment}
+      />
+    </TouchableHighlight>
   </CardItem>
 ));
 
@@ -286,5 +316,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: -4,
     minWidth: 200    
+  },
+  imageViewerHeader: {
+    position: 'absolute', 
+    top: 20, 
+    left: 20, 
+    zIndex: 2
   }
 });

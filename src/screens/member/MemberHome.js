@@ -4,7 +4,7 @@ import { ActionSheet, Container, Spinner } from 'native-base';
 import { observer } from 'mobx-react';
 import Moment from 'moment';
 import { action, observable, runInAction } from 'mobx';
-import { AnnouncementCard, HeaderWithDrawer } from 'components/common';
+import { AnnouncementCard, HeaderWithDrawer, Lightbox } from 'components/common';
 import NavigationService from 'services/NavigationService';
 import { getNewsfeedPosts } from 'services/NewsfeedService';
 import { likePost, unlikePost } from 'services/PostService';
@@ -21,6 +21,8 @@ export default class MemberHome extends Component {
   @observable error = false;  
   @observable refreshing = false;
   @observable announcements = [];
+  @observable imageViewerVisible = false;
+  @observable images = [];
 
   @action
   async getNewsfeed() {     
@@ -54,6 +56,11 @@ export default class MemberHome extends Component {
     }
   }
 
+  @action
+  toggleImageViewer() {
+    this.imageViewerVisible = !this.imageViewerVisible;
+  }
+
   async componentWillMount(){
     await RootStore.sessionStore.getLoggedUser();
     await this.getNewsfeed();
@@ -73,6 +80,7 @@ export default class MemberHome extends Component {
       attachment={item.attachments.length == 1 ? item.attachments[0] : null}
       handleViewPage={() => this.handleViewPage(item.barangay_page_id)}
       handleOptions={() => this.handleOptions(item.barangay_page_id)}
+      handleViewImage={() => this.handleViewImage(item.attachments[0].link)}
       handleToggleLike={() => this.handleToggleLike(index)}
       handleViewComments={() => this.handleViewComments()}
       handleShare={() => this.handleShare()}
@@ -111,6 +119,13 @@ export default class MemberHome extends Component {
   render() {
     return (
       <Container>
+        {this.imageViewerVisible && (
+          <Lightbox 
+            handleCloseImage={() => this.toggleImageViewer()}
+            images={this.images}
+            visible={this.imageViewerVisible}
+          />
+        )}
         <HeaderWithDrawer title="Home" />
         <View style={styles.view}>
           {this.renderList(this.announcements, this.hasMore, this.refreshing)}
@@ -146,6 +161,13 @@ export default class MemberHome extends Component {
           break;
       }
     });
+  }
+
+  @action
+  handleViewImage(url) {
+    const imageUrl = url.replace('?dl=0', '?dl=1');
+    this.images = [{url: imageUrl}];
+    this.toggleImageViewer();
   }
 
   @action

@@ -64,7 +64,7 @@ export const HeaderWithGoBack = observer((props) => (
 
 
 export const AnnouncementCard = observer((props) => (
-  <Card style={styles.card}>
+  <Card style={[styles.card, props.index == 0 ? {marginTop: 12} : null]}>
     <CardItem style={{paddingTop: 18}}>
       <Left style={{minWidth: 200}}>
         <TouchableOpacity>
@@ -76,9 +76,13 @@ export const AnnouncementCard = observer((props) => (
         </TouchableOpacity>
         <Body>
           <TouchableOpacity>
-            <Text style={styles.cardAuthor} numberOfLines={1}>Barangay 1</Text>
+            <Text style={styles.cardAuthor} numberOfLines={1}>
+              {props.author}
+            </Text>
           </TouchableOpacity>
-          <Text note style={styles.cardDetails} numberOfLines={1}>Oct 20, 2019 &middot; Lagunadadadada </Text>
+          <Text note style={styles.cardDetails} numberOfLines={1}>
+            {props.dateCreated} &middot; {props.location}
+          </Text>
         </Body>
       </Left>
       <Right>
@@ -94,43 +98,63 @@ export const AnnouncementCard = observer((props) => (
     </CardItem>
     <CardItem style={{paddingTop: 0, paddingBottom: 15}}>
       <Text style={styles.cardMessage}>
-      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500
+        {props.message}
       </Text>
     </CardItem>
-    {/* <CardItem cardBody>
-      <Image 
-        source={BrgyAvatar} 
-        width={Dimensions.get('window').width - 20}
+    {/* {props.attachment && props.attachment.preview_type === 'photo' && (
+      <CardImageAttachment />
+    )} */}
+
+    {props.attachment && props.attachment.preview_type !== 'photo' && (
+      <CardFileAttachment 
+        filename={props.attachment.filename}
+        details="dropbox.com"
+        link={props.attachment.link}
+        handleOpenLink={props.handleOpenLink}
+        handleOpenDownloadLink={props.handleOpenDownloadLink}
       />
-    </CardItem> */}
-    {/* <CardItem style={styles.cardFileAttachment}>
-      <Body>
-        <TouchableOpacity>
-          <Text style={styles.fileAttachmentName} uppercase={false} numberOfLines={1}>
-            sample-filenamedadada-dada.png
-          </Text>
-          <Text style={styles.fileAttachmentDetails} uppercase={false} numberOfLines={1} note>
-            dropbox.com
-          </Text>  
-        </TouchableOpacity>
-      </Body> 
-      <Right>
-        <TouchableOpacity>
-          <FontAwesome5   
-            name="cloud-download-alt" 
-            color="gray" 
-            size={18} 
-            solid 
-          />
-        </TouchableOpacity>
-      </Right>
-    </CardItem> */}
+    )}
+
     <CardItem style={styles.cardActionButtons}>
-      <CardActionButton label="Liked" active/>
+      <CardActionButton label="Liked" active={props.isLiked === 0 ? false : true}/>
       <CardActionButton label="Comment"/>
       <CardActionButton label="Share"/>      
     </CardItem>
   </Card>
+));
+
+const CardImageAttachment = observer((props) => (
+  <CardItem cardBody>
+    <Image 
+      // source={props.image} 
+      width={Dimensions.get('window').width - 20}
+    />
+  </CardItem>
+));
+
+const CardFileAttachment = observer((props) => (
+  <CardItem style={styles.cardFileAttachment}>
+    <Body>
+      <TouchableOpacity onPress={props.handleOpenLink}>
+        <Text style={styles.fileAttachmentName} uppercase={false} numberOfLines={1}>
+          {props.filename}
+        </Text>
+        <Text style={styles.fileAttachmentDetails} uppercase={false} numberOfLines={1} note>
+          {props.details}
+        </Text>  
+      </TouchableOpacity>
+    </Body> 
+    <Right>
+      <TouchableOpacity onPress={props.handleOpenDownloadLink}>
+        <FontAwesome5   
+          name="cloud-download-alt" 
+          color="gray" 
+          size={18} 
+          solid 
+        />
+      </TouchableOpacity>
+    </Right>
+  </CardItem>
 ));
 
 const CardActionButton = observer((props) => (
@@ -154,6 +178,10 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 0,
     elevation: 0,
+    marginTop: 0,
+    marginBottom: 12,
+    marginLeft: 12,
+    marginRight: 12
   },
   cardAvatar: {
     borderColor: colors.PRIMARY,

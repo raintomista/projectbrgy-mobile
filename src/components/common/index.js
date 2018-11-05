@@ -121,9 +121,19 @@ export const AnnouncementCard = observer((props) => (
     )}
 
     <CardItem style={styles.cardActionButtons}>
-      <CardActionButton label="Liked" active={props.isLiked === 0 ? false : true}/>
-      <CardActionButton label="Comment"/>
-      <CardActionButton label="Share"/>      
+      <CardActionButton 
+        label={props.isLiked === 0 ? 'Like' : 'Liked'}
+        active={props.isLiked === 0 ? false : true}
+        handlePress={props.handleToggleLike}
+      />
+      <CardActionButton 
+        label="Comment"
+        handlePress={props.handleViewComments}
+      />
+      <CardActionButton 
+        label="Share"
+        handlePress={props.handleShare}
+      />      
     </CardItem>
   </Card>
 ));
@@ -169,7 +179,11 @@ const CardFileAttachment = observer((props) => (
 ));
 
 const CardActionButton = observer((props) => (
-  <TouchableOpacity style={styles.cardActionButton} transparent>
+  <TouchableOpacity 
+    onPress={props.handlePress}
+    style={styles.cardActionButton} 
+    transparent
+  >
     <Text 
       style={!props.active ? styles.cardActionButtonText : styles.cardActiveActionButtonText} 
       uppercase={false}

@@ -4,7 +4,8 @@ import { Container, Spinner } from 'native-base';
 import { observer } from 'mobx-react';
 import { action, observable, runInAction } from 'mobx';
 import { AnnouncementCard, HeaderWithDrawer } from 'components/common';
-import { getNewsfeedPosts } from 'services/DashboardService';
+import { getNewsfeedPosts } from 'services/NewsfeedService';
+import { likePost, unlikePost } from 'services/PostService';
 import RootStore from 'stores/RootStore';
 import * as localized from 'localization/en';
 import * as colors from 'styles/colors'
@@ -68,6 +69,9 @@ export default class MemberHome extends Component {
       commentCount={item.comment_count}
       shareCount={item.share_count}
       attachment={item.attachments.length == 1 ? item.attachments[0] : null}
+      handleToggleLike={() => this.handleToggleLike(index)}
+      handleViewComments={() => this.handleViewComments()}
+      handleShare={() => this.handleShare()}
       handleOpenLink={() => this.handleOpenLink(item.attachments[0].link)}
       handleOpenDownloadLink={() => this.handleOpenDownloadLink(item.attachments[0].link)}
     />
@@ -119,6 +123,52 @@ export default class MemberHome extends Component {
 
   handleRefresh() {
     this.refreshNewsfeed();
+  }
+
+  @action
+  async handleLike(postId, index) {
+    try {
+      await likePost(postId);
+      runInAction(() => {
+        const newAnnouncements = this.announcements.slice();
+        newAnnouncements[index].is_liked = 1;
+        this.announcements = newAnnouncements;
+      });
+    } catch(e) {      
+      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+    }
+  }
+
+  @action
+  async handleUnlike(postId, index) {
+    try {
+      await unlikePost(postId);
+      runInAction(() => {
+        const newAnnouncements = this.announcements.slice();
+        newAnnouncements[index].is_liked = 0;
+        this.announcements = newAnnouncements;
+      });
+    } catch(e) {
+      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+    }
+  }
+
+  @action
+  handleToggleLike(index) {
+    const post = this.announcements[index];
+    if(post.is_liked === 0) {
+      this.handleLike(post.post_id, index);
+    } else {
+      this.handleUnlike(post.post_id, index);      
+    }
+  }
+
+  handleViewComments() {
+
+  }
+
+  handleShare() {
+
   }
 
   handleOpenLink(url) {

@@ -1,30 +1,28 @@
 import React, { Component } from 'react';
-import { 
-  observer 
-} from 'mobx-react';
-import { 
-  Dimensions,
-  StyleSheet, 
-  View 
-} from 'react-native';
-import { 
-  Container, 
-} from 'native-base';
-import { 
-  HeaderWithGoBack 
-} from 'components/common';
-import { 
-  BarangayInformationCard,
-  ContactInformationCard 
-} from 'components/profile';
-import RootStore from 'stores/RootStore';
+import { observer } from 'mobx-react';
+import { action, observable } from 'mobx';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { Container } from 'native-base';
+import { HeaderWithGoBack } from 'components/common';
+import { ProfileInformationCard, ContactInformationCard } from 'components/profile';
+import NavigationService from 'services/NavigationService';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
 @observer
 export default class ProfileInformation extends Component {
+  @observable profileInfo = null;
+
+  @action
+  setProfileInfo(profileInfo) {
+    this.profileInfo = profileInfo;
+  }
+
+  componentWillMount() {
+    this.setProfileInfo(NavigationService.getActiveScreenParams());
+  }
+
   render() {
-    const { profileData } = RootStore.profileStore;
     return (
       <Container>
         <HeaderWithGoBack 
@@ -32,18 +30,18 @@ export default class ProfileInformation extends Component {
           navigation={this.props.navigation} 
         />
         <View style={styles.view}>
-          <BarangayInformationCard
-            region={profileData.barangay_page_region}
-            province={profileData.barangay_page_province}
-            municipality={profileData.barangay_page_municipality}
-            barangay={profileData.barangay_page_name}
-            barangayCaptain={profileData.barangay_page_captain}
-            barangayAddress={profileData.barangay_page_office_address_street}
+          <ProfileInformationCard
+            region={this.profileInfo.region}
+            province={this.profileInfo.province}
+            municipality={this.profileInfo.municipality}
+            barangay={this.profileInfo.barangay}
+            barangayCaptain={this.profileInfo.barangayCaptain}
+            barangayAddress={this.profileInfo.barangayAddress}
           />
           <ContactInformationCard
-            email={profileData.user_email}
-            mobile={profileData.user_mobile_number}
-            landline={profileData.user_landline_number}
+            email={this.profileInfo.email}
+            mobile={this.profileInfo.mobile}
+            landline={this.profileInfo.landline}
           />
         </View>
       </Container>

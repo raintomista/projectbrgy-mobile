@@ -58,6 +58,11 @@ export default class Profile extends Component {
                 followingCount={this.profileData.stats.following_count}
                 handleFollow={() => this.followPage()}
                 handleUnfollow={() => this.unfollowPage()}
+                region={this.profileData.barangay_page_region}
+                province={this.profileData.barangay_page_province}
+                barangay={this.profileData.barangay_page_name}
+                barangayCaptain={this.profileData.barangay_page_captain}
+                barangayAddress={this.profileData.barangay_page_office_address_street}
                 email={this.profileData.user_email}
                 landline={this.profileData.user_landline_number}
                 mobile={this.profileData.user_mobile_number}

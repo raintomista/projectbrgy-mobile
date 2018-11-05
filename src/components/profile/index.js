@@ -59,10 +59,16 @@ export const ProfileCard = observer((props) => (
             navigationKey="BarangayFollowing"
             id={props.id}
           />
-          <SeeMoreButton 
+          <SeeMoreButton
+            region={props.region}
+            municipality={props.municipality}
+            province={props.province}
+            barangay={props.barangay}
+            barangayCaptain={props.barangayCaptain}
+            barangayAddress={props.barangayAddress}
             email={props.email}
             landline={props.landline}
-            website={props.website}
+            mobile={props.mobile}
           /> 
         </Body>
       </CardItem>
@@ -102,16 +108,11 @@ export const StatCount = observer((props) => (
   </TouchableOpacity>
 ));
 
-
 export const SeeMoreButton = observer((props) => (
   <TouchableOpacity 
     style={{alignSelf: 'center'}}
     onPress={() => {
-      NavigationService.push('BarangayInformation', {
-        email: props.email,
-        landline: props.landline,
-        website: props.website
-      });
+      NavigationService.push('ProfileInformation', props);
     }}
   >
     <Text style={styles.profileSeeMore}>
@@ -126,37 +127,32 @@ export const SeeMoreButton = observer((props) => (
   </TouchableOpacity>    
 ));
 
-
-
-
-
-
-export const BarangayInformationCard = observer((props) => (
-  <Card style={styles.card}>
+export const ProfileInformationCard = observer((props) => (
+  <Card style={styles.profileDetailCard}>
     <CardItem>
       <Body>
-        <Text style={styles.cardTitle}>Barangay Information</Text>
-        <Text style={styles.cardDetails}>Region: {props.region}</Text>
-        <Text style={styles.cardDetails}>Province: {props.province}</Text>
-        <Text style={styles.cardDetails}>City/Municipality: {props.municipality}</Text>
-        <Text style={styles.cardDetails}>Barangay: {props.barangay}</Text>
-        <Text style={styles.cardDetails}>Barangay Captain: {props.barangayCaptain}</Text>
-        <Text style={styles.cardDetails}>Barangay Office Address: {props.barangayAddress}</Text>
+        <Text style={styles.profileDetailCardTitle}>Barangay Information</Text>
+        <Text style={styles.profileDetails}>Region: {props.region}</Text>
+        <Text style={styles.profileDetails}>Province: {props.province}</Text>
+        <Text style={styles.profileDetails}>City/Municipality: {props.municipality}</Text>
+        <Text style={styles.profileDetails}>Barangay: {props.barangay}</Text>
+        <Text style={styles.profileDetails}>Barangay Captain: {props.barangayCaptain}</Text>
+        <Text style={styles.profileDetails}>Barangay Office Address: {props.barangayAddress}</Text>
       </Body>
     </CardItem>
   </Card>
 ));
 
 export const ContactInformationCard = observer((props) => (
-  <Card style={styles.card}>
+  <Card style={styles.profileDetailCard}>
     <CardItem>
       <Body>
-        <Text style={styles.cardTitle}>
+        <Text style={styles.profileDetailCardTitle}>
           Contact Information
         </Text>
         {props.email && (
-          <ListItem style={styles.cardListItem} icon>
-            <Left style={styles.cardCredentialIcon}>
+          <ListItem style={styles.profileDetailListItem} icon>
+            <Left style={styles.profileDetailIcon}>
               <FontAwesome5 
                 name="envelope" 
                 color={colors.PRIMARY} 
@@ -166,15 +162,15 @@ export const ContactInformationCard = observer((props) => (
               />
             </Left>
             <Right style={{borderBottomWidth: 0}}>
-              <Text style={styles.cardCredential}>
+              <Text style={styles.profileDetail}>
                 {props.email}
               </Text>
             </Right>
           </ListItem>
         )}
         {props.mobile && (
-          <ListItem style={styles.cardListItem} icon>
-            <Left style={styles.cardCredentialIcon}>
+          <ListItem style={styles.profileDetailListItem} icon>
+            <Left style={styles.profileDetailIcon}>
               <FontAwesome5 
                 name="mobile-alt" 
                 color={colors.PRIMARY} 
@@ -184,15 +180,15 @@ export const ContactInformationCard = observer((props) => (
               />
             </Left>
             <Right style={{borderBottomWidth: 0}}>
-              <Text style={styles.cardCredential}>
+              <Text style={styles.profileDetail}>
                 {props.mobile}
               </Text>
             </Right>
           </ListItem>
         )}
         {props.landline && (
-          <ListItem style={styles.cardListItem} icon>
-            <Left style={styles.cardCredentialIcon}>
+          <ListItem style={styles.profileDetailListItem} icon>
+            <Left style={styles.profileDetailIcon}>
               <FontAwesome5 
                 name="phone" 
                 color={colors.PRIMARY} 
@@ -202,7 +198,7 @@ export const ContactInformationCard = observer((props) => (
               />
             </Left>
             <Right style={{borderBottomWidth: 0}}>
-              <Text style={styles.cardCredential}>
+              <Text style={styles.profileDetail}>
                 {props.landline}
               </Text>
             </Right>
@@ -300,72 +296,38 @@ const styles = StyleSheet.create({
     paddingTop: 25,
     textAlign: 'center'    
   },
-
-
-
-
-  // brgyDetailsCard: {
-  //   borderRadius: 0,
-  //   elevation: 0,
-  //   marginTop: 12,
-  //   marginBottom: 0,
-  //   marginLeft: 12,
-  //   marginRight: 12
-  // },
-  // brgyDetailsTitle: {
-  //   color: colors.PRIMARY,
-  //   fontFamily: fonts.MONTSERRAT_BOLD,
-  //   fontSize: 20,
-  //   marginBottom: 10
-  // },
-  // brgyDetailListItem: {
-  //   height: 35,
-  //   marginLeft: 10
-  // },
-  // brgyDetailIcon: {
-  //   width: 35
-  // },
-  // brgyDetail: {
-  //   color: colors.PRIMARY,
-  //   fontFamily: fonts.LATO_REGULAR,
-  //   fontSize: 17,
-  //   height: 35,
-  // },
-
-
-
-  // card: {
-  //   borderRadius: 0,
-  //   elevation: 0,
-  //   marginTop: 12,
-  //   marginBottom: 0,
-  //   marginLeft: 12,
-  //   marginRight: 12
-  // },
-  // cardTitle: {
-  //   color: colors.PRIMARY,
-  //   fontFamily: fonts.MONTSERRAT_BOLD,
-  //   fontSize: 20,
-  //   marginBottom: 10
-  // },
-  // cardDetails: {
-  //   color: colors.PRIMARY,
-  //   fontFamily: fonts.LATO_REGULAR,
-  //   fontSize: 17,
-  //   marginLeft: 10,
-  //   marginBottom: 5
-  // },
-  // cardListItem: {
-  //   height: 35,
-  //   marginLeft: 10
-  // },
-  // cardCredentialIcon: {
-  //   width: 35
-  // },
-  // cardCredential: {
-  //   color: colors.PRIMARY,
-  //   fontFamily: fonts.LATO_REGULAR,
-  //   fontSize: 17,
-  //   height: 35,
-  // }
+  profileDetailCard: {
+    borderRadius: 0,
+    elevation: 0,
+    marginTop: 12,
+    marginBottom: 0,
+    marginLeft: 12,
+    marginRight: 12
+  },
+  profileDetailCardTitle: {
+    color: colors.PRIMARY,
+    fontFamily: fonts.MONTSERRAT_BOLD,
+    fontSize: 20,
+    marginBottom: 10
+  },
+  profileDetails: {
+    color: colors.PRIMARY,
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 17,
+    marginLeft: 10,
+    marginBottom: 5
+  },
+  profileDetailListItem: {
+    height: 35,
+    marginLeft: 10
+  },
+  profileDetailIcon: {
+    width: 35
+  },
+  profileDetail: {
+    color: colors.PRIMARY,
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 17,
+    height: 35,
+  }
 });

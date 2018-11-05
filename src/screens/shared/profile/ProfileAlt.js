@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { action, observable, runInAction } from 'mobx';
 import { ScrollView, StyleSheet, ToastAndroid, View } from 'react-native';
 import { Container, Spinner } from 'native-base';
-import { HeaderWithDrawer } from 'components/common';
+import { HeaderWithGoBack } from 'components/common';
 import { ProfileCard } from 'components/profile';
 import NavigationService from 'services/NavigationService';
 import { getUserById } from 'services/ProfileService';
@@ -33,7 +33,7 @@ export default class Profile extends Component {
 
   async componentWillMount(){
     const { sessionStore, profileStore } = RootStore;
-    const params = NavigationService.getStackScreenParams();
+    const params = NavigationService.getActiveScreenParams();
     this.setProfileId(params.profileId);
     this.getProfileData();
   }
@@ -41,8 +41,8 @@ export default class Profile extends Component {
   render() {
     return (
       <Container>
-        <HeaderWithDrawer 
-          title="My Profile" 
+        <HeaderWithGoBack 
+          title={this.profileData ? `${this.profileData.user_first_name} ${this.profileData.user_last_name}` : ''} 
           navigation={this.props.navigation} 
         />
         {!this.profileData && <Spinner color={colors.PRIMARY} />}

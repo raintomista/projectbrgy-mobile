@@ -56,7 +56,7 @@ export const ProfileCard = observer((props) => (
           <StatCount
             label="Following"
             value={props.followingCount}
-            navigationKey="BarangayFollowing"
+            navigationKey="ProfileFollowing"
             id={props.id}
           />
           <SeeMoreButton
@@ -91,7 +91,7 @@ export const StatCount = observer((props) => (
   <TouchableOpacity 
     style={styles.profileStatButton}
     onPress={() => {
-      NavigationService.push(props.navigationKey, {brgyId: props.id});
+      NavigationService.push(props.navigationKey, {profileId: props.id});
     }}
   >
     <Text uppercase={true}>

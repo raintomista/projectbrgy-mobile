@@ -11,7 +11,7 @@ import * as fonts from 'styles/fonts';
 
 export const FollowButton = observer((props) => (
   <Button 
-    onPress={() => RootStore.profileStore.follow(props.id, props.index)} 
+    onPress={props.handleFollow} 
     style={styles.followButton} 
     rounded
   >
@@ -26,7 +26,7 @@ export const FollowButton = observer((props) => (
 
 export const FollowingButton = observer((props) => (
   <Button
-    onPress={() => RootStore.profileStore.unfollow(props.id, props.index)} 
+    onPress={props.handleUnfollow} 
     style={styles.followingButton} 
     rounded 
   >
@@ -40,7 +40,7 @@ export const FollowingButton = observer((props) => (
 ));
 
 export const FollowingListItem = observer((props) => (
-  <ListItem thumbnail onPress={() => NavigationService.push('Login', {})}>
+  <ListItem thumbnail onPress={() => NavigationService.push('BarangayPage', {brgyId: props.id})}>
     <Left>
       <Thumbnail 
         circle 
@@ -60,8 +60,8 @@ export const FollowingListItem = observer((props) => (
     </Body>
     <Right style={styles.itemBody}>
       {props.isFollowing === 1
-        ? <FollowingButton id={props.id} index={props.index} />
-        : <FollowButton id={props.id} index={props.index} />
+        ? <FollowingButton id={props.id} index={props.index} handleUnfollow={props.handleUnfollow} />
+        : <FollowButton id={props.id} index={props.index} handleFollow={props.handleFollow} />
       }
     </Right>
   </ListItem>

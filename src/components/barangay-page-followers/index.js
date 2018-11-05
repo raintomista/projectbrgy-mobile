@@ -65,7 +65,7 @@ export const MessageButton = observer((props) => (
 ));
 
 export const FollowersListItem = observer((props) => (
-  <ListItem thumbnail onPress={() => openBarangayPage(props.id)}>
+  <ListItem thumbnail onPress={() => viewFollower(props.followerRole, props.id)}>
     <Left>
       <Thumbnail 
         circle 
@@ -102,8 +102,12 @@ export const FollowersListItem = observer((props) => (
   </ListItem>
 ));
 
-async function openBarangayPage(brgyId) {
-  NavigationService.push('BarangayPage', { brgyId });
+async function viewFollower(role, id) {
+  if(role === 'barangay_member') {
+    NavigationService.push('Profile', { profileId: id });
+  } else {
+    NavigationService.push('BarangayPage', { brgyId: id });    
+  }
 }
 
 const styles = StyleSheet.create({

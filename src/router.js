@@ -13,9 +13,9 @@ import MemberCreateReport from 'screens/member/MemberCreateReport';
 import MemberRespondedReports from 'screens/member/MemberRespondedReports';
 import MemberReportOverview from 'screens/member/MemberReportOverview';
 import Profile from 'screens/shared/profile/Profile';
+import ProfileAlt from 'screens/shared/profile/ProfileAlt';
 import ProfileInformation from 'screens/shared/profile/ProfileInformation';
 import ProfileFollowing from 'screens/shared/profile/ProfileFollowing';
-import ProfileFollowingAlt from 'screens/shared/profile/ProfileFollowingAlt';
 
 import MyBarangay from 'screens/shared/barangay-page/MyBarangay';
 import BarangayInformation from 'screens/shared/barangay-page/BarangayInformation';
@@ -45,7 +45,19 @@ const SearchStack = createStackNavigator({
   BarangayFollowers: {
     screen: BarangayFollowers,
     navigationOptions: { header: null }     
-  }
+  },
+  Profile: { 
+    screen: ProfileAlt,
+    navigationOptions: { header: null }
+  },
+  ProfileFollowing: {
+    screen: ProfileFollowing,
+    navigationOptions: { header: null }
+  },
+  ProfileInformation: {
+    screen: ProfileInformation,
+    navigationOptions: { header: null }
+  },
 });
 
 const MyBarangayStack = createStackNavigator({
@@ -68,6 +80,53 @@ const MyBarangayStack = createStackNavigator({
   BarangayPage: {
     screen: BarangayPage,
     navigationOptions: { header: null }      
+  },
+  Profile: { 
+    screen: ProfileAlt,
+    navigationOptions: { header: null }
+  },
+  ProfileFollowing: {
+    screen: ProfileFollowing,
+    navigationOptions: { header: null }
+  },
+  ProfileInformation: {
+    screen: ProfileInformation,
+    navigationOptions: { header: null }
+  }
+});
+
+const ProfileStack = createStackNavigator({
+  MyProfile: { 
+    screen: Profile,
+    navigationOptions: { header: null }
+  },
+  Profile: { 
+    screen: ProfileAlt,
+    navigationOptions: { header: null }
+  },
+  ProfileFollowing: {
+    screen: ProfileFollowing,
+    navigationOptions: { header: null }
+  },
+  ProfileInformation: {
+    screen: ProfileInformation,
+    navigationOptions: { header: null }
+  },
+  BarangayPage: {
+    screen: BarangayPage,
+    navigationOptions: { header: null }      
+  },
+  BarangayInformation: {
+    screen: BarangayInformation,
+    navigationOptions: { header: null }  
+  },
+  BarangayFollowing: {
+    screen: BarangayFollowing,
+    navigationOptions: { header: null }     
+  },
+  BarangayFollowers: {
+    screen: BarangayFollowers,
+    navigationOptions: { header: null }     
   }
 });
 
@@ -75,20 +134,7 @@ export const MemberDrawer = createDrawerNavigator({
   Home: { screen: MemberHome },
   Search: { screen: SearchStack },
   MyBarangay: { screen: MyBarangayStack },
-  MyProfile: createStackNavigator({
-    Profile: { 
-      screen: Profile,
-      navigationOptions: { header: null }
-    },
-    ProfileFollowing: {
-      screen: ProfileFollowingAlt,
-      navigationOptions: { header: null }
-    },
-    ProfileInformation: {
-      screen: ProfileInformation,
-      navigationOptions: { header: null }
-    }
-  }),
+  MyProfile: { screen: ProfileStack },
   MyReportStack: createStackNavigator({
     MyReports: { 
       screen: MemberReports,

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { FlatList, Linking, RefreshControl, StyleSheet, ToastAndroid, View } from 'react-native';
-import { Container, Spinner } from 'native-base';
+import { ActionSheet, Container, Spinner } from 'native-base';
 import { observer } from 'mobx-react';
 import { action, observable, runInAction } from 'mobx';
 import { AnnouncementCard, HeaderWithDrawer } from 'components/common';
+import NavigationService from 'services/NavigationService';
 import { getNewsfeedPosts } from 'services/NewsfeedService';
 import { likePost, unlikePost } from 'services/PostService';
 import RootStore from 'stores/RootStore';
@@ -69,6 +70,8 @@ export default class MemberHome extends Component {
       commentCount={item.comment_count}
       shareCount={item.share_count}
       attachment={item.attachments.length == 1 ? item.attachments[0] : null}
+      handleViewPage={() => this.handleViewPage(item.barangay_page_id)}
+      handleOptions={() => this.handleOptions(item.barangay_page_id)}
       handleToggleLike={() => this.handleToggleLike(index)}
       handleViewComments={() => this.handleViewComments()}
       handleShare={() => this.handleShare()}
@@ -123,6 +126,25 @@ export default class MemberHome extends Component {
 
   handleRefresh() {
     this.refreshNewsfeed();
+  }
+
+  handleViewPage(brgyId) {
+    NavigationService.navigate('BarangayPage', { brgyId });
+  }
+
+  handleOptions(brgyId) {
+    const BUTTONS = ['View Barangay Page', 'Cancel'];
+    const CANCEL_INDEX = 1;
+    ActionSheet.show({
+      options: BUTTONS,
+      cancelButtonIndex: CANCEL_INDEX,
+    }, buttonIndex => {
+      switch(buttonIndex) {
+        case 0:
+          this.handleViewPage(brgyId);
+          break;
+      }
+    });
   }
 
   @action

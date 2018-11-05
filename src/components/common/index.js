@@ -69,7 +69,7 @@ export const AnnouncementCard = observer((props) => (
   <Card style={[styles.card, props.index == 0 ? {marginTop: 12} : null]}>
     <CardItem style={{paddingTop: 18}}>
       <Left style={{minWidth: 200}}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={props.handleViewPage}>
           <Thumbnail 
             circle 
             source={BrgyAvatar}
@@ -77,7 +77,7 @@ export const AnnouncementCard = observer((props) => (
           />
         </TouchableOpacity>
         <Body>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={props.handleViewPage}>
             <Text style={styles.cardAuthor} numberOfLines={1}>
               {props.author}
             </Text>
@@ -88,7 +88,7 @@ export const AnnouncementCard = observer((props) => (
         </Body>
       </Left>
       <Right>
-        <TouchableOpacity style={styles.cardOptions}>
+        <TouchableOpacity style={styles.cardOptions} onPress={props.handleOptions}>
           <FontAwesome5   
             name="chevron-down" 
             color={colors.PRIMARY} 

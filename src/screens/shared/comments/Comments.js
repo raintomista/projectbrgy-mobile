@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { action, observable, runInAction } from 'mobx'; 
 import Moment from 'moment';
-import { Alert, FlatList, RefreshControl, StyleSheet, ToastAndroid, View } from 'react-native';
-import { Container, Spinner, Root } from 'native-base';
+import { Alert, FlatList, RefreshControl, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { Container, Item, Input, Footer, Spinner, Root } from 'native-base';
 import { HeaderWithGoBack } from 'components/common';
 import { Comment } from 'components/comments';
 import NavigationService from 'services/NavigationService';
 import { getComments, deleteComment } from 'services/CommentService';
 import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
+import * as fonts from 'styles/fonts';
 import * as localized from 'localization/en';
 
 @observer
@@ -89,6 +90,7 @@ export default class Comments extends Component {
   renderList(comments, hasMore, refreshing) {
     return (
       <FlatList
+        inverted
         data={Array.from(comments)}
         renderItem={this.renderItem}
         keyExtractor={item => item.comment_id}
@@ -118,6 +120,18 @@ export default class Comments extends Component {
         <View style={styles.view}>
           {this.renderList(this.comments, this.hasMore, this.refreshing)}
         </View>
+        <Footer style={styles.footer}>
+          <Item style={styles.commentComposer} regular>
+            <Input 
+              maxLength={200}
+              placeholder='Write a comment...' 
+              placeholderStyle={styles.commentComposerPlaceholder}
+              returnKeyLabel="Send"
+              returnKeyType="send"
+              style={styles.commentComposerText}
+            />
+          </Item>
+        </Footer>
       </Container>
     );
   }
@@ -177,5 +191,39 @@ export default class Comments extends Component {
 const styles = StyleSheet.create({
   view: {
     flex: 1
+  },
+  footer: {
+    backgroundColor: colors.LIGHT,
+    padding: 10  
+  },
+  commentComposer: {
+    borderColor: `rgba(0, 0, 0, 0.125)`,
+    borderRadius: 20,
+    flex: 1, 
+    height: 35
+  },
+  commentComposerText: {
+    borderColor: colors.DARK_GRAY,
+    fontFamily: fonts.LATO_REGULAR, 
+    fontSize: 15,
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  commentComposerPlaceholder: {
+    borderColor: colors.DARK_GRAY,
+    fontFamily: fonts.LATO_REGULAR, 
+    fontSize: 15,
+  },
+  sendButton: {
+    flexDirection: 'column', 
+    height: 35, 
+    justifyContent: 'space-around',
+    paddingHorizontal: 15
+  },
+  sendButtonText: {
+    color: colors.PRIMARY,
+    fontFamily: fonts.LATO_BOLD,
+    fontSize: 15.5,
+    fontWeight: 'normal'
   }
 });

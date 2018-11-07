@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { Dimensions, StyleSheet, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { Badge, CardItem, Body, Text, Thumbnail } from 'native-base';
 import BrgyAvatar from '../../../assets/images/default-brgy.png';
+import MemberAvatar from '../../../assets/images/default-member.png';
 import NavigationService from 'services/NavigationService';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
@@ -13,21 +14,25 @@ export const Comment = observer((props) => (
       <TouchableOpacity onPress={props.handleViewPage}>
         <Thumbnail 
           circle 
-          source={BrgyAvatar}
+          source={props.authorRole === 'barangay_page_admin' ? BrgyAvatar : MemberAvatar}
           style={styles.commentAvatar} 
         />
       </TouchableOpacity>
       <View>
         <Badge style={styles.commentBubble}>
-          <Text style={styles.commentAuthor}>Barangay 1</Text>
+          <Text style={styles.commentAuthor}>{props.authorName}</Text>
           <Text style={styles.commentMessage}>{props.message}</Text>
         </Badge>
         <View style={{flexDirection: 'row'}}>
-            <Text style={styles.commentDetails}>2 hrs</Text>
-          <Text style={styles.commentDetails}> &middot; </Text>   
-          <TouchableOpacity>
-            <Text style={styles.commentButton}>Delete</Text>      
-          </TouchableOpacity>   
+            <Text style={styles.commentDetails}>{props.dateCreated}</Text>
+          {props.authorId === props.loggedUserId && (
+            <React.Fragment>
+              <Text style={styles.commentDetails}> &middot; </Text>   
+              <TouchableOpacity onPress={props.handleDelete}>
+                <Text style={styles.commentButton}>Delete</Text>      
+              </TouchableOpacity>  
+            </React.Fragment>
+          )} 
         </View>
       </View>
     </Body>

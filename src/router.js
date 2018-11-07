@@ -64,8 +64,6 @@ const MemberHomeStack = createStackNavigator({
     screen: ProfileInformation,
     navigationOptions: { header: null }
   }
-}, {
-  initialRouteName: 'Comments'
 });
 
 const SearchStack = createStackNavigator({

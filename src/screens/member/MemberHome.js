@@ -82,7 +82,7 @@ export default class MemberHome extends Component {
       handleOptions={() => this.handleOptions(item.barangay_page_id)}
       handleViewImage={() => this.handleViewImage(item.attachments[0].link)}
       handleToggleLike={() => this.handleToggleLike(index)}
-      handleViewComments={() => this.handleViewComments()}
+      handleViewComments={() => this.handleViewComments(item.post_id)}
       handleShare={() => this.handleShare()}
       handleOpenLink={() => this.handleOpenLink(item.attachments[0].link)}
       handleOpenDownloadLink={() => this.handleOpenDownloadLink(item.attachments[0].link)}
@@ -208,8 +208,8 @@ export default class MemberHome extends Component {
     }
   }
 
-  handleViewComments() {
-
+  handleViewComments(postId) {
+    NavigationService.navigate('Comments', { postId });
   }
 
   handleShare() {

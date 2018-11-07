@@ -23,12 +23,18 @@ import BarangayFollowing from 'screens/shared/barangay-page/BarangayFollowing';
 import BarangayFollowers from 'screens/shared/barangay-page/BarangayFollowers';
 import BarangayPage from 'screens/shared/barangay-page/BarangayPage';
 
+import Comments from 'screens/shared/comments/Comments';
+
 import Search from 'screens/shared/search/Search';
 
 const MemberHomeStack = createStackNavigator({
   Home: {
     screen: MemberHome,
     navigationOptions: { header: null }  
+  },
+  Comments: {
+    screen: Comments,
+    navigationOptions: { header: null }
   },
   BarangayPage: {
     screen: BarangayPage,
@@ -58,6 +64,8 @@ const MemberHomeStack = createStackNavigator({
     screen: ProfileInformation,
     navigationOptions: { header: null }
   }
+}, {
+  initialRouteName: 'Comments'
 });
 
 const SearchStack = createStackNavigator({

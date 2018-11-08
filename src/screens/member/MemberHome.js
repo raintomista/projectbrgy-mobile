@@ -84,7 +84,7 @@ export default class MemberHome extends Component {
       handleViewImage={() => this.handleViewImage(item.attachments[0].link)}
       handleToggleLike={() => this.handleToggleLike(index)}
       handleViewComments={() => this.handleViewComments(item.post_id)}
-      handleShare={() => this.handleShare()}
+      handleShare={() => this.handleShare(item.post_id)}
       handleOpenLink={() => this.handleOpenLink(item.attachments[0].link)}
       handleOpenDownloadLink={() => this.handleOpenDownloadLink(item.attachments[0].link)}
     />
@@ -215,8 +215,8 @@ export default class MemberHome extends Component {
     NavigationService.navigate('Comments', { postId });
   }
 
-  handleShare() {
-
+  handleShare(postId) {
+    NavigationService.navigate('Share', { postId });
   }
 
   handleOpenLink(url) {

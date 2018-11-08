@@ -16,6 +16,7 @@ import Profile from 'screens/shared/profile/Profile';
 import ProfileAlt from 'screens/shared/profile/ProfileAlt';
 import ProfileInformation from 'screens/shared/profile/ProfileInformation';
 import ProfileFollowing from 'screens/shared/profile/ProfileFollowing';
+import Share from 'screens/shared/share-announcement/Share';
 
 import MyBarangay from 'screens/shared/barangay-page/MyBarangay';
 import BarangayInformation from 'screens/shared/barangay-page/BarangayInformation';
@@ -30,6 +31,10 @@ import Search from 'screens/shared/search/Search';
 const MemberHomeStack = createStackNavigator({
   Home: {
     screen: MemberHome,
+    navigationOptions: { header: null }  
+  },
+  Share: {
+    screen: Share,
     navigationOptions: { header: null }  
   },
   Comments: {

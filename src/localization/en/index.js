@@ -11,3 +11,6 @@ export const UNLIKE_SUCCESS = 'Successfully unliked a post';
 
 export const COMMENT_DELETE_SUCCESS = 'Successfully deleted a comment';
 export const COMMENT_ADD_SUCCESS = 'Successfully added a comment';
+
+
+export const SHARE_SUCCESS = 'Successfully shared an announcement';

@@ -48,6 +48,10 @@ function getStackScreenParams() {
   return stackScreen.params;
 }
 
+function pop() {
+  _navigator.dispatch(StackActions.pop());
+}
+
 function push(routeName, params) {
   _navigator.dispatch(
     StackActions.push({
@@ -57,12 +61,14 @@ function push(routeName, params) {
   );
 }
 
+
 export default {
   dispatch,
   getActiveScreen,
   getActiveScreenParams,
   getStackScreenParams,
   navigate,
+  pop,
   push,
   setTopLevelNavigator,
 };

@@ -23,3 +23,17 @@ export async function unlikePost(postId) {
         }
     });
 }
+
+export async function sharePost(postId, caption) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios({
+        url: `${API_HOST}/share/${postId}`,
+        method: 'post',
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            caption: caption
+        }
+    });
+}

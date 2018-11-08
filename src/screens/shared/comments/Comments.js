@@ -6,6 +6,7 @@ import { Alert, FlatList, RefreshControl, StyleSheet, Text, ToastAndroid, Toucha
 import { Container, Item, Input, Footer, Spinner, Root } from 'native-base';
 import { HeaderWithGoBack } from 'components/common';
 import { Comment } from 'components/comments';
+import CommentForm from 'components/comments/CommentForm';
 import NavigationService from 'services/NavigationService';
 import { getComments, deleteComment } from 'services/CommentService';
 import RootStore from 'stores/RootStore';
@@ -61,9 +62,15 @@ export default class Comments extends Component {
     }
   }
 
+  constructor(props) {
+    super(props);
+    this.form = new CommentForm();
+  }
+
   async componentWillMount(){
     await RootStore.sessionStore.getLoggedUser();
     const params = NavigationService.getActiveScreenParams();
+    this.form.$('postId').set('value', params.postId);
     await this.setPostId(params.postId);
     await this.getComments();
   }
@@ -90,7 +97,7 @@ export default class Comments extends Component {
   renderList(comments, hasMore, refreshing) {
     return (
       <FlatList
-        inverted
+        ref={ref => this.flatList = ref}
         data={Array.from(comments)}
         renderItem={this.renderItem}
         keyExtractor={item => item.comment_id}
@@ -123,17 +130,30 @@ export default class Comments extends Component {
         <Footer style={styles.footer}>
           <Item style={styles.commentComposer} regular>
             <Input 
+              onChangeText={(value) => this.handleChangeText(this.form.$('commentMessage'), value)}
+              onSubmitEditing={(e) => this.handleSubmit(e, this.hasMore, this.refreshing)}
               maxLength={200}
               placeholder='Write a comment...' 
               placeholderStyle={styles.commentComposerPlaceholder}
               returnKeyLabel="Send"
               returnKeyType="send"
               style={styles.commentComposerText}
+              value={this.form.$('commentMessage').value}
             />
           </Item>
         </Footer>
       </Container>
     );
+  }
+
+  handleChangeText(field, value) {
+    field.set('value', value);
+  }
+
+  async handleSubmit(e, hasMore, refreshing) {
+    await this.form.onSubmit(e);
+    await this.refreshComments()
+    await this.flatList.scrollToOffset({ offset: 0, animated: true });
   }
 
   handleLoadMore() {

@@ -3,6 +3,7 @@ import { FlatList, Linking, RefreshControl, StyleSheet, ToastAndroid, View } fro
 import { ActionSheet, Container, Spinner } from 'native-base';
 import { observer } from 'mobx-react';
 import Moment from 'moment';
+import numeral from 'numeral';
 import { action, observable, runInAction } from 'mobx';
 import { AnnouncementCard, HeaderWithDrawer, Lightbox } from 'components/common';
 import NavigationService from 'services/NavigationService';
@@ -74,9 +75,9 @@ export default class MemberHome extends Component {
       location={item.barangay_page_municipality}
       message={item.post_message}
       isLiked={item.is_liked}
-      likeCount={item.like_count}
-      commentCount={item.comment_count}
-      shareCount={item.share_count}
+      likeCount={this.formatValue(item.like_count)}
+      commentCount={this.formatValue(item.comment_count)}
+      shareCount={this.formatValue(item.share_count)}
       attachment={item.attachments.length == 1 ? item.attachments[0] : null}
       handleViewPage={() => this.handleViewPage(item.barangay_page_id)}
       handleOptions={() => this.handleOptions(item.barangay_page_id)}
@@ -177,6 +178,7 @@ export default class MemberHome extends Component {
       runInAction(() => {
         const newAnnouncements = this.announcements.slice();
         newAnnouncements[index].is_liked = 1;
+        newAnnouncements[index].like_count += 1;
         this.announcements = newAnnouncements;
       });
     } catch(e) {      
@@ -191,6 +193,7 @@ export default class MemberHome extends Component {
       runInAction(() => {
         const newAnnouncements = this.announcements.slice();
         newAnnouncements[index].is_liked = 0;
+        newAnnouncements[index].like_count -= 1;
         this.announcements = newAnnouncements;
       });
     } catch(e) {
@@ -234,6 +237,14 @@ export default class MemberHome extends Component {
     } else {
       return Moment(date).fromNow();
     }
+  }
+
+  formatValue(value) {
+    if(value < 10000) {
+      return value;
+    }
+
+    return numeral(value).format('0.0a');
   }
 }
 

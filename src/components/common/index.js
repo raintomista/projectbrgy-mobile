@@ -1,11 +1,12 @@
 import React from 'react';
-import { Dimensions, Modal, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { Dimensions, Modal, StyleSheet, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import Image from 'react-native-image-progress';
 // import ProgressBar from 'react-native-progress/Bar';
 import { observer } from 'mobx-react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { DrawerActions, StackActions } from "react-navigation";
 import { 
+  Badge,
   Header,
   Card,
   CardItem,
@@ -125,7 +126,7 @@ export const AnnouncementCard = observer((props) => (
         </TouchableOpacity>
       </Right>
     </CardItem>
-    <CardItem style={{paddingTop: 0, paddingBottom: 15}}>
+    <CardItem style={{paddingTop: 0, paddingBottom: 0}}>
       <Text style={styles.cardMessage}>
         {props.message}
       </Text>
@@ -146,6 +147,40 @@ export const AnnouncementCard = observer((props) => (
         handleOpenLink={props.handleOpenLink}
         handleOpenDownloadLink={props.handleOpenDownloadLink}
       />
+    )}
+
+    {(props.likeCount != '0' || props.commentCount != '0' || props.shareCount != '0')  && (
+      <CardItem style={styles.cardStats}>
+        <View style={styles.cardLikeStat}>
+          {props.likeCount != '0' && (
+            <React.Fragment>
+              <Badge style={styles.cardLikeCircleIcon}>
+                <FontAwesome5   
+                  name="thumbs-up" 
+                  color="white" 
+                  size={9} 
+                  solid 
+                  style={{alignSelf: 'center'}}
+                />
+              </Badge> 
+              <Text style={styles.cardLikeStatText}>
+                {props.likeCount}
+              </Text>
+            </React.Fragment>
+          )}        
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          {props.commentCount != '0' && (
+            <TouchableOpacity onPress={props.handleViewComments}>
+              <Text style={styles.cardStatText}>{props.commentCount} Comments</Text>
+            </TouchableOpacity>
+          )}
+
+          {props.shareCount != '0' && (
+            <Text style={styles.cardStatText}>{props.shareCount} Shares</Text>
+          )}
+        </View>
+      </CardItem>
     )}
 
     <CardItem style={styles.cardActionButtons}>
@@ -265,20 +300,48 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0, 0, 0, 0.125)',
     borderWidth: 0.5,
     elevation: 2.5,
-    marginTop: -3,
+    marginTop: 8,
     marginHorizontal: 15,
-    marginBottom: 22
   },
   cardImageAttachment: {
     backgroundColor: colors.GRAY,
     width: Dimensions.get('window').width - 20, 
-    minHeight: 250, 
+    marginTop: 8,
+    minHeight: 250
+  },
+  cardStats: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
+    paddingTop: 10,
+    paddingBottom: 0
+  },
+  cardLikeStat: {
+    flexDirection: 'row'
+  },
+  cardLikeCircleIcon: {
+    backgroundColor: colors.PRIMARY, 
+    height: null, 
+    marginRight: 5, 
+    paddingTop: 5.5, 
+    paddingBottom: 6.5
+  },
+  cardLikeStatText: {
+    color: 'gray',
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 15
+  },
+  cardStatText: {
+    color: 'gray',
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 15,    
+    marginLeft: 10
   },
   cardActionButtons: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     borderTopColor: 'rgba(0, 0, 0, 0.125)',
     borderTopWidth: 0.5,
+    marginTop: 10,
     paddingTop: 3,
     paddingBottom: 3,
     paddingLeft: 0,

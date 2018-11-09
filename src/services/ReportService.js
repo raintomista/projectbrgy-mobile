@@ -42,3 +42,12 @@ export async function getReportById(id) {
         }
     });
 }
+
+export async function getReportResponses(id, page, limit, order, skip) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios.get(`${API_HOST}/inquiry/response/${id}?page=${page}&limit=${limit}&order=${order}&skip=${skip}`, {
+        headers: {
+            'x-access-token': token
+        }
+    });
+}

@@ -57,7 +57,7 @@ export const ReportItem = observer((props) => (
 export const RespondedReportItem = observer((props) => (
   <TouchableNativeFeedback 
     onPress={async () => {
-      NavigationService.push('MyReportOverview', {});
+      NavigationService.push('MyReportOverview', { reportId: props.reportId });
       await RootStore.reportStore.setReportId(props.reportId);
     }}
   >
@@ -80,7 +80,7 @@ export const RespondedReportItem = observer((props) => (
 ));
 
 export const ReportOverviewItem = observer((props) => (
-  <Card style={[styles.card, {marginTop: 12, marginBottom: 0}]}>
+  <Card style={[styles.card, {marginTop: 12, marginBottom: 12}]}>
     <CardItem>
       <Body>
         <Text style={styles.cardTitle}>
@@ -128,7 +128,7 @@ export const ReportResponseHeader = observer((props) => (
 ));
 
 export const ReportResponseContent = observer((props) => (
-  <Content style={{marginTop: 5}}>
+  <View style={styles.responseContent}>
     <Text note style={styles.responseContentMessage}>
       dahdahd hajhdfahdj hdjahdha hdajhdjah jdhajdhajhda
     </Text>
@@ -139,8 +139,7 @@ export const ReportResponseContent = observer((props) => (
     <Text style={styles.responseContentAttachmentName}>File 1 - Copy.png</Text>
     <Text style={styles.responseContentAttachmentName}>File 1 - Copy.png</Text>
     <Text style={styles.responseContentAttachmentName}>File 1 - Copy.png</Text>
-        
-  </Content>
+  </View>
 ))
 
 export const DropdownMenu = observer((props) => (
@@ -232,6 +231,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.GRAY,
     borderBottomWidth: 0,
     marginTop: 10
+  },
+  responseContent: {
+    flexDirection: 'column', 
+    marginTop: 5
   },
   responseContentMessage: {
     fontFamily: fonts.LATO_REGULAR,   

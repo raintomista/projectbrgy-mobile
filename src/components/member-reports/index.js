@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, TouchableNativeFeedback } from 'react-native';
+import { Linking, StyleSheet, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
 import {
     Accordion,
     Badge,
@@ -105,22 +105,22 @@ export const ReportOverviewItem = observer((props) => (
 export const ReportResponseHeader = observer((props) => (
   <View style={styles.responseHeader}>
     <Content>
-      <Text style={styles.responseHeaderTitle}>Barangay 1</Text>
-      <Text note style={styles.responseHeaderDetailsLeft}>
-        to me
+      <Text style={styles.responseHeaderTitle} numberOfLines={1}>{props.sender}</Text>
+      <Text note style={styles.responseHeaderDetailsLeft} numberOfLines={1}>
+        to {props.receiver}
       </Text>      
       <Text>&nbsp;</Text>
     </Content>  
     <Content contentContainerStyle={styles.responseHeaderRight}>
       <Text note style={styles.responseHeaderDetailsRight}>
-        Oct 24, 2018
+        {props.dateCreated}
       </Text>
       <Text note style={styles.responseHeaderDetailsRight}>
-        11:26:52 PM
+        {props.timeCreated}
       </Text>
       <Badge style={styles.responseHeaderBadge}>
         <Text style={styles.responseHeaderBadgeText}>
-          #2
+          #{props.index+1}
         </Text>
       </Badge>
     </Content>  
@@ -130,15 +130,24 @@ export const ReportResponseHeader = observer((props) => (
 export const ReportResponseContent = observer((props) => (
   <View style={styles.responseContent}>
     <Text note style={styles.responseContentMessage}>
-      dahdahd hajhdfahdj hdjahdha hdajhdjah jdhajdhajhda
+      {props.message}
     </Text>
-    <Text style={styles.responseContentAttachmentsLabel}>
-      4 attachments:
-    </Text>
-    <Text style={styles.responseContentAttachmentName}>File 1 - Copy.png</Text>
-    <Text style={styles.responseContentAttachmentName}>File 1 - Copy.png</Text>
-    <Text style={styles.responseContentAttachmentName}>File 1 - Copy.png</Text>
-    <Text style={styles.responseContentAttachmentName}>File 1 - Copy.png</Text>
+
+    {props.attachments.length > 0 && (
+      <React.Fragment>
+        <Text style={styles.responseContentAttachmentsLabel}>
+          {props.attachments.length}
+          {props.attachments.length > 1 ? ' attachments' : ' attachment'} 
+        </Text>
+        {props.attachments.map((attachment) => (
+          <TouchableOpacity onPress={() => Linking.openURL(attachment.link)} key={attachment.id}>
+            <Text style={styles.responseContentAttachmentName}>
+              {attachment.filename}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </React.Fragment>
+    )}
   </View>
 ))
 
@@ -234,10 +243,7 @@ const styles = StyleSheet.create({
   },
   responseContent: {
     flexDirection: 'column', 
-    marginTop: 5
-  },
-  responseContentMessage: {
-    fontFamily: fonts.LATO_REGULAR,   
+    marginTop: 2
   },
   responseHeader: {
     flex: 1,
@@ -245,15 +251,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   responseHeaderTitle: {
-    fontFamily: fonts.LATO_REGULAR,    
-    fontSize: 15
+    fontFamily: fonts.LATO_BOLD,    
+    fontSize: 14.5
   },
   responseHeaderDetailsLeft: {
-    color: '#808080',    
+    color: '#808080',   
+    fontFamily: fonts.LATO_REGUL,    
+    fontSize: 13.5
   },
   responseHeaderDetailsRight: {
     color: '#808080',
-    textAlign: 'right'  
+    textAlign: 'right',
+    fontFamily: fonts.LATO_REGUL,    
+    fontSize: 13.5
   },
   responseHeaderBadge: {
     alignSelf: 'flex-end',
@@ -269,7 +279,9 @@ const styles = StyleSheet.create({
   },
   responseContentMessage: {
     color: '#808080',
-    marginTop: 8    
+    fontFamily: fonts.LATO_REGULAR, 
+    fontSize: 14,
+    marginTop: 4
   },
   responseContentAttachmentsLabel: {
     color: '#727272',

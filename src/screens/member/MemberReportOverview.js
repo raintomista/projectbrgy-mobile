@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
+import moment from 'moment';
 import { action, observable, runInAction } from 'mobx';
 import { FlatList, RefreshControl, StyleSheet, ScrollView, View } from 'react-native';
 import { 
@@ -27,9 +28,12 @@ import * as fonts from 'styles/fonts.js'
 @observer
 export default class MemberReportOverview extends Component {
   @observable page = 0;
+  @observable limit = 5;
+  @observable order = 'asc';
+  @observable skip = 0;
   @observable hasMore = true;
   @observable error = false;
-  @observable skip = 0;
+  @observable refreshing = false;
   @observable reportId= null;
   @observable report = null;
   @observable responses = [];
@@ -74,6 +78,25 @@ export default class MemberReportOverview extends Component {
     }
   }
 
+  @action
+  async refreshOverview() {
+      this.page = 1;
+      this.refreshing = true;
+      try {
+          await this.getReportById();
+          const response = await _getReportResponses(this.reportId, this.page, this.limit, this.order, this.skip);
+          runInAction(() => {
+            this.hasMore = true;
+            this.error = false;
+            this.refreshing = false;
+            this.responses = response.data.data.inquiry_admin_response;
+          });
+      } catch (e) {
+          runInAction(() => this.refreshing = false);
+          ToastAndroid.show(localized.NETWORK_ERROR, ToastAndroid.SHORT);
+      }
+  }
+
   async componentWillMount(){
     await RootStore.sessionStore.getLoggedUser();
     const params = NavigationService.getActiveScreenParams();
@@ -82,31 +105,41 @@ export default class MemberReportOverview extends Component {
     await this.getResponses();
   }
 
-
-
-  renderHeader(item) {
+  renderHeader(item, index) {
     return (
       <ReportResponseHeader
+        sender={RootStore.sessionStore.loggedUser.barangay_page_name}
+        receiver={'me'}
+        index={index}
+        dateCreated={this.formatDate(item.date_created)}
+        timeCreated={this.formatTime(item.date_created)}   
       />
-    )
+    );
   }
 
   renderContent(item) {
-    return <ReportResponseContent />
+    return (
+      <ReportResponseContent 
+        message={item.message}
+        attachments={item.attachments} 
+      />
+    );
   }
 
-  renderItem = ({item, index}) => (
-    <Card style={styles.responseCard}>
-      <CardItem style={{flexDirection: 'row'}}>
-        <Accordion
-          dataArray={[{a: 1}]}
-          renderHeader={this.renderHeader}
-          renderContent={this.renderContent}          
-          style={{flexGrow: 1}}
-        />
-      </CardItem>
-    </Card>
-  );
+  renderItem = ({item, index}) => {
+    return (
+      <Card style={styles.responseCard}>
+        <CardItem style={styles.responseCardItem}>
+          <Accordion
+            dataArray={[{a: 1}]}
+            renderHeader={() => this.renderHeader(item, index)}
+            renderContent={() => this.renderContent(item)}          
+            style={{flexGrow: 1}}
+          />
+        </CardItem>
+      </Card>
+    )
+  }
 
   renderLoader(hasMore) {
     if(hasMore === false) return null;
@@ -114,6 +147,7 @@ export default class MemberReportOverview extends Component {
   }
 
   renderList(responses, hasMore, error) {
+    console.log(responses)
     return (
       <FlatList
         data={Array.from(responses)}
@@ -135,7 +169,15 @@ export default class MemberReportOverview extends Component {
         <View style={styles.view}>
           {!this.report && <Spinner color={colors.PRIMARY} />}
           {this.report && (
-            <ScrollView>
+            <ScrollView
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.refreshing}
+                  onRefresh={() => this.handleRefresh()}
+                  colors={[colors.PRIMARY]}
+                />
+              }
+            >
               <ReportOverviewItem
                 dateCreated={this.report.inquiry_date_created}    
                 reportType={this.report.inquiry_report_type}
@@ -155,6 +197,18 @@ export default class MemberReportOverview extends Component {
       this.getResponses();
     }
   }
+
+  handleRefresh() {
+    this.refreshOverview();
+  }
+
+  formatDate(date) {
+    return moment(date).format('MMM DD, YYYY')
+  }
+
+  formatTime(date) {
+    return moment(date).format('hh:mm:ss a')
+  }
 }
 
 const styles = StyleSheet.create({
@@ -165,6 +219,11 @@ const styles = StyleSheet.create({
     marginTop: 0,
     marginLeft: 12,
     marginRight: 12,
-    marginBottom: 12
+    marginBottom: 12,
+  },
+  responseCardItem: {
+    flexDirection: 'row',
+    paddingTop: 14,
+    paddingBottom: 15.5
   }
 });

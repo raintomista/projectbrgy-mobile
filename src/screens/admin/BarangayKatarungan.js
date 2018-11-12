@@ -77,7 +77,7 @@ export default class BarangayKatarungan extends Component {
     rowData.push(this.renderCell(this.formatDate(item.date_created), item.status));
 
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => this.handlePress(item, index)}>
         <Row 
           key={index}
           data={rowData} 
@@ -157,6 +157,15 @@ export default class BarangayKatarungan extends Component {
 
   formatDate(date) {
     return moment(date).format('MMM D, YYYY [at] h:mm a');
+  }
+
+  @action
+  handlePress(item, index) {
+    const newData = this.tableData.slice();
+    newData[index].status = 'read';
+    
+    runInAction(() => this.tableData = newData);
+    NavigationService.push('ComplaintOverview', { inquiryId: item.id});
   }
 }
 

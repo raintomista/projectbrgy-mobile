@@ -10,3 +10,12 @@ export async function getAllComplaints(brgyId, page, limit, order) {
         }
     });
 }
+
+export async function getComplaint(id) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios.get(`${API_HOST}/katarungang-pambarangay/${id}`, {
+        headers: {
+            'x-access-token': token
+        }
+    })
+}

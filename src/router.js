@@ -31,6 +31,7 @@ import Search from 'screens/shared/search/Search';
 
 import BarangayResidents from 'screens/admin/BarangayResidents';
 import BarangayKatarungan from 'screens/admin/BarangayKatarungan';
+import KatarunganOverview from 'screens/admin/KatarunganOverview';
 
 
 const MemberHomeStack = createStackNavigator({
@@ -212,9 +213,27 @@ export const MemberDrawer = createDrawerNavigator({
   initialRouteName: 'Home'
 })
 
+
+
 // Admin Routes
+
+const KatarunganStack = createStackNavigator({
+  Complaints: { 
+    screen: BarangayKatarungan,
+    navigationOptions: { header: null }
+  },
+  ComplaintOverview: {
+    screen: KatarunganOverview,
+    navigationOptions: { header: null }
+  }
+});
+
+
+
+
+
 export const AdminDrawer = createDrawerNavigator({
-  KatarunganEService: { screen: BarangayKatarungan },
+  KatarunganEService: { screen:  KatarunganStack },
   MyResidents: { screen: BarangayResidents },
 });
 

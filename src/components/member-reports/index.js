@@ -101,7 +101,7 @@ export const BarangayReportItem = observer((props) => {
       onPress={props.handlePress}
     >
       <Card style={[styles.card, props.index === 0 && styles.cardFirstChild]}>
-        <CardItem>
+        <CardItem style={{paddingTop: 15}}>
           <Body>
           <Text style={styles.cardTitle}>
             {capitalize(props.reportType)} Report
@@ -113,13 +113,13 @@ export const BarangayReportItem = observer((props) => {
           }      
           </Body>              
         </CardItem>
-        <CardItem style={styles.cardBody}>
+        <CardItem style={[styles.cardBody, {paddingBottom: 17}]}>
           <Body>
             <Text note numberOfLines={1}>{props.message}</Text>
           </Body>
         </CardItem>
         {props.status && (
-          <CardItem style={{justifyContent: 'flex-end', alignItems: 'center', paddingTop: 0}}>
+          <CardItem style={{justifyContent: 'flex-end', alignItems: 'center', marginTop: -5, paddingTop: 0, paddingBottom: 17}}>
             <FontAwesome5 
               name={icon} 
               color={iconColor} 

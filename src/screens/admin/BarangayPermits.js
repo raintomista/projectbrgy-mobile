@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   tableHeaderText: {
     color: colors.PRIMARY,
     fontFamily: fonts.LATO_BOLD,
-    fontSize: 16.5,
+    fontSize: 16,
     paddingHorizontal: 10,
     paddingVertical: 15
   },
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   tableDataText: {
     color: colors.DARK,
     fontFamily: fonts.LATO_REGULAR,
-    fontSize: 16.5,
+    fontSize: 16,
   },
   tableDataUnreadRow: {
     backgroundColor: '#dee2e6',
@@ -213,6 +213,6 @@ const styles = StyleSheet.create({
   tableDataUnreadText: {
     color: colors.DARK,
     fontFamily: fonts.LATO_BOLD,
-    fontSize: 16.5,
+    fontSize: 16,
   },
 });

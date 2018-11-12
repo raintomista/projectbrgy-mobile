@@ -129,17 +129,17 @@ const styles = StyleSheet.create({
   overviewDetailLabel: {
     color: colors.PRIMARY,
     fontFamily: fonts.LATO_BOLD,
-    fontSize: 16.5
+    fontSize: 16
   },
   overviewDetailText: {
     color: colors.PRIMARY,
     fontFamily: fonts.LATO_REGULAR,
-    fontSize: 16.5
+    fontSize: 16
   },
   attachment: {
     color: colors.PRIMARY,
     fontFamily: fonts.LATO_REGULAR,
-    fontSize: 16.5,
+    fontSize: 16,
     marginLeft: 5,
     marginBottom: 5,
     textDecorationLine: "underline"

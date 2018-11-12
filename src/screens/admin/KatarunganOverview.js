@@ -112,17 +112,17 @@ const styles = StyleSheet.create({
   overviewTitle: {
     color: colors.PRIMARY,
     fontFamily: fonts.MONTSERRAT_BOLD,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'normal',
   },
   overviewDetailLabel: {
     color: colors.PRIMARY,
     fontFamily: fonts.LATO_BOLD,
-    fontSize: 17
+    fontSize: 16
   },
   overviewDetailText: {
     color: colors.PRIMARY,
     fontFamily: fonts.LATO_REGULAR,
-    fontSize: 17,
+    fontSize: 16,
   }
 });

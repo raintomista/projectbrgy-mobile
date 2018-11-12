@@ -12,6 +12,15 @@ export async function getAllPermits(brgyId, page, limit) {
     });
 }
 
+export async function getPermit(id) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios.get(`${API_HOST}/business-permit/${id}`, {
+        headers: {
+            'x-access-token': token
+        }
+    });
+}
+
 export async function getAllComplaints(brgyId, page, limit, order) {
     const token = await AsyncStorage.getItem('x-access-token');
     return axios.get(`${API_HOST}/katarungang-pambarangay/requests/admin/${brgyId}?page=${page}&limit=${limit}&order=${order}`, {

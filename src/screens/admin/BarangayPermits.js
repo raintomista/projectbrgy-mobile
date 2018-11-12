@@ -19,7 +19,7 @@ export default class BarangayPermits extends Component {
   @observable hasMore = true;
 
   @observable tableHeader = ['Applicant Name', ' Business Name', 'Request Date'];
-  @observable tableWidth = [200, 200, 200];
+  @observable tableWidth = [200, 200, 210];
   @observable tableData = null;
 
   @action
@@ -37,7 +37,7 @@ export default class BarangayPermits extends Component {
         });
       } else {
         runInAction(() => {
-          this.tableData = [];
+          this.tableData.push(...response.data.data.business_permit);
           this.hasMore = false;
           this.error = true;
         });
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   tableHeaderText: {
     color: colors.PRIMARY,
     fontFamily: fonts.LATO_BOLD,
-    fontSize: 15,
+    fontSize: 16.5,
     paddingHorizontal: 10,
     paddingVertical: 15
   },
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   tableDataText: {
     color: colors.DARK,
     fontFamily: fonts.LATO_REGULAR,
-    fontSize: 15,
+    fontSize: 16.5,
   },
   tableDataUnreadRow: {
     backgroundColor: '#dee2e6',
@@ -213,6 +213,6 @@ const styles = StyleSheet.create({
   tableDataUnreadText: {
     color: colors.DARK,
     fontFamily: fonts.LATO_BOLD,
-    fontSize: 15,
+    fontSize: 16.5,
   },
 });

@@ -33,6 +33,8 @@ import BarangayResidents from 'screens/admin/BarangayResidents';
 import BarangayKatarungan from 'screens/admin/BarangayKatarungan';
 import KatarunganOverview from 'screens/admin/KatarunganOverview';
 
+import BarangayPermits from 'screens/admin/BarangayPermits';
+import PermitOverview from 'screens/admin/PermitOverview';
 
 const MemberHomeStack = createStackNavigator({
   Home: {
@@ -217,6 +219,18 @@ export const MemberDrawer = createDrawerNavigator({
 
 // Admin Routes
 
+
+const PermitStack = createStackNavigator({
+  PermitRequests: {
+    screen: BarangayPermits,
+    navigationOptions: { header: null }
+  },
+  PermitOverview: {
+    screen: PermitOverview,
+    navigationOptions: { header: null }
+  }
+});
+
 const KatarunganStack = createStackNavigator({
   Complaints: { 
     screen: BarangayKatarungan,
@@ -228,13 +242,10 @@ const KatarunganStack = createStackNavigator({
   }
 });
 
-
-
-
-
 export const AdminDrawer = createDrawerNavigator({
-  KatarunganEService: { screen:  KatarunganStack },
+  BusinessPermit: { screen:  PermitStack },
   MyResidents: { screen: BarangayResidents },
+  KatarunganPambarangay: { screen:  KatarunganStack },
 });
 
 

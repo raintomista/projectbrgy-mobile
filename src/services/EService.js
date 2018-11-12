@@ -12,6 +12,15 @@ export async function getAllClearances(brgyId, page, limit) {
     });
 }
 
+export async function getClearance(id) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios.get(`${API_HOST}/barangay-clearance/${id}`, {
+        headers: {
+            'x-access-token': token
+        }
+    });
+}
+
 export async function getAllPermits(brgyId, page, limit) {
     const token = await AsyncStorage.getItem('x-access-token');
     return axios.get(`${API_HOST}/business-permit/requests/admin/${brgyId}?page=${page}&limit=${limit}&order=desc`, {

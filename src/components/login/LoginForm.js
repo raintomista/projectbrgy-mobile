@@ -47,7 +47,9 @@ export default class LoginForm extends MobxReactForm {
           const response = await loginUser(email, password);
           await AsyncStorage.setItem('x-access-token', response.data.data.token);
           await AsyncStorage.setItem('user-id', response.data.data.id);
+          await AsyncStorage.setItem('user-role', response.data.data.role);          
           await AsyncStorage.setItem('brgy-id', response.data.data.barangay_id);
+          
           
           // Disable Form
           this.$('email').set('disabled', false);

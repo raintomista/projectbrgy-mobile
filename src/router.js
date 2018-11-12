@@ -28,6 +28,9 @@ import Comments from 'screens/shared/comments/Comments';
 
 import Search from 'screens/shared/search/Search';
 
+
+import BarangayResidents from 'screens/admin/BarangayResidents';
+
 const MemberHomeStack = createStackNavigator({
   Home: {
     screen: MemberHome,
@@ -207,6 +210,12 @@ export const MemberDrawer = createDrawerNavigator({
   initialRouteName: 'Home'
 })
 
+// Admin Routes
+export const AdminDrawer = createDrawerNavigator({
+  MyResidents: { screen: BarangayResidents },
+});
+
+
 export const AppStack = createSwitchNavigator({
   Login: {
     screen: Login,
@@ -220,7 +229,13 @@ export const AppStack = createSwitchNavigator({
     navigationOptions: {
       header: null,
     }
+  },
+  AdminDrawer: {
+    screen: AdminDrawer,
+    navigationOptions: {
+      header: null,
+    }
   }
 }, {
-  initialRouteName: 'MemberDrawer'
+  initialRouteName: 'AdminDrawer'
 });

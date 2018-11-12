@@ -94,7 +94,7 @@ export const Lightbox = observer((props) => (
 ));
 
 export const AnnouncementCard = observer((props) => (
-  <Card style={[styles.card, props.index == 0 ? {marginTop: 12} : null]}>
+  <Card style={[styles.card, props.index == 0 ? {marginTop: 8} : null]}>
     <CardItem style={{paddingTop: 18}}>
       <Left style={{minWidth: 200}}>
         <TouchableOpacity onPress={props.handleViewPage}>
@@ -267,11 +267,13 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
     elevation: 0,
     marginTop: 0,
-    marginBottom: 12,
-    marginLeft: 12,
-    marginRight: 12
+    marginBottom: 8,
+    marginLeft: 0,
+    marginRight: 0
   },
   cardAvatar: {
     borderColor: colors.PRIMARY,
@@ -305,7 +307,7 @@ const styles = StyleSheet.create({
   },
   cardImageAttachment: {
     backgroundColor: colors.GRAY,
-    width: Dimensions.get('window').width - 20, 
+    width: Dimensions.get('window').width, 
     marginTop: 8,
     minHeight: 250
   },

@@ -26,6 +26,8 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import BrgyAvatar from '../../../assets/images/default-brgy.png';
+
+import BarangayPosts from 'screens/shared/barangay-page/BarangayPosts';
 import NavigationService from 'services/NavigationService';
 import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
@@ -43,7 +45,7 @@ export const BarangayPageCard = observer((props) => (
       style={styles.brgyPageAvatar}
     />
     <Card style={styles.brgyPageCard}> 
-      <CardItem>
+      <CardItem style={{ paddingBottom: 0 }}>
         <Body>
           <Text 
             style={styles.brgyPageName}
@@ -253,6 +255,7 @@ export const FeedTabs = observer((props) => (
   <Tabs 
     style={styles.brgyPageTabs}
     tabBarUnderlineStyle={styles.brgyPageTabLine}
+    tabContainerStyle={{elevation: 0}}
   >
     <Tab 
       heading="Posts"
@@ -261,7 +264,9 @@ export const FeedTabs = observer((props) => (
       activeTabStyle={styles.brgyPageTab}
       activeTextStyle={styles.brgyPageTabText}
     >
-
+      <BarangayPosts
+        brgyId={props.brgyId}
+      />
     </Tab>
     <Tab 
       heading="Shared Posts"
@@ -304,7 +309,7 @@ const styles = StyleSheet.create({
     marginRight: 0,
     marginBottom: 0,
     paddingTop: 65,
-    paddingBottom: 15,
+    paddingBottom: 0,
     width: Dimensions.get('window').width, 
   },
   brgyPageName: {
@@ -391,7 +396,8 @@ const styles = StyleSheet.create({
     color: colors.PRIMARY,    
     fontFamily: fonts.LATO_REGULAR,
     fontSize: 15,
-    paddingTop: 25,
+    paddingTop: 21,
+    paddingBottom: 7,
     textAlign: 'center'    
   },
   brgyPageStatBtn: {
@@ -411,6 +417,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   brgyPageTabs: {
+    marginTop: -38
     // position: 'absolute', 
     // top: 500,
     // zIndex: 5
@@ -419,7 +426,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.PRIMARY
   },
   brgyPageTab: {
-    backgroundColor: colors.LIGHT
+    backgroundColor: colors.LIGHT,
+    elevation: 0,
+    
   },
   brgyPageTabText: {
     color: colors.PRIMARY,

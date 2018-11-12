@@ -30,6 +30,8 @@ import Search from 'screens/shared/search/Search';
 
 
 import BarangayResidents from 'screens/admin/BarangayResidents';
+import BarangayKatarungan from 'screens/admin/BarangayKatarungan';
+
 
 const MemberHomeStack = createStackNavigator({
   Home: {
@@ -212,6 +214,7 @@ export const MemberDrawer = createDrawerNavigator({
 
 // Admin Routes
 export const AdminDrawer = createDrawerNavigator({
+  KatarunganEService: { screen: BarangayKatarungan },
   MyResidents: { screen: BarangayResidents },
 });
 

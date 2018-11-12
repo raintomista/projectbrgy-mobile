@@ -43,7 +43,7 @@ export default class PermitOverview extends Component {
   render() {
     return (
       <Container>
-        <HeaderWithGoBack title="Permit Overview" />
+        <HeaderWithGoBack title="Overview" />
         <Content style={styles.view} padder>
           {!this.inquiry && <Spinner color={colors.PRIMARY} />}
           {this.inquiry && (

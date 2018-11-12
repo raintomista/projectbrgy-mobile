@@ -41,7 +41,7 @@ export default class BarangayKatarungan extends Component {
           if(!this.tableData) {
             this.tableData = [];
           } else {
-            this.tableData.push(...response.data.data.barangay_clearance);
+            this.tableData.push(...response.data.data.katarungang_pambarangay);
           }
           this.hasMore = false;
           this.error = true;

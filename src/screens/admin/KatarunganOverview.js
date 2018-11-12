@@ -43,7 +43,7 @@ export default class KatarunganOverview extends Component {
   render() {
     return (
       <Container>
-        <HeaderWithGoBack title="Complaint Overview" />
+        <HeaderWithGoBack title="Overview" />
         <View style={styles.view}>
           {!this.inquiry && <Spinner color={colors.PRIMARY} />}
           {this.inquiry && (

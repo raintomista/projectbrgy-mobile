@@ -40,7 +40,7 @@ export default class BarangayPermits extends Component {
           if(!this.tableData) {
             this.tableData = [];
           } else {
-            this.tableData.push(...response.data.data.barangay_clearance);
+            this.tableData.push(...response.data.data.business_permit);
           }
           this.hasMore = false;
           this.error = true;

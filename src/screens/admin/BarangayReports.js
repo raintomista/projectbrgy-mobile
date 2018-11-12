@@ -75,6 +75,7 @@ export default class BarangayReports extends Component {
         message={item.inquiry_message}
         status={item.inquiry_status}
         index={index}
+        handlePress={() => this.handlePress(item.inquiry_id, index)}
       />
     )
   }
@@ -125,6 +126,15 @@ export default class BarangayReports extends Component {
 
   handleRefresh(refreshing) {
     this.refreshReports();
+  }
+
+  @action
+  handlePress(reportId, index) {
+    const newReports = this.reports.slice();
+    newReports[index].inquiry_status = newReports[index].inquiry_status === 'unread' ? 'read' : newReports[index].inquiry_status;
+    this.reports = newReports;
+    NavigationService.push('ReportOverview', { reportId });
+    
   }
 }
 

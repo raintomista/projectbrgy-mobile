@@ -98,10 +98,7 @@ export const BarangayReportItem = observer((props) => {
 
   return (
     <TouchableNativeFeedback 
-      onPress={async () => {
-        NavigationService.push('ReportOverview', { reportId: props.reportId });
-        await RootStore.reportStore.setReportId(props.reportId);
-      }}
+      onPress={props.handlePress}
     >
       <Card style={[styles.card, props.index === 0 && styles.cardFirstChild]}>
         <CardItem>
@@ -109,7 +106,11 @@ export const BarangayReportItem = observer((props) => {
           <Text style={styles.cardTitle}>
             {capitalize(props.reportType)} Report
           </Text>
-          <Text note numberOfLines={1}>by {props.author} &middot; {formatDate(props.dateUpdated)}</Text>     
+
+          {props.committeeType 
+            ? <Text note numberOfLines={1}>{capitalize(props.committeeType)} &middot; by {props.author} &middot; {formatDate(props.dateCreated)}</Text>  
+            : <Text note numberOfLines={1}>by {props.author} &middot; {formatDate(props.dateCreated)}</Text>   
+          }      
           </Body>              
         </CardItem>
         <CardItem style={styles.cardBody}>
@@ -117,17 +118,19 @@ export const BarangayReportItem = observer((props) => {
             <Text note numberOfLines={1}>{props.message}</Text>
           </Body>
         </CardItem>
-        <CardItem style={{justifyContent: 'flex-end', alignItems: 'center', paddingTop: 0}}>
-          <FontAwesome5 
-            name={icon} 
-            color={iconColor} 
-            size={9} 
-            solid
-          />
-          <Text uppercase={true} style={styles.reportStatusText}>
-            {status}
-          </Text>
-        </CardItem>
+        {props.status && (
+          <CardItem style={{justifyContent: 'flex-end', alignItems: 'center', paddingTop: 0}}>
+            <FontAwesome5 
+              name={icon} 
+              color={iconColor} 
+              size={9} 
+              solid
+            />
+            <Text uppercase={true} style={styles.reportStatusText}>
+              {status}
+            </Text>
+          </CardItem>
+        )}
       </Card>
     </TouchableNativeFeedback>
   );

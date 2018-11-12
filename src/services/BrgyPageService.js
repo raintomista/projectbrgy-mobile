@@ -55,3 +55,13 @@ export async function unfollowBrgy(brgyId) {
         }
     });
 }
+
+
+export async function getResidents(brgyId) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios.get(`${API_HOST}/barangay/${brgyId}/residents`, {
+        headers: {
+            'x-access-token': token
+        }
+    });
+}

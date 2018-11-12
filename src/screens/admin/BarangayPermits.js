@@ -37,7 +37,11 @@ export default class BarangayPermits extends Component {
         });
       } else {
         runInAction(() => {
-          this.tableData.push(...response.data.data.business_permit);
+          if(!this.tableData) {
+            this.tableData = [];
+          } else {
+            this.tableData.push(...response.data.data.barangay_clearance);
+          }
           this.hasMore = false;
           this.error = true;
         });
@@ -155,7 +159,7 @@ export default class BarangayPermits extends Component {
   }
 
   formatDate(date) {
-    return moment(date).format('MMM D, YYYY [at] h:mm a');
+    return moment(date).format('MMM D, YYYY hh:mm a');
   }
 
   @action

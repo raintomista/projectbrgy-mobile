@@ -38,6 +38,11 @@ export default class BarangayKatarungan extends Component {
         });
       } else {
         runInAction(() => {
+          if(!this.tableData) {
+            this.tableData = [];
+          } else {
+            this.tableData.push(...response.data.data.barangay_clearance);
+          }
           this.hasMore = false;
           this.error = true;
         });
@@ -156,7 +161,7 @@ export default class BarangayKatarungan extends Component {
   }
 
   formatDate(date) {
-    return moment(date).format('MMM D, YYYY [at] h:mm a');
+    return moment(date).format('MMM D, YYYY hh:mm a');
   }
 
   @action

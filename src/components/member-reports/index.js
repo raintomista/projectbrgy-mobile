@@ -20,6 +20,8 @@ import {
     View,
   } from 'native-base';
 import moment from 'moment';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
 import NavigationService from 'services/NavigationService';
 import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
@@ -78,6 +80,58 @@ export const RespondedReportItem = observer((props) => (
     </Card>
   </TouchableNativeFeedback>
 ));
+
+
+export const BarangayReportItem = observer((props) => {
+  let icon = 'circle';
+  let iconColor = '#808080'
+  let status = 'unread';
+
+  if(props.status === 'read') {
+    icon = 'dot-circle'
+    status = 'read';
+  } else if(props.status === 'responded') {
+    icon = 'dot-circle'
+    iconColor = '#18976d';
+    status = 'responded';
+  }
+
+  return (
+    <TouchableNativeFeedback 
+      onPress={async () => {
+        NavigationService.push('ReportOverview', { reportId: props.reportId });
+        await RootStore.reportStore.setReportId(props.reportId);
+      }}
+    >
+      <Card style={[styles.card, props.index === 0 && styles.cardFirstChild]}>
+        <CardItem>
+          <Body>
+          <Text style={styles.cardTitle}>
+            {capitalize(props.reportType)} Report
+          </Text>
+          <Text note numberOfLines={1}>by {props.author} &middot; {formatDate(props.dateUpdated)}</Text>     
+          </Body>              
+        </CardItem>
+        <CardItem style={styles.cardBody}>
+          <Body>
+            <Text note numberOfLines={1}>{props.message}</Text>
+          </Body>
+        </CardItem>
+        <CardItem style={{justifyContent: 'flex-end', alignItems: 'center', paddingTop: 0}}>
+          <FontAwesome5 
+            name={icon} 
+            color={iconColor} 
+            size={9} 
+            solid
+          />
+          <Text uppercase={true} style={styles.reportStatusText}>
+            {status}
+          </Text>
+        </CardItem>
+      </Card>
+    </TouchableNativeFeedback>
+  );
+});
 
 export const ReportOverviewItem = observer((props) => (
   <Card style={[styles.card, {marginTop: 12, marginBottom: 12}]}>
@@ -256,13 +310,13 @@ const styles = StyleSheet.create({
   },
   responseHeaderDetailsLeft: {
     color: '#808080',   
-    fontFamily: fonts.LATO_REGUL,    
+    fontFamily: fonts.LATO_REGULAR,    
     fontSize: 13.5
   },
   responseHeaderDetailsRight: {
     color: '#808080',
     textAlign: 'right',
-    fontFamily: fonts.LATO_REGUL,    
+    fontFamily: fonts.LATO_REGULAR,    
     fontSize: 13.5
   },
   responseHeaderBadge: {
@@ -310,5 +364,11 @@ const styles = StyleSheet.create({
   },
   textAreaError: {
     backgroundColor: '#fb8383',
+  },
+  reportStatusText: {
+    color: '#808080',
+    fontFamily: fonts.LATO_REGULAR,    
+    fontSize: 12,
+    marginLeft: 5
   }
 });

@@ -120,7 +120,9 @@ export default class BarangayPage extends Component {
                 landline={this.brgyData.landline_number}
                 website={this.brgyData.website}
               />
-              <FeedTabs />
+              <FeedTabs 
+                brgyId={this.brgyData.id}
+              />
             </ScrollView>
           </View>
         )}

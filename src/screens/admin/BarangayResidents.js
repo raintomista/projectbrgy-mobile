@@ -20,7 +20,13 @@ export default class BarangayResidents extends Component {
   async getMyResidents(brgyId) {
     try {
       const response = await getResidents(brgyId);
-      runInAction(() => this.tableData = response.data.data.items);
+      runInAction(() => {
+        if(response.data.data.items.length > 0) {
+          this.tableData = response.data.data.items
+        } else {
+          this.tableData = [];
+        }
+      });
     } catch(e) {
       ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
     }
@@ -55,7 +61,7 @@ export default class BarangayResidents extends Component {
                 </Table>
                   <ScrollView>
                     <Table borderStyle={{ borderWidth: 0}} style={styles.tableData}>
-                      {this.tableData.length > 0 && this.tableData.map((data, index) => {
+                      {this.tableData.map((data, index) => {
                         const rowData = [];
                         rowData.push(index+1);
                         rowData.push(`${data.first_name} ${data.last_name}`);

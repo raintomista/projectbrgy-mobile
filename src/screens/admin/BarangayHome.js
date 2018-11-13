@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, Linking, RefreshControl, StyleSheet, ToastAndroid, View } from 'react-native';
+import { Alert, AsyncStorage, FlatList, Linking, RefreshControl, StyleSheet, ToastAndroid, View } from 'react-native';
 import { ActionSheet, Container, Icon, Fab, Spinner } from 'native-base';
 import { observer } from 'mobx-react';
 import Moment from 'moment';
@@ -8,7 +8,7 @@ import { action, observable, runInAction } from 'mobx';
 import { AnnouncementCard, HeaderWithDrawer, Lightbox } from 'components/common';
 import NavigationService from 'services/NavigationService';
 import { getNewsfeedPosts } from 'services/NewsfeedService';
-import { likePost, unlikePost } from 'services/PostService';
+import { deletePost, likePost, unlikePost } from 'services/PostService';
 import RootStore from 'stores/RootStore';
 import * as localized from 'localization/en';
 import * as colors from 'styles/colors'
@@ -86,7 +86,7 @@ export default class BarangayHomeF extends Component {
       shareCount={this.formatValue(item.share_count)}
       attachment={item.attachments.length == 1 ? item.attachments[0] : null}
       handleViewPage={() => this.handleViewPage(item.barangay_page_id)}
-      handleOptions={() => this.handleOptions(item.barangay_page_id)}
+      handleOptions={() => this.handleOptions(item.post_id, item.barangay_page_id, index)}
       handleViewImage={() => this.handleViewImage(item.attachments[0].link)}
       handleToggleLike={() => this.handleToggleLike(index)}
       handleViewComments={() => this.handleViewComments(item.post_id)}
@@ -164,16 +164,29 @@ export default class BarangayHomeF extends Component {
     NavigationService.navigate('BarangayPage', { brgyId });
   }
 
-  handleOptions(brgyId) {
-    const BUTTONS = ['View Barangay Page', 'Cancel'];
-    const CANCEL_INDEX = 1;
+  async handleOptions(postId, brgyId, index) {
+    const loggedBrgyId = await AsyncStorage.getItem('brgy-id');    
+    const BUTTONS = ['View Barangay Page', 'Delete Post', 'Cancel'];
+    const DESTRUCTIVE_INDEX = 1;
+    let CANCEL_INDEX = 2;
+    
+
+    if(brgyId !== loggedBrgyId) {
+      BUTTONS.splice(1, 1);
+      CANCEL_INDEX = 1;
+    }
+
     ActionSheet.show({
       options: BUTTONS,
+      destructiveButtonIndex: DESTRUCTIVE_INDEX,
       cancelButtonIndex: CANCEL_INDEX,
     }, buttonIndex => {
-      switch(buttonIndex) {
-        case 0:
+      switch(BUTTONS[buttonIndex]) {
+        case 'View Barangay Page':
           this.handleViewPage(brgyId);
+          break;
+        case 'Delete Post':
+          this.handleDelete(postId, index);
           break;
       }
     });
@@ -184,6 +197,29 @@ export default class BarangayHomeF extends Component {
     const imageUrl = url.replace('?dl=0', '?dl=1');
     this.images = [{url: imageUrl}];
     this.toggleImageViewer();
+  }
+
+  @action 
+  async handleDelete(postId, index) {
+    Alert.alert(
+      'Delete announcement',
+      'Are you sure you want to delete this announcement?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'Delete', onPress: async () => {
+          try {
+            await deletePost(postId);
+            runInAction(() => {
+              this.announcements.splice(index, 1);
+            });
+            ToastAndroid.show(localized.DELETE_POST_SUCCESS, ToastAndroid.SHORT);      
+          } catch(e) {
+            ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+          }
+        }},
+      ],
+      { cancelable: false }
+    );
   }
 
   @action

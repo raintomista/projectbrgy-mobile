@@ -19,5 +19,6 @@ export const SHARE_SUCCESS = 'Successfully shared an announcement';
 export const RESPOND_SUCCESS = 'Successfully added a response'
 
 export const POST_SUCCESS = 'Successfully posted an announcement';
-;
 
+
+export const DELETE_POST_SUCCESS = 'Successfully deleted an announcement';

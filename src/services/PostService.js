@@ -51,3 +51,14 @@ export async function createPost(formData) {
         data: formData
     });
 }
+
+export async function deletePost(postId) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios({
+        url: `${API_HOST}/post/${postId}`,
+        method: 'delete',
+        headers: {
+            'x-access-token': token
+        }
+    });
+}

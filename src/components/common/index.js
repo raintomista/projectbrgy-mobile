@@ -175,7 +175,7 @@ export const AnnouncementCard = observer((props) => (
               <Text style={styles.cardStatText}>
                 {props.commentCount > 1 
                   ? `${props.commentCount} Comments`
-                  : `${props.commentCount} Commment`
+                  : `${props.commentCount} Comment`
                 }
               </Text>
             </TouchableOpacity>

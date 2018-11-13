@@ -81,10 +81,12 @@ export default class Comments extends Component {
       authorName={item.user_role === 'barangay_page_admin' ? item.barangay_page_name : `${item.user_first_name} ${item.user_last_name}`}
       authorRole={item.user_role}
       authorId={item.user_id}
+      authorBrgyId={item.barangay_page_id}
       message={item.comment_message}
       dateCreated={this.formatDate(item.comment_date_created)}
       loggedUserRole={RootStore.sessionStore.loggedUser.user_role}
       loggedUserId={RootStore.sessionStore.loggedUser.user_id}
+      loggedUserBrgyId={RootStore.sessionStore.loggedUser.barangay_page_id}
       handleDelete={() => this.handleDelete(item.comment_id, index)}
     /> 
   );
@@ -151,9 +153,9 @@ export default class Comments extends Component {
   }
 
   async handleSubmit(e, hasMore, refreshing) {
-    await this.form.onSubmit(e);
-    await this.refreshComments()
-    await this.flatList.scrollToOffset({ offset: 0, animated: true });
+    this.form.onSubmit(e)
+    NavigationService.pop();
+    NavigationService.navigate('Comments', { postId: this.postId });
   }
 
   handleLoadMore() {

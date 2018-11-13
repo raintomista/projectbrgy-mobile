@@ -162,7 +162,15 @@ const MyBarangayStack = createStackNavigator({
   ProfileInformation: {
     screen: ProfileInformation,
     navigationOptions: { header: null }
-  }
+  },
+  Share: {
+    screen: Share,
+    navigationOptions: { header: null }  
+  },
+  Comments: {
+    screen: Comments,
+    navigationOptions: { header: null }
+  },
 });
 
 const ProfileStack = createStackNavigator({

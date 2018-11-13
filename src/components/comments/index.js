@@ -25,14 +25,15 @@ export const Comment = observer((props) => (
         </Badge>
         <View style={{flexDirection: 'row'}}>
             <Text style={styles.commentDetails}>{props.dateCreated}</Text>
-          {props.authorId === props.loggedUserId && (
-            <React.Fragment>
-              <Text style={styles.commentDetails}> &middot; </Text>   
-              <TouchableOpacity onPress={props.handleDelete}>
-                <Text style={styles.commentButton}>Delete</Text>      
-              </TouchableOpacity>  
-            </React.Fragment>
-          )} 
+            {((props.authorId === props.loggedUserId && props.authorRole ==='barangay_member') 
+            || (props.authorBrgyId === props.loggedUserBrgyId && props.authorRole === 'barangay_page_admin')) && (
+              <React.Fragment>
+                <Text style={styles.commentDetails}> &middot; </Text>   
+                <TouchableOpacity onPress={props.handleDelete}>
+                  <Text style={styles.commentButton}>Delete</Text>      
+                </TouchableOpacity>  
+              </React.Fragment>
+            )} 
         </View>
       </View>
     </Body>
@@ -85,7 +86,6 @@ const styles = StyleSheet.create({
     color: 'gray',
     fontFamily: fonts.LATO_REGULAR,
     fontSize: 14,
-    marginLeft: 5
   },
   commentButton: {
     color: colors.PRIMARY,

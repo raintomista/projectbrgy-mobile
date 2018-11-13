@@ -33,64 +33,70 @@ import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
-export const BarangayPageCard = observer((props) => (
-  <View style={{flex: 1, minHeight: 500}}>
-    <LinearGradient 
-      colors={[colors.PRIMARY, colors.SECONDARY]} 
-      style={styles.brgyPageHeader}
-    />
-    <Thumbnail 
-      circle 
-      source={BrgyAvatar} 
-      style={styles.brgyPageAvatar}
-    />
-    <Card style={styles.brgyPageCard}> 
-      <CardItem style={{ paddingBottom: 0 }}>
-        <Body>
-          <Text 
-            style={styles.brgyPageName}
-            numberOfLines={3}>
-              {props.name}
-          </Text>
-          <Text style={styles.brgyPageLocation}>
-            {props.municipality}
-          </Text>
-          <View style={styles.brgyPageButtons}>
-            {props.isFollowing
-              ? <FollowingButton handleUnfollow={props.handleUnfollow} />
-              : <FollowButton handleFollow={props.handleFollow} />
-            }
-            
-            <MessageButton label="Message" />            
-          </View>
-          <Grid>
-            <Col>
-              <StatCount
-                label="Following"
-                value={props.followingCount}
-                navigationKey="BarangayFollowing"
-                id={props.id}
-              />
-            </Col>
-            <Col>
-              <StatCount
-                label="Followers"
-                value={props.followersCount}
-                navigationKey="BarangayFollowers" 
-                id={props.id}               
-              />
-            </Col>
-          </Grid>
-          <SeeMoreButton 
-            email={props.email}
-            landline={props.landline}
-            website={props.website}
-          />
-        </Body>
-      </CardItem>
-    </Card>
-  </View>
-));
+export const BarangayPageCard = observer((props) => {
+  const { barangay_page_id: loggedBrgyId, user_role: loggedRole } = RootStore.sessionStore.loggedUser;
+  
+  return (
+    <View style={{flex: 1, minHeight: 500}}>
+      <LinearGradient 
+        colors={[colors.PRIMARY, colors.SECONDARY]} 
+        style={styles.brgyPageHeader}
+      />
+      <Thumbnail 
+        circle 
+        source={BrgyAvatar} 
+        style={styles.brgyPageAvatar}
+      />
+      <Card style={styles.brgyPageCard}> 
+        <CardItem>
+          <Body>
+            <Text 
+              style={styles.brgyPageName}
+              numberOfLines={3}>
+                {props.name}
+            </Text>
+            <Text style={styles.brgyPageLocation}>
+              {props.municipality}
+            </Text>
+            {((loggedBrgyId !== props.id && loggedRole === 'barangay_page_admin')|| loggedRole === 'barangay_member') && (
+              <View style={styles.brgyPageButtons}>
+                {props.isFollowing
+                  ? <FollowingButton handleUnfollow={props.handleUnfollow} />
+                  : <FollowButton handleFollow={props.handleFollow} />
+                }
+                
+                <MessageButton label="Message" />            
+              </View>
+            )}
+            <Grid>
+              <Col>
+                <StatCount
+                  label="Following"
+                  value={props.followingCount}
+                  navigationKey="BarangayFollowing"
+                  id={props.id}
+                />
+              </Col>
+              <Col>
+                <StatCount
+                  label="Followers"
+                  value={props.followersCount}
+                  navigationKey="BarangayFollowers" 
+                  id={props.id}               
+                />
+              </Col>
+            </Grid>
+            <SeeMoreButton 
+              email={props.email}
+              landline={props.landline}
+              website={props.website}
+            />
+          </Body>
+        </CardItem>
+      </Card>
+    </View>
+  );
+});
 
 export const BarangayDetails = observer((props) => (
   <Card style={styles.brgyDetailsCard}>

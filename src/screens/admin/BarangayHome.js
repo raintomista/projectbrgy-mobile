@@ -263,7 +263,7 @@ export default class BarangayHomeF extends Component {
   }
 
   handleViewComments(postId) {
-    NavigationService.navigate('Comments', { postId });
+    NavigationService.push('Comments', { postId });
   }
 
   handleShare(postId) {

@@ -212,7 +212,7 @@ export default class MemberHome extends Component {
   }
 
   handleViewComments(postId) {
-    NavigationService.navigate('Comments', { postId });
+    NavigationService.push('Comments', { postId });
   }
 
   handleShare(postId) {

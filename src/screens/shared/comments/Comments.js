@@ -88,6 +88,7 @@ export default class Comments extends Component {
       loggedUserId={RootStore.sessionStore.loggedUser.user_id}
       loggedUserBrgyId={RootStore.sessionStore.loggedUser.barangay_page_id}
       handleDelete={() => this.handleDelete(item.comment_id, index)}
+      handleViewPage={() => this.handleViewPage(item.user_role, item.user_id, item.barangay_page_id)}
     /> 
   );
 
@@ -152,6 +153,14 @@ export default class Comments extends Component {
     field.set('value', value);
   }
 
+  handleViewPage(role, profileId, brgyId) {
+    if(role === 'barangay_page_admin') {
+      NavigationService.push('BarangayPage', { brgyId });
+    } else {
+      NavigationService.push('Profile', { profileId });
+    }
+  }
+
   async handleSubmit(e, hasMore, refreshing) {
     this.form.onSubmit(e)
     NavigationService.pop();
@@ -173,7 +182,8 @@ export default class Comments extends Component {
     Alert.alert(
       'Delete Comment',
       'Are you sure you want to delete this?',
-      [
+      [ 
+        {text: 'Cancel'},
         {text: 'Confirm', onPress: async () => {
           try {
             await deleteComment(commentId);
@@ -186,8 +196,7 @@ export default class Comments extends Component {
           } catch(e) {
             ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
           }
-        }},
-        {text: 'Cancel'}
+        }}
       ],
       { cancelable: false }
     )

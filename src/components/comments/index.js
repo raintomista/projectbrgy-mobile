@@ -26,7 +26,7 @@ export const Comment = observer((props) => (
         <View style={{flexDirection: 'row'}}>
             <Text style={styles.commentDetails}>{props.dateCreated}</Text>
             {((props.authorId === props.loggedUserId && props.authorRole ==='barangay_member') 
-            || (props.authorBrgyId === props.loggedUserBrgyId && props.authorRole === 'barangay_page_admin')) && (
+            || (props.authorBrgyId === props.loggedUserBrgyId && props.loggedUserRole === 'barangay_page_admin')) && (
               <React.Fragment>
                 <Text style={styles.commentDetails}> &middot; </Text>   
                 <TouchableOpacity onPress={props.handleDelete}>

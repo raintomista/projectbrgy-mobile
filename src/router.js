@@ -8,6 +8,8 @@ import {
 } from 'react-navigation'
 
 import Login from 'screens/Login';
+import Splash from 'screens/Splash';
+
 import MemberHome from 'screens/member/MemberHome';
 import MemberSidebar from 'screens/member/MemberSidebar';
 import MemberReports from 'screens/member/MemberReports';
@@ -356,6 +358,12 @@ export const AdminDrawer = createDrawerNavigator({
 });
 
 export const AppStack = createSwitchNavigator({
+  Splash: {
+    screen: Splash,
+    navigationOptions: {
+      header: null
+    }
+  },
   Login: {
     screen: Login,
     navigationOptions: {
@@ -376,6 +384,6 @@ export const AppStack = createSwitchNavigator({
     }
   }
 }, {
-  initialRouteName: 'Login'
+  initialRouteName: 'Splash'
 });
 

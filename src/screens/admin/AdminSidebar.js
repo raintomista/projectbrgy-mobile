@@ -26,6 +26,7 @@ const routes = [
   {key: 'BarangayClearance', label: 'Barangay Clearance'},  
   {key: 'BusinessPermit', label: 'Business Permit'},    
   {key: 'KatarunganPambarangay', label: 'Katarungang Pambarangay'},      
+  {key: 'Login', label: 'Logout'}
 ];
 
 @observer
@@ -102,6 +103,13 @@ export default class AdminSidebar extends React.Component {
       case 'MyProfile':
         const profileId = await AsyncStorage.getItem('user-id');
         NavigationService.navigate(route.key, { profileId });   
+        break;
+      case 'Login':
+        await AsyncStorage.removeItem('x-access-token');
+        await AsyncStorage.removeItem('user-role');
+        await AsyncStorage.removeItem('user-id');
+        await AsyncStorage.removeItem('brgyId-id');
+        NavigationService.navigate(route.key, {});   
         break;
       default:
         NavigationService.navigate(route.key);                    

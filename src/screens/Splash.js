@@ -3,29 +3,16 @@ import { AsyncStorage, View, StyleSheet } from 'react-native';
 import { Button, Text } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 import { responsiveHeight } from 'react-native-cross-platform-responsive-dimensions'
-import LoginFields from '../components/login/LoginFields';
-import * as colors from '../styles/colors.js'
+import * as colors from 'styles/colors.js'
 import * as fonts from '../styles/fonts.js'
-
-import NavigationService from 'services/NavigationService';
-
-export default class SignIn extends Component {
-  constructor(props) {
-    super(props);
-  }
-
+export default class Splash extends Component {
   render() {
     return (
       <View style={styles.viewContainer}>
         <LinearGradient 
           colors={[colors.PRIMARY, colors.SECONDARY]} 
           style={styles.linearGradientView}
-        >
-          <Text style={styles.title}>
-            Know what's happening in your barangay.
-          </Text>
-          <LoginFields />
-        </LinearGradient>
+        />
       </View>
     );
   }

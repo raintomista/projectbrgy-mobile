@@ -42,6 +42,8 @@ import ClearanceOverview from 'screens/admin/ClearanceOverview';
 import BarangayReports from 'screens/admin/BarangayReports';
 import BarangayReportOverview from 'screens/admin/BarangayReportOverview';
 import AddResponse from 'screens/admin/AddResponse';
+import BarangayHome from 'screens/admin/BarangayHome';
+
 
 
 
@@ -229,6 +231,63 @@ export const MemberDrawer = createDrawerNavigator({
 
 // Admin Routes
 
+const BarangayHomeStack = createStackNavigator({
+  Home: {
+    screen: BarangayHome,
+    navigationOptions: { header: null }  
+  },
+  Share: {
+    screen: Share,
+    navigationOptions: { header: null }  
+  },
+  Comments: {
+    screen: Comments,
+    navigationOptions: { header: null }
+  },
+  BarangayPage: {
+    screen: BarangayPage,
+    navigationOptions: { header: null }      
+  },
+  BarangayInformation: {
+    screen: BarangayInformation,
+    navigationOptions: { header: null }  
+  },
+  BarangayFollowing: {
+    screen: BarangayFollowing,
+    navigationOptions: { header: null }     
+  },
+  BarangayFollowers: {
+    screen: BarangayFollowers,
+    navigationOptions: { header: null }     
+  },
+  Profile: { 
+    screen: ProfileAlt,
+    navigationOptions: { header: null }
+  },
+  ProfileFollowing: {
+    screen: ProfileFollowing,
+    navigationOptions: { header: null }
+  },
+  ProfileInformation: {
+    screen: ProfileInformation,
+    navigationOptions: { header: null }
+  }
+});
+
+const BarangayReportStack = createStackNavigator({
+  Reports: {
+    screen: BarangayReports,
+    navigationOptions: { header: null }
+  },
+  ReportOverview: {
+    screen: BarangayReportOverview,
+    navigationOptions: { header: null }
+  },
+  AddResponse: {
+    screen: AddResponse,
+    navigationOptions: { header: null }
+  }
+});
 
 const ClearanceStack = createStackNavigator({
   ClearanceRequests: {
@@ -263,24 +322,12 @@ const KatarunganStack = createStackNavigator({
   }
 });
 
-const BarangayReportStack = createStackNavigator({
-  Reports: {
-    screen: BarangayReports,
-    navigationOptions: { header: null }
-  },
-  ReportOverview: {
-    screen: BarangayReportOverview,
-    navigationOptions: { header: null }
-  },
-  AddResponse: {
-    screen: AddResponse,
-    navigationOptions: { header: null }
-  }
-});
 
-export const AdminDrawer = createDrawerNavigator({     
-  BarangayReports: { screen:  BarangayReportStack },
+
+export const AdminDrawer = createDrawerNavigator({  
+  BarangayHome: { screen: BarangayHomeStack },   
   MyResidents: { screen: BarangayResidents },
+  BarangayReports: { screen:  BarangayReportStack },  
   BarangayClearance: { screen:  ClearanceStack },   
   BusinessPermit: { screen:  PermitStack },  
   KatarunganPambarangay: { screen:  KatarunganStack },

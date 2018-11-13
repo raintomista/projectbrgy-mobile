@@ -172,12 +172,22 @@ export const AnnouncementCard = observer((props) => (
         <View style={{flexDirection: 'row'}}>
           {props.commentCount != '0' && (
             <TouchableOpacity onPress={props.handleViewComments}>
-              <Text style={styles.cardStatText}>{props.commentCount} Comments</Text>
+              <Text style={styles.cardStatText}>
+                {props.commentCount > 1 
+                  ? `${props.commentCount} Comments`
+                  : `${props.commentCount} Commment`
+                }
+              </Text>
             </TouchableOpacity>
           )}
 
           {props.shareCount != '0' && (
-            <Text style={styles.cardStatText}>{props.shareCount} Shares</Text>
+            <Text style={styles.cardStatText}>
+                {props.shareCount > 1 
+                  ? `${props.shareCount} Shares`
+                  : `${props.shareCount} Share`
+                }
+            </Text>
           )}
         </View>
       </CardItem>

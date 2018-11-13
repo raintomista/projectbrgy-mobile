@@ -141,7 +141,7 @@ export default class BarangayHomeF extends Component {
           style={{ backgroundColor: colors.PRIMARY }}
           position="bottomRight"
           onPress={() => {
-            NavigationService.push('CreatePost', { reportId: this.reportId });
+            NavigationService.push('CreateAnnouncement', { reportId: this.reportId });
           }}
         >
           <Icon name="add" />

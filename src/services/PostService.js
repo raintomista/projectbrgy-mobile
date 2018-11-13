@@ -37,3 +37,17 @@ export async function sharePost(postId, caption) {
         }
     });
 }
+
+export async function createPost(formData) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios({
+        url: `${API_HOST}/post`,
+        method: 'post',
+        headers: {
+            'x-access-token': token,
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data'
+        },
+        data: formData
+    });
+}

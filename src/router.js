@@ -43,6 +43,8 @@ import BarangayReports from 'screens/admin/BarangayReports';
 import BarangayReportOverview from 'screens/admin/BarangayReportOverview';
 import AddResponse from 'screens/admin/AddResponse';
 import BarangayHome from 'screens/admin/BarangayHome';
+import CreateAnnouncement from 'screens/admin/CreateAnnouncement';
+
 
 
 
@@ -234,6 +236,10 @@ export const MemberDrawer = createDrawerNavigator({
 const BarangayHomeStack = createStackNavigator({
   Home: {
     screen: BarangayHome,
+    navigationOptions: { header: null }  
+  },
+  CreateAnnouncement: {
+    screen: CreateAnnouncement,
     navigationOptions: { header: null }  
   },
   Share: {

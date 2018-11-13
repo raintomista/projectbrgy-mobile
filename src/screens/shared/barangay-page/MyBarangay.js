@@ -156,7 +156,7 @@ export default class BarangayPage extends Component {
 
         {this.brgyData && (
           <View style={styles.view}>
-            <ScrollView>
+            <ScrollView style={{flex: 1, flexDirection: 'column'}}>
               <BarangayPageCard
                 id={this.brgyData.id}
                 name={this.brgyData.name}

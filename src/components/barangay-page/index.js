@@ -37,7 +37,7 @@ export const BarangayPageCard = observer((props) => {
   const { barangay_page_id: loggedBrgyId, user_role: loggedRole } = RootStore.sessionStore.loggedUser;
   
   return (
-    <View style={{flex: 1, minHeight: 500}}>
+    <View style={{ flex: 1, height: null }}>
       <LinearGradient 
         colors={[colors.PRIMARY, colors.SECONDARY]} 
         style={styles.brgyPageHeader}
@@ -48,7 +48,7 @@ export const BarangayPageCard = observer((props) => {
         style={styles.brgyPageAvatar}
       />
       <Card style={styles.brgyPageCard}> 
-        <CardItem>
+        <CardItem style={{paddingBottom: 0}}>
           <Body>
             <Text 
               style={styles.brgyPageName}
@@ -288,7 +288,7 @@ export const FeedTabs = observer((props) => (
 
 const styles = StyleSheet.create({
   brgyPageHeader: {
-    position: 'absolute',
+    position: 'relative',
     height: 150,
     width: Dimensions.get('window').width, 
   },
@@ -304,8 +304,7 @@ const styles = StyleSheet.create({
     zIndex: 5,
   },
   brgyPageCard: {
-    position: 'absolute',
-    top: 150,
+    position: 'relative',
     borderColor: colors.TRANSPARENT,
     borderWidth: 0,
     borderRadius: 0,
@@ -402,7 +401,7 @@ const styles = StyleSheet.create({
     color: colors.PRIMARY,    
     fontFamily: fonts.LATO_REGULAR,
     fontSize: 15,
-    paddingTop: 21,
+    paddingTop: 18,
     paddingBottom: 7,
     textAlign: 'center'    
   },
@@ -423,10 +422,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   brgyPageTabs: {
-    marginTop: -38
-    // position: 'absolute', 
-    // top: 500,
-    // zIndex: 5
+    minHeight: 200
   },
   brgyPageTabLine: {
     backgroundColor: colors.PRIMARY
@@ -441,5 +437,5 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MONTSERRAT_BOLD,
     fontSize: 18,
     fontWeight: 'normal'
-  },
+  }
 });

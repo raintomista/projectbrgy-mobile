@@ -44,6 +44,8 @@ import BarangayReportOverview from 'screens/admin/BarangayReportOverview';
 import AddResponse from 'screens/admin/AddResponse';
 import BarangayHome from 'screens/admin/BarangayHome';
 import CreateAnnouncement from 'screens/admin/CreateAnnouncement';
+import AdminSidebar from 'screens/admin/AdminSidebar';
+
 
 
 
@@ -328,15 +330,19 @@ const KatarunganStack = createStackNavigator({
   }
 });
 
-
-
 export const AdminDrawer = createDrawerNavigator({  
+  MyBarangay: { screen: MyBarangayStack },
+  Search: { screen: SearchStack },
   BarangayHome: { screen: BarangayHomeStack },   
   MyResidents: { screen: BarangayResidents },
   BarangayReports: { screen:  BarangayReportStack },  
   BarangayClearance: { screen:  ClearanceStack },   
   BusinessPermit: { screen:  PermitStack },  
   KatarunganPambarangay: { screen:  KatarunganStack },
+},  {
+  contentComponent: AdminSidebar,
+  width: 200,
+  initialRouteName: 'BarangayHome'
 });
 
 export const AppStack = createSwitchNavigator({

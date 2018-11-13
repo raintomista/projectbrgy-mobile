@@ -36,7 +36,7 @@ export default class BarangayReportOverview extends Component {
   @observable hasMore = true;
   @observable error = false;
   @observable refreshing = false;
-  @observable reportId= null;
+  @observable reportId = null;
   @observable report = null;
   @observable responses = [];
 
@@ -195,7 +195,7 @@ export default class BarangayReportOverview extends Component {
           style={{ backgroundColor: colors.PRIMARY }}
           position="bottomRight"
           onPress={() => {
-            NavigationService.push('AddReponse', {});
+            NavigationService.push('AddResponse', { reportId: this.reportId });
           }}
         >
           <Icon name="add" />

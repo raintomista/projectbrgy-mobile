@@ -14,3 +14,7 @@ export const COMMENT_ADD_SUCCESS = 'Successfully added a comment';
 
 
 export const SHARE_SUCCESS = 'Successfully shared an announcement';
+
+
+export const RESPOND_SUCCESS = 'Successfully added a response';
+

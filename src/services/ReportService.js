@@ -60,3 +60,17 @@ export async function getBrgyReports(page, limit, order) {
         }
     });
 }
+
+export async function addResponse(reportId, formData) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios({
+        url: `${API_HOST}/inquiry/respond/${reportId}`,
+        method: 'post',
+        headers: {
+            'x-access-token': token,
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data'
+        },
+        data: formData
+    });
+}

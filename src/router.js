@@ -41,6 +41,7 @@ import ClearanceOverview from 'screens/admin/ClearanceOverview';
 
 import BarangayReports from 'screens/admin/BarangayReports';
 import BarangayReportOverview from 'screens/admin/BarangayReportOverview';
+import AddResponse from 'screens/admin/AddResponse';
 
 
 
@@ -269,6 +270,10 @@ const BarangayReportStack = createStackNavigator({
   },
   ReportOverview: {
     screen: BarangayReportOverview,
+    navigationOptions: { header: null }
+  },
+  AddResponse: {
+    screen: AddResponse,
     navigationOptions: { header: null }
   }
 });

@@ -5,9 +5,10 @@ import {
   AsyncStorage,
   ToastAndroid
 } from 'react-native';
-import {
-  loginUser
-} from '../../services/AuthService';
+import { loginUser } from 'services/AuthService';
+import NavigationService from 'services/NavigationService';
+
+
 
 export default class LoginForm extends MobxReactForm {
   setup() {
@@ -50,10 +51,15 @@ export default class LoginForm extends MobxReactForm {
           await AsyncStorage.setItem('user-role', response.data.data.role);          
           await AsyncStorage.setItem('brgy-id', response.data.data.barangay_id);
           
-          
           // Disable Form
           this.$('email').set('disabled', false);
           this.$('password').set('disabled', false);
+
+          if(response.data.data.role === 'barangay_member') {
+            NavigationService.navigate('MemberDrawer', {})
+          } else if (response.data.data.role === 'barangay_page_admin') {
+            NavigationService.navigate('AdminDrawer', {})
+          }
         } 
         catch (e) {
           const error = e.response.data.errors[0];

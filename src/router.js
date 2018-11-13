@@ -1,4 +1,6 @@
 import React from 'react';
+import { AsyncStorage } from 'react-native';
+
 import {
   createStackNavigator,
   createSwitchNavigator,
@@ -374,5 +376,6 @@ export const AppStack = createSwitchNavigator({
     }
   }
 }, {
-  initialRouteName: 'AdminDrawer'
+  initialRouteName: 'Login'
 });
+

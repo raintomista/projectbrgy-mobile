@@ -263,6 +263,7 @@ export const FeedTabs = observer((props) => (
     style={styles.brgyPageTabs}
     tabBarUnderlineStyle={styles.brgyPageTabLine}
     tabContainerStyle={{elevation: 0}}
+    onScroll={props.handleOnScroll}
   >
     <Tab 
       heading="Posts"
@@ -270,21 +271,27 @@ export const FeedTabs = observer((props) => (
       textStyle={styles.brgyPageTabText}
       activeTabStyle={styles.brgyPageTab}
       activeTextStyle={styles.brgyPageTabText}
-    >
-      <BarangayPosts
-        brgyId={props.brgyId}
-      />
+      style={{backgroundColor: colors.BACKGROUND}}
+    >  
+      {props.currentTab === 'Posts' && (
+        <BarangayPosts
+          brgyId={props.brgyId}
+        />
+      )}
     </Tab>
     <Tab 
       heading="Shared Posts"
       tabStyle={styles.brgyPageTab}    
       textStyle={styles.brgyPageTabText}   
       activeTabStyle={styles.brgyPageTab}
-      activeTextStyle={styles.brgyPageTabText}        
+      activeTextStyle={styles.brgyPageTabText}      
+      style={{backgroundColor: colors.BACKGROUND}}        
     >
-      <BarangaySharedPosts
-        brgyId={props.brgyId}
-      />
+      {props.currentTab === 'Shared Posts' && (
+        <BarangaySharedPosts
+          brgyId={props.brgyId}    
+        />
+      )}
     </Tab>
   </Tabs>
 ));

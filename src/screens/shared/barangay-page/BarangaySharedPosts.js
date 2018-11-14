@@ -55,6 +55,19 @@ export default class BarangayPosts extends Component {
     await this.getSharedPosts(this.props.brgyId);
   }
 
+  @action
+  componentWillUnmount() {
+    this.page = 0;
+    this.limit = 20;
+    this.order = 'desc';
+    this.hasMore = true;
+    this.error = false;  
+    this.refreshing = false;
+    this.sharedPosts = [];
+    this.imageViewerVisible = false;
+    this.images = [];
+  }
+
   renderItem = ({item, index}) => (
     <SharedPostCard
       index={index}

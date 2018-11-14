@@ -35,6 +35,7 @@ export default class BarangayPage extends Component {
   @observable error = false;  
   @observable refreshing = false;
   @observable brgyPosts = [];
+  @observable currentTab = 'Posts';
 
   @action
   setBrgyId(brgyId) {
@@ -156,7 +157,7 @@ export default class BarangayPage extends Component {
 
         {this.brgyData && (
           <View style={styles.view}>
-            <ScrollView style={{flex: 1, flexDirection: 'column'}}>
+            <ScrollView style={{flex: 1, flexDirection: 'column', backgroundColor: colors.BACKGROUND}}>
               <BarangayPageCard
                 id={this.brgyData.id}
                 name={this.brgyData.name}
@@ -172,12 +173,23 @@ export default class BarangayPage extends Component {
               />
               <FeedTabs 
                 brgyId={this.brgyData.id}
+                handleOnScroll={(tab) => this.handleOnScroll(tab)}
+                currentTab={this.currentTab}
               />
             </ScrollView>
           </View>
         )}
       </Container>
     );
+  }
+
+  @action
+  handleOnScroll(tab) {
+    if(tab === 0) {
+      this.currentTab = 'Posts';
+    } else if(tab === 1) {
+      this.currentTab = 'Shared Posts';
+    }
   }
 }
 

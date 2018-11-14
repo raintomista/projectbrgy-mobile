@@ -8,6 +8,7 @@ import {
   TouchableNativeFeedback,
   View 
 } from "react-native";
+import { StackActions } from 'react-navigation';
 import { Container, Content, Text, List, ListItem, Thumbnail} from "native-base";
 import MemberAvatar from '../../../assets/images/default-member.png';
 import { getUserDetails } from '../../services/AuthService';
@@ -110,6 +111,7 @@ export default class MemberSidebar extends React.Component {
         NavigationService.navigate(route.key, {});   
         break;
       default:
+        NavigationService.dispatch(StackActions.popToTop());
         NavigationService.navigate(route.key);                    
     }
   }

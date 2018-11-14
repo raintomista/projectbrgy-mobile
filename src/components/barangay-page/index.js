@@ -28,6 +28,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import BrgyAvatar from '../../../assets/images/default-brgy.png';
 
 import BarangayPosts from 'screens/shared/barangay-page/BarangayPosts';
+import BarangaySharedPosts from 'screens/shared/barangay-page/BarangaySharedPosts';
 import NavigationService from 'services/NavigationService';
 import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
@@ -281,6 +282,9 @@ export const FeedTabs = observer((props) => (
       activeTabStyle={styles.brgyPageTab}
       activeTextStyle={styles.brgyPageTabText}        
     >
+      <BarangaySharedPosts
+        brgyId={props.brgyId}
+      />
     </Tab>
   </Tabs>
 ));

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, Modal, StyleSheet, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Modal, StyleSheet, TouchableWithoutFeedback, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import Image from 'react-native-image-progress';
 // import ProgressBar from 'react-native-progress/Bar';
 import { observer } from 'mobx-react';
@@ -211,6 +211,136 @@ export const AnnouncementCard = observer((props) => (
   </Card>
 ));
 
+export const SharedPostCard = observer((props) => (
+  <Card style={[styles.card, props.index == 0 ? {marginTop: 8} : null]}>
+    <CardItem style={{paddingTop: 18}}>
+      <Left style={{minWidth: 200}}>
+        <TouchableWithoutFeedback onPress={props.handleViewAuthor} style={{alignSelf: 'flex-start'}}>
+          <Thumbnail 
+            circle 
+            source={BrgyAvatar}
+            style={styles.cardAvatar} 
+          />
+        </TouchableWithoutFeedback>
+        <Body>
+          <Text>
+            <Text style={styles.cardAuthor} onPress={props.handleViewAuthor}>
+              {props.author}
+            </Text>
+            <Text style={styles.cardShareActivity}>
+              &nbsp;shared an announcement.
+            </Text>
+          </Text>
+          <Text note style={styles.cardDetails} numberOfLines={1}>
+            {props.dateCreated} &middot; {props.location}
+          </Text>
+        </Body>
+      </Left>
+      <Right>
+        <TouchableWithoutFeedback onPress={props.handleOptions}>
+          <FontAwesome5   
+            name="chevron-down" 
+            color={colors.PRIMARY} 
+            size={18} 
+            style={styles.cardOptions} 
+            solid 
+          />
+        </TouchableWithoutFeedback>
+      </Right>
+    </CardItem>
+    <CardItem style={{paddingTop: 0, paddingBottom: 0}}>
+      <Text style={styles.cardMessage}>
+        {props.message}
+      </Text>
+    </CardItem>
+
+    {/* Shared Content */}
+    <View style={styles.cardSharedContent}>
+      <CardItem style={{paddingTop: 15, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}}>
+        <Left style={{minWidth: 200}}>
+          <TouchableWithoutFeedback 
+            onPress={props.handleViewContentAuthor}
+          >
+            <Thumbnail 
+              circle 
+              source={BrgyAvatar}
+              style={styles.cardSharedContentAvatar} 
+            />
+          </TouchableWithoutFeedback>
+          <Body>
+            <TouchableWithoutFeedback 
+              onPress={props.handleViewContentAuthor}
+            >
+              <Text style={styles.cardSharedContentAuthor}>
+                {props.contentAuthor}
+              </Text>
+            </TouchableWithoutFeedback>
+            <Text note style={styles.cardSharedContentDetails} numberOfLines={1}>
+              {props.contentDateCreated} &middot; {props.location}, Philippines, NCR
+            </Text>
+          </Body>
+        </Left>
+      </CardItem>
+      <CardItem style={{ paddingTop: 0,  paddingBottom: 15, paddingLeft: 15, paddingRight: 15 }}>
+        <Text style={styles.cardSharedContentMessage}>
+          {props.contentMessage}
+        </Text>
+      </CardItem>
+
+      {props.attachment && props.attachment.preview_type === 'photo' && (
+        <CardItem cardBody style={{marginTop: -2}}>
+          <TouchableHighlight onPress={props.handleViewImage}>
+            <Image 
+              source={{uri: props.attachment.link.replace('?dl=0', '?dl=1')}} 
+              indicator={ImageLoader}      
+              resizeMode='cover'
+              style={styles.cardSharedContentImage}
+            />
+          </TouchableHighlight>
+        </CardItem>
+      )}
+
+      {props.attachment && props.attachment.preview_type !== 'photo' && (
+        <CardItem style={styles.cardSharedContentFileAttachment}>
+          <Body>
+            <TouchableWithoutFeedback onPress={props.handleOpenLink}>
+              <React.Fragment>
+                <Text style={styles.cardSharedContentAttachmentFilename} uppercase={false} numberOfLines={1}>
+                  {props.attachment.filename}
+                </Text>
+                <Text style={styles.cardSharedContentAttachmentDetails} uppercase={false} numberOfLines={1} note>
+                  {'dropbox.com'}
+                </Text>  
+              </React.Fragment>
+            </TouchableWithoutFeedback>
+          </Body> 
+          <Right>
+            <TouchableWithoutFeedback onPress={props.handleOpenDownloadLink}>
+              <FontAwesome5   
+                name="cloud-download-alt" 
+                color="gray" 
+                size={18} 
+                solid 
+              />
+            </TouchableWithoutFeedback>
+          </Right>
+        </CardItem>
+      )}
+    </View>
+    <CardItem style={styles.cardActionButtons}>
+      <DisabledCardActionButton 
+        label="Like"
+      />
+      <DisabledCardActionButton 
+        label="Comment"
+      />
+      <DisabledCardActionButton 
+        label="Share"
+      />
+    </CardItem>
+  </Card>
+));
+
 const ImageLoader = (props) => (
   <Spinner color={colors.PRIMARY} />
 )
@@ -266,7 +396,20 @@ const CardActionButton = observer((props) => (
       {props.label}
     </Text>
   </TouchableOpacity>
-))
+));
+
+const DisabledCardActionButton = observer((props) => (
+  <View style={styles.cardActionButton}>
+    <Text 
+      style={styles.disabledActionButtonText} 
+      uppercase={false}
+    >
+      {props.label}
+    </Text>
+  </View>
+));
+
+
 
 const styles = StyleSheet.create({
   header: {
@@ -286,6 +429,7 @@ const styles = StyleSheet.create({
     marginRight: 0
   },
   cardAvatar: {
+    alignSelf: 'flex-start',
     borderColor: colors.PRIMARY,
     borderWidth: 2,
     width: 50,
@@ -295,6 +439,11 @@ const styles = StyleSheet.create({
     color: colors.PRIMARY,
     fontFamily: fonts.LATO_BOLD,
     fontSize: 18,
+  },
+  cardShareActivity: {
+    color: 'gray',
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 17.5,
   },
   cardDetails: {
     fontFamily: fonts.LATO_REGULAR,
@@ -374,6 +523,13 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     paddingRight: 0,
   },
+  disabledActionButtonText: {
+    color: colors.DARK_GRAY,
+    fontFamily: fonts.LATO_HEAVY,
+    fontSize: 16.5,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
   cardActiveActionButtonText: {
     color: colors.PRIMARY,
     fontFamily: fonts.LATO_HEAVY,
@@ -397,5 +553,60 @@ const styles = StyleSheet.create({
     top: 20, 
     left: 20, 
     zIndex: 2
-  }
+  },
+  cardSharedContent: {
+    flexDirection: 'column',
+    borderColor: 'rgba(0, 0, 0, 0.125)',
+    borderRadius: 0,
+    borderWidth: 1,
+    marginTop: 12,
+    marginBottom: 5,
+    marginHorizontal: 17,
+    paddingTop: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingBottom: 0,
+  },
+  cardSharedContentAvatar: {
+    alignItems: 'flex-start',
+    borderColor: colors.PRIMARY,
+    borderWidth: 1.5,
+    width: 40,
+    height: 40,
+  },
+  cardSharedContentAuthor: {
+    color: colors.PRIMARY,
+    fontFamily: fonts.LATO_BOLD,
+    fontSize: 16,
+  },
+  cardSharedContentDetails: {
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 14.5
+  },
+  cardSharedContentMessage: {
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 15
+  },
+  cardSharedContentImage: {
+    backgroundColor: colors.GRAY,
+    width: Dimensions.get('window').width - 34, 
+    minHeight: 250
+  },
+  cardSharedContentFileAttachment: {
+    borderColor: 'rgba(0, 0, 0, 0.125)',
+    borderWidth: 0.5,
+    elevation: 2.5,
+    marginHorizontal: 15,
+    marginBottom: 18,
+  },
+  cardSharedContentAttachmentFilename: {
+    fontFamily: fonts.LATO_BOLD,
+    fontSize: 14.5,
+    maxWidth: 180
+  },
+  cardSharedContentAttachmentDetails: {
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 14,
+    minWidth: 180    
+  },
 });

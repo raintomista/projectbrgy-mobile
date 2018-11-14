@@ -38,6 +38,16 @@ export async function getBrgyPagePosts(brgyId, page, limit, order) {
     });
 }
 
+export async function getBrgyPageSharedPosts(brgyId, page, limit, order) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios.get(`${API_HOST}/shared/post/page/${brgyId}?page=${page}&limit=${limit}&order=${order}`, {
+        headers: {
+            'x-access-token': token
+        }
+    });
+}
+
+
 export async function followBrgy(brgyId) {
     const token = await AsyncStorage.getItem('x-access-token');
     return axios.post(`${API_HOST}/follow/${brgyId}`, null, {

@@ -24,6 +24,7 @@ import {
 } from 'native-base';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import BrgyAvatar from '../../../assets/images/default-brgy.png';
+import MemberAvatar from '../../../assets/images/default-member.png';
 import NavigationService from 'services/NavigationService';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
@@ -218,7 +219,7 @@ export const SharedPostCard = observer((props) => (
         <TouchableWithoutFeedback onPress={props.handleViewAuthor} style={{alignSelf: 'flex-start'}}>
           <Thumbnail 
             circle 
-            source={BrgyAvatar}
+            source={props.authorRole === 'barangay_member' ? MemberAvatar : BrgyAvatar}
             style={styles.cardAvatar} 
           />
         </TouchableWithoutFeedback>

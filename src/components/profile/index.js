@@ -31,7 +31,7 @@ import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
 export const ProfileCard = observer((props) => (
-  <View style={{flex: 1, minHeight: 500}}>
+  <View style={{flex: 1}}>
     <LinearGradient 
       colors={[colors.PRIMARY, colors.SECONDARY]} 
       style={styles.profileHeader}
@@ -211,7 +211,7 @@ export const ContactInformationCard = observer((props) => (
 
 const styles = StyleSheet.create({
   profileHeader: {
-    position: 'absolute',
+    position: 'relative',
     height: 150,
     width: Dimensions.get('window').width, 
   },
@@ -227,8 +227,7 @@ const styles = StyleSheet.create({
     zIndex: 5,
   },
   profileCard: {
-    position: 'absolute',
-    top: 150,
+    position: 'relative',
     borderColor: colors.TRANSPARENT,
     borderWidth: 0,
     borderRadius: 0,

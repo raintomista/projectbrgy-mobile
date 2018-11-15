@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { action, observable, runInAction } from 'mobx';
 import { ScrollView, StyleSheet, ToastAndroid, View } from 'react-native';
-import { Container, Spinner } from 'native-base';
+import { Container, Spinner, Text } from 'native-base';
 import { HeaderWithDrawer } from 'components/common';
 import { ProfileCard } from 'components/profile';
+import ProfileSharedPosts from 'screens/shared/profile/ProfileSharedPosts';
 import NavigationService from 'services/NavigationService';
 import { getUserById } from 'services/ProfileService';
 import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
+import * as fonts from 'styles/fonts';
 import * as localized from 'localization/en';
 
 @observer
@@ -64,6 +66,10 @@ export default class Profile extends Component {
                 landline={this.profileData.user_landline_number}
                 mobile={this.profileData.user_mobile_number}
               />
+              <Text style={styles.label}>Shared Posts</Text>
+              <ProfileSharedPosts 
+                profileId={this.profileId}
+              />
             </ScrollView>
           </View>
         )}
@@ -76,5 +82,13 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     backgroundColor: colors.BACKGROUND
+  },
+  label: {
+    color: colors.DARK_GRAY,
+    marginTop: 20,
+    marginBottom: 5,
+    marginLeft: 15  ,
+    fontFamily: fonts.LATO_BOLD,
+    fontSize: 16
   }
 });

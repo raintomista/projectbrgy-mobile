@@ -176,8 +176,8 @@ export default class BarangayPosts extends Component {
   @action 
   async handleDelete(postId, index) {
     Alert.alert(
-      'Delete announcement',
-      'Are you sure you want to delete this announcement?',
+      'Delete post',
+      'Are you sure you want to delete this post?',
       [
         {text: 'Cancel', style: 'cancel'},
         {text: 'Delete', onPress: async () => {

@@ -228,7 +228,7 @@ export const SharedPostCard = observer((props) => (
               {props.author}
             </Text>
             <Text style={styles.cardShareActivity}>
-              &nbsp;shared an announcement.
+              &nbsp;shared a post.
             </Text>
           </Text>
           <Text note style={styles.cardDetails} numberOfLines={1}>

@@ -38,6 +38,17 @@ export async function sharePost(postId, caption) {
     });
 }
 
+export async function unsharePost(postId) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios({
+        url: `${API_HOST}/unshare/${postId}`,
+        method: 'delete',
+        headers: {
+            'x-access-token': token
+        }
+    });
+}
+
 export async function createPost(formData) {
     const token = await AsyncStorage.getItem('x-access-token');
     return axios({

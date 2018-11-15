@@ -13,7 +13,7 @@ export const COMMENT_DELETE_SUCCESS = 'Successfully deleted a comment';
 export const COMMENT_ADD_SUCCESS = 'Successfully added a comment';
 
 
-export const SHARE_SUCCESS = 'Successfully shared an announcement';
+export const SHARE_SUCCESS = 'Successfully shared a post';
 
 
 export const RESPOND_SUCCESS = 'Successfully added a response'
@@ -21,4 +21,6 @@ export const RESPOND_SUCCESS = 'Successfully added a response'
 export const POST_SUCCESS = 'Successfully posted an announcement';
 
 
-export const DELETE_POST_SUCCESS = 'Successfully deleted an announcement';
+export const DELETE_POST_SUCCESS = 'Successfully deleted a post';
+export const UNSHARE_POST_SUCCESS = 'Successfully unshared a post';
+

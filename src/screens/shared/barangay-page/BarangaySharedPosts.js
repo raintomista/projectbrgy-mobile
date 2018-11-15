@@ -8,7 +8,7 @@ import { action, observable, runInAction } from 'mobx';
 import { SharedPostCard, HeaderWithDrawer, Lightbox } from 'components/common';
 import NavigationService from 'services/NavigationService';
 import { getBrgyPageSharedPosts } from 'services/BrgyPageService';
-import { deletePost, likePost, unlikePost } from 'services/PostService';
+import { unsharePost, likePost, unlikePost } from 'services/PostService';
 import RootStore from 'stores/RootStore';
 import * as localized from 'localization/en';
 import * as colors from 'styles/colors'
@@ -82,7 +82,7 @@ export default class BarangayPosts extends Component {
       attachment={item.attachments.length == 1 ? item.attachments[0] : null}
       handleViewAuthor={() => this.handleViewPage(item.barangay_page_id)}
       handleViewContentAuthor={() => this.handleViewPage(item.post_barangay_id)}
-      handleOptions={() => this.handleOptions(item.post_id, item.barangay_page_id, item.post_barangay_id, index)}
+      handleOptions={() => this.handleOptions(item.share_id, item.barangay_page_id, item.post_barangay_id, index)}
       handleViewImage={() => this.handleViewImage(item.attachments[0].link)}
       handleOpenLink={() => this.handleOpenLink(item.attachments[0].link)}
       handleOpenDownloadLink={() => this.handleOpenDownloadLink(item.attachments[0].link)}
@@ -94,12 +94,12 @@ export default class BarangayPosts extends Component {
     return <Spinner color={colors.PRIMARY}/>
   }
 
-  renderList(announcements, hasMore, refreshing) {
+  renderList(sharedPosts, hasMore, refreshing) {
     return (
       <FlatList
-        data={Array.from(announcements)}
+        data={Array.from(sharedPosts)}
         renderItem={this.renderItem}
-        keyExtractor={item => item.post_id}
+        keyExtractor={item => item.share_id}
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore(this.props.brgyId)}
         onEndReachedThreshold={0.5}
@@ -158,8 +158,8 @@ export default class BarangayPosts extends Component {
         case 'View Original Post Author':
           this.handleViewPage(ogBrgyId);
           break;
-        case 'Delete Post':
-          this.handleDelete(postId, index);
+        case 'Unshare Post':
+          this.handleUnshare(postId, index);
           break;
       }
     });
@@ -173,19 +173,19 @@ export default class BarangayPosts extends Component {
   }
 
   @action 
-  async handleDelete(postId, index) {
+  async handleUnshare(postId, index) {
     Alert.alert(
-      'Delete announcement',
-      'Are you sure you want to delete this announcement?',
+      'Unshare post',
+      'Are you sure you want to unshare this post?',
       [
         {text: 'Cancel', style: 'cancel'},
-        {text: 'Delete', onPress: async () => {
+        {text: 'Unshare', onPress: async () => {
           try {
-            await deletePost(postId);
+            await unsharePost(postId);
             runInAction(() => {
               this.sharedPosts.splice(index, 1);
             });
-            ToastAndroid.show(localized.DELETE_POST_SUCCESS, ToastAndroid.SHORT);      
+            ToastAndroid.show(localized.UNSHARE_POST_SUCCESS, ToastAndroid.SHORT);      
           } catch(e) {
             ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
           }

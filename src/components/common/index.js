@@ -347,7 +347,7 @@ const ImageLoader = (props) => (
 )
 
 const CardImageAttachment = observer((props) => (
-  <CardItem cardBody>
+  <CardItem cardBody style={{marginTop: 8}}>
     <TouchableHighlight onPress={props.handleViewImage}>
       <Image 
         source={{uri: props.imageUri}} 
@@ -468,7 +468,6 @@ const styles = StyleSheet.create({
   cardImageAttachment: {
     backgroundColor: colors.GRAY,
     width: Dimensions.get('window').width, 
-    marginTop: 8,
     minHeight: 250
   },
   cardStats: {

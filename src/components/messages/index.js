@@ -12,7 +12,7 @@ export const InboxMessage = observer((props) => (
   <ListItem 
     thumbnail 
     style={props.status === 'unread' ? styles.unreadItem : styles.item} 
-    onPress={() => NavigationService.push('BarangayPage', {brgyId: props.id})}
+    // onPress={() => NavigationService.push('BarangayPage', {brgyId: props.id})}
   >
     <Left>
       <Thumbnail 
@@ -53,6 +53,19 @@ export const InboxMessage = observer((props) => (
     </Right>
   </ListItem>
 ));
+
+
+export const StatusIndicator = observer((props) => (
+  <View style={props.connected ? styles.statusConnected : styles.statusConnecting}>
+    <Text style={styles.statusText}>
+      {props.connected
+        ? 'Connected'
+        : 'Waiting to reconnect...'
+      }
+    </Text>
+  </View>
+));
+
 const styles = StyleSheet.create({
   item: {
     marginLeft: 0,
@@ -68,6 +81,7 @@ const styles = StyleSheet.create({
   itemBody: {
     borderBottomWidth: 0,
     marginLeft: 10,
+    minHeight: 76,        
     paddingTop: 15,
     paddingBottom: 15
   },
@@ -110,4 +124,25 @@ const styles = StyleSheet.create({
     fontFamily: fonts.LATO_REGULAR,
     fontSize: 15.5
   },
+  statusConnecting: {
+    position: 'relative',
+    backgroundColor: '#ffab12',
+    padding: 5,
+    width: Dimensions.get('window').width,
+    zIndex: 10        
+  },
+  statusConnected: {
+    position: 'relative',    
+    backgroundColor: '#28c128',
+    padding: 5,
+    width: Dimensions.get('window').width,
+    zIndex: 10    
+  },
+  statusText: {
+    color: 'white',
+    fontFamily: fonts.LATO_BOLD,
+    fontSize: 15,
+    fontWeight: 'normal',
+    textAlign: 'center'
+  }
 });

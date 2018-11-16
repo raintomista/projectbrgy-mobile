@@ -32,6 +32,9 @@ import Comments from 'screens/shared/comments/Comments';
 
 import Search from 'screens/shared/search/Search';
 
+import Inbox from 'screens/shared/messages/Inbox';
+
+
 
 import BarangayResidents from 'screens/admin/BarangayResidents';
 import BarangayKatarungan from 'screens/admin/BarangayKatarungan';
@@ -216,6 +219,7 @@ export const MemberDrawer = createDrawerNavigator({
   Home: { screen: MemberHomeStack },
   Search: { screen: SearchStack },
   MyBarangay: { screen: MyBarangayStack },
+  Messages: { screen: Inbox },  
   MyProfile: { screen: ProfileStack },
   MyReportStack: createStackNavigator({
     MyReports: { 
@@ -240,7 +244,7 @@ export const MemberDrawer = createDrawerNavigator({
 }, {
   contentComponent: MemberSidebar,
   width: 200,
-  initialRouteName: 'Home'
+  initialRouteName: 'Messages'
 })
 
 

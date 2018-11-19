@@ -166,7 +166,7 @@ export default class Inbox extends Component {
     RootStore.inboxStore.receiveMessage(message);
 
     if(chatmateId === message.sender_id) {
-      RootStore.conversationStore.receiveMessage(message);
+      RootStore.conversationStore.addMessage(message);
     }
   }
 

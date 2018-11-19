@@ -20,6 +20,7 @@ export default class ConversationStore {
   @observable refreshing = false;
   @observable messages = [];
 
+
   @action
   resetStore() {
     this.chatmateId = null;
@@ -55,7 +56,8 @@ export default class ConversationStore {
   }
 
   @action
-  receiveMessage(message) {
+  addMessage(message) {
+    this.skip += 1;
     this.messages.unshift(message);
   }
 }

@@ -20,3 +20,18 @@ export async function getMessagesById(id, page, limit, order, skip) {
         }
     });
 }
+
+export async function sendMessage(message, receiver_id) {
+    const token = await AsyncStorage.getItem('x-access-token');
+    return axios({
+        url: `${API_HOST}/message`,
+        method: 'post',
+        headers: {
+            'x-access-token': token,
+        },
+        data: {
+            message,
+            receiver_id
+        }
+    });
+}

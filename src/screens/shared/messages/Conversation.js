@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { action, observable, runInAction } from 'mobx'; 
 import Moment from 'moment';
-import { Alert, FlatList, RefreshControl, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { Alert, Dimensions, FlatList, RefreshControl, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import { Container, Item, Input, Footer, Spinner, Root } from 'native-base';
 import { HeaderWithGoBack } from 'components/common';
 import { ConversationMessage } from 'components/messages';
-import CommentForm from 'components/comments/CommentForm';
+import MessageForm from 'components/messages/MessageForm';
 import NavigationService from 'services/NavigationService';
 
 import RootStore from 'stores/RootStore';
@@ -18,12 +18,13 @@ import * as localized from 'localization/en';
 export default class Conversation extends Component {
   constructor(props) {
     super(props);
-    this.form = new CommentForm();
+    this.form = new MessageForm();
   }
 
   async componentWillMount(){
     const params = NavigationService.getActiveScreenParams();
     await RootStore.conversationStore.setChatMate(params.chatmateId, params.chatmateName);
+    this.form.$('receiver_id').set('value', params.chatmateId);
     await RootStore.sessionStore.getLoggedUser();          
     await RootStore.conversationStore.getMessages();
   }
@@ -77,17 +78,16 @@ export default class Conversation extends Component {
           {this.renderList(messages, hasMore, refreshing)}
         </View>
         <Footer style={styles.footer}>
-          <Item style={styles.commentComposer} regular>
+          <Item style={styles.messageComposer} regular>
             <Input 
-              onChangeText={(value) => this.handleChangeText(this.form.$('commentMessage'), value)}
-              onSubmitEditing={(e) => this.handleSubmit(e, this.hasMore, this.refreshing)}
+              onChangeText={(value) => this.handleChangeText(this.form.$('message'), value)}
+              onSubmitEditing={(e) => this.handleSubmit(e)}
               maxLength={200}
-              placeholder='Write a comment...' 
-              placeholderStyle={styles.commentComposerPlaceholder}
-              returnKeyLabel="Send"
-              returnKeyType="send"
-              style={styles.commentComposerText}
-              value={this.form.$('commentMessage').value}
+              placeholder='Type a message...' 
+              placeholderStyle={styles.messageComposerPlaceholder}
+              style={styles.messageComposerText}
+              value={this.form.$('message').value}
+              multiline
             />
           </Item>
         </Footer>
@@ -100,6 +100,14 @@ export default class Conversation extends Component {
       RootStore.conversationStore.getMessages();
     }
   }
+
+  handleChangeText(field, value) {
+    field.set('value', value);
+  }
+
+  handleSubmit(e) {
+    this.form.onSubmit(e)
+  }
 }
 
 const styles = StyleSheet.create({
@@ -108,25 +116,27 @@ const styles = StyleSheet.create({
   },
   footer: {
     backgroundColor: colors.LIGHT,
-    padding: 10  
+    paddingHorizontal: 10,
+    paddingVertical: 8
   },
-  commentComposer: {
+  messageComposer: {
     borderColor: `rgba(0, 0, 0, 0.125)`,
     borderRadius: 20,
-    flex: 1, 
-    height: 35
+    height: 39,
+    width: Dimensions.get('window').width - 16
   },
-  commentComposerText: {
-    borderColor: colors.DARK_GRAY,
+  messageComposerText: {
     fontFamily: fonts.LATO_REGULAR, 
-    fontSize: 15,
+    fontSize: 16,
+    height: 39,
+    marginTop: 2.5,
     paddingLeft: 10,
     paddingRight: 10
   },
-  commentComposerPlaceholder: {
-    borderColor: colors.DARK_GRAY,
+  messageComposerPlaceholder: {
     fontFamily: fonts.LATO_REGULAR, 
-    fontSize: 15,
+    fontSize: 16,
+    height: 39,
   },
   sendButton: {
     flexDirection: 'column', 

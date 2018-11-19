@@ -24,7 +24,8 @@ export default class Conversation extends Component {
 
   async componentWillMount(){
     const params = NavigationService.getActiveScreenParams();
-    await RootStore.conversationStore.setChatMate(params.chatmateId, params.chatmateName);
+    await RootStore.conversationStore.setChatMate(params.chatmateId);
+    await RootStore.conversationStore.getUserDetails();
     this.form.$('receiver_id').set('value', params.chatmateId);
     this.form.$('message').set('extra', this.flatList);
     await RootStore.sessionStore.getLoggedUser();          

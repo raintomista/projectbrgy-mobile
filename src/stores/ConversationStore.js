@@ -1,6 +1,7 @@
 import { action, configure, observable, runInAction } from 'mobx';
 import { ToastAndroid } from 'react-native';
-import { getInbox, getMessagesById } from 'services/MessagingService';
+import { getInbox, getUserById, getMessagesById } from 'services/MessagingService';
+import NavigationService from 'services/NavigationService';
 import * as localized from 'localization/en';
 
 configure({
@@ -10,6 +11,7 @@ configure({
 export default class ConversationStore {
   @observable chatmateId = null;
   @observable chatmateName = '';
+  @observable chatmate = {};
 
   @observable page = 0;
   @observable limit = 20;
@@ -25,6 +27,7 @@ export default class ConversationStore {
   resetStore() {
     this.chatmateId = null;
     this.chatmateName = '';
+    this.chatmate = {};
     this.page = 0;
     this.limit = 20;
     this.order = 'desc';
@@ -36,11 +39,32 @@ export default class ConversationStore {
   }
   
   @action
-  setChatMate(chatmateId, chatmateName) {
+  setChatMate(chatmateId) {
     this.chatmateId = chatmateId;
-    this.chatmateName = chatmateName;
   }
 
+  @action
+  async getUserDetails() {
+    try {
+      const response = await getUserById(this.chatmateId);
+      const user = response.data.data;
+      runInAction(() => {
+        if(user.user_role === 'barangay_member') {
+          this.chatmate.sender_first_name = user.user_first_name;
+          this.chatmate.sender_last_name = user.user_last_name;
+          this.chatmateName = `${user.user_first_name} ${user.user_last_name}`
+        } else if(user.user_role === 'barangay_page_admin') {
+          this.chatmate = user;
+          this.chatmate.sender_name = user.barangay_page_name;
+          this.chatmateName = user.barangay_page_name;
+        }
+      });
+    } catch (e) {
+      ToastAndroid.show('Message receiver not found', ToastAndroid.SHORT);
+      NavigationService.navigate('Inbox', {});
+    }
+  }
+  
   @action
   async getMessages() {
     this.page += 1;

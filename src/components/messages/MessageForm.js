@@ -13,6 +13,7 @@ export default class MessageForm extends MobxReactForm {
       },
       message: {
         rules: 'string',
+        extra: null
       }
     }
 
@@ -29,15 +30,18 @@ export default class MessageForm extends MobxReactForm {
 
   hooks() {
     return {
-      async onSuccess(form) {
+      onSuccess(form) {
         const { receiver_id, message } = form.values();
-        try {
-          const response = await sendMessage(message, receiver_id);
-          RootStore.conversationStore.addMessage(response.data.data);
-          this.$('message').set('value', '');        
-        } catch(e) {  
-          ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
-        }
+        this.$('message').set('value', '');      
+        sendMessage(message, receiver_id)
+          .then((response) => { 
+            RootStore.conversationStore.addMessage(response.data.data);
+            this.$('message').extra.scrollToOffset({ animated: true, offset: 0});  
+          })
+          .catch((error) => {
+            this.$('message').set('value', message);   
+            ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+          });
       }
     }
   }

@@ -172,7 +172,8 @@ const styles = StyleSheet.create({
     paddingLeft: 13,
     paddingRight: 13,
     paddingTop: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
+    zIndex: 10
   },
   messageAltContent: {
     color: colors.DARK,
@@ -193,7 +194,8 @@ const styles = StyleSheet.create({
     paddingLeft: 13,
     paddingRight: 13,
     paddingTop: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
+    zIndex: 10    
   },
   messageContent: {
     color: colors.LIGHT,

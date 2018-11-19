@@ -4,6 +4,7 @@ import { action, observable, runInAction } from 'mobx';
 import Moment from 'moment';
 import { Alert, Dimensions, FlatList, RefreshControl, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import { Container, Item, Input, Footer, Spinner, Root } from 'native-base';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { HeaderWithGoBack } from 'components/common';
 import { ConversationMessage } from 'components/messages';
 import MessageForm from 'components/messages/MessageForm';
@@ -25,6 +26,7 @@ export default class Conversation extends Component {
     const params = NavigationService.getActiveScreenParams();
     await RootStore.conversationStore.setChatMate(params.chatmateId, params.chatmateName);
     this.form.$('receiver_id').set('value', params.chatmateId);
+    this.form.$('message').set('extra', this.flatList);
     await RootStore.sessionStore.getLoggedUser();          
     await RootStore.conversationStore.getMessages();
   }
@@ -62,12 +64,22 @@ export default class Conversation extends Component {
         onEndReachedThreshold={0.5}
         initialNumToRender={10}
         maxToRenderPerBatch={10}    
+        ref={(flatList) => { this.flatList = flatList }}
       />
     )
   }
 
   render() {
-    const { chatmateName, messages, hasMore, refreshing } = RootStore.conversationStore;
+    const { 
+      chatmateName, 
+      messages, 
+      hasMore, 
+      refreshing 
+    } = RootStore.conversationStore;
+
+    const charCount = 200 - this.form.$('message').value.length;
+    const disabled = charCount === 200 || charCount < 0;
+
     return (
       <Container>
         <HeaderWithGoBack 
@@ -78,18 +90,28 @@ export default class Conversation extends Component {
           {this.renderList(messages, hasMore, refreshing)}
         </View>
         <Footer style={styles.footer}>
-          <Item style={styles.messageComposer} regular>
-            <Input 
-              onChangeText={(value) => this.handleChangeText(this.form.$('message'), value)}
-              onSubmitEditing={(e) => this.handleSubmit(e)}
-              maxLength={200}
-              placeholder='Type a message...' 
-              placeholderStyle={styles.messageComposerPlaceholder}
-              style={styles.messageComposerText}
-              value={this.form.$('message').value}
-              multiline
+          <Input 
+            maxLength={200}
+            multiline={true}        
+            onChangeText={(value) => this.handleChangeText(this.form.$('message'), value)}              
+            placeholder='Type a message...'
+            placeholderStyle={styles.messageComposerPlaceholder}
+            style={styles.messageComposerText}
+            value={this.form.$('message').value}
+            onSubmitEditing={(e) => this.handleSubmit(e)}                          
+          />
+          <TouchableOpacity 
+            onPress={(e) => this.form.onSubmit(e)}
+            style={styles.sendButton}
+            disabled={disabled}
+          >
+            <FontAwesome5 
+              name="paper-plane" 
+              color={ disabled ? colors.DARK_GRAY : colors.PRIMARY } 
+              size={20} 
+              solid 
             />
-          </Item>
+          </TouchableOpacity>
         </Footer>
       </Container>
     );
@@ -106,7 +128,7 @@ export default class Conversation extends Component {
   }
 
   handleSubmit(e) {
-    this.form.onSubmit(e)
+    this.form.onSubmit(e);
   }
 }
 
@@ -117,37 +139,24 @@ const styles = StyleSheet.create({
   footer: {
     backgroundColor: colors.LIGHT,
     paddingHorizontal: 10,
-    paddingVertical: 8
-  },
-  messageComposer: {
-    borderColor: `rgba(0, 0, 0, 0.125)`,
-    borderRadius: 20,
-    height: 39,
-    width: Dimensions.get('window').width - 16
+    paddingVertical: 8,
+    height: null,
+    minHeight: 55,
+    maxHeight: 104.5
   },
   messageComposerText: {
     fontFamily: fonts.LATO_REGULAR, 
     fontSize: 16,
-    height: 39,
-    marginTop: 2.5,
-    paddingLeft: 10,
-    paddingRight: 10
+    textAlignVertical: 'top',    
+    width: Dimensions.get('window').width - 16
   },
   messageComposerPlaceholder: {
     fontFamily: fonts.LATO_REGULAR, 
     fontSize: 16,
-    height: 39,
   },
   sendButton: {
-    flexDirection: 'column', 
-    height: 35, 
-    justifyContent: 'space-around',
-    paddingHorizontal: 15
+    alignSelf: 'center',
+    paddingHorizontal: 10,
+    paddingBottom: 3
   },
-  sendButtonText: {
-    color: colors.PRIMARY,
-    fontFamily: fonts.LATO_BOLD,
-    fontSize: 15.5,
-    fontWeight: 'normal'
-  }
 });

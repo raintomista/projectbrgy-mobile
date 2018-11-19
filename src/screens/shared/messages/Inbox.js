@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { observable, action, runInAction } from 'mobx';
 import moment from 'moment';
 import io from 'socket.io-client';
-import { AsyncStorage, FlatList, RefreshControl, StyleSheet, View, ScrollView } from 'react-native';
+import { AsyncStorage, FlatList, RefreshControl, StyleSheet, View, ScrollView, ToastAndroid } from 'react-native';
 import { Container, Content, List, Spinner, Text     } from 'native-base';
 import { HeaderWithDrawer } from 'components/common';
 import { InboxMessage, StatusIndicator } from 'components/messages';
@@ -57,6 +57,10 @@ export default class Inbox extends Component {
       }, 1000);
     });
 
+    this.socket.on('server:message', (data) => {
+      this.handleListen(data);
+    });
+
     this.socket.on('disconnect', () => {
       runInAction(() => {
         this.connected = false;
@@ -77,12 +81,25 @@ export default class Inbox extends Component {
     await inboxStore.resetStore();
   }
   renderItem = ({item, index}) => {
-    const authorName = `${item.sender_first_name} ${item.sender_last_name}`;
-    const status = item.receiver_status;
+    const { loggedUser } = RootStore.sessionStore;
+    let chatmate_id, status, logged_user_id, author_name;
+
+    if (loggedUser.user_role === 'barangay_member') {
+      chatmate_id = loggedUser.user_id === item.sender_id ? item.receiver_id : item.sender_id;
+      status = loggedUser.user_id === item.sender_id ? item.sender_status : item.receiver_status;
+      logged_user_id = loggedUser.user_id;
+      author_name = `${item.sender_first_name} ${item.sender_last_name}`
+    } else if (loggedUser.user_role === 'barangay_page_admin') {
+      chatmate_id = loggedUser.barangay_page_id === item.sender_id ? item.receiver_id : item.sender_id;
+      status = loggedUser.barangay_page_id === item.sender_id ? item.sender_status : item.receiver_status;
+      logged_user_id = loggedUser.barangay_page_id;
+      author_name = item.sender_name;
+    }
+
     return (
       <InboxMessage
-        id={''}
-        author={authorName}
+        id={chatmate_id}
+        author={author_name}
         message={item.message} 
         dateCreated={this.formatDate(item.date_created)}
         status={status}
@@ -143,6 +160,10 @@ export default class Inbox extends Component {
     await RootStore.inboxStore.refreshMessages();
   }
 
+  handleListen(message) {
+    const { loggedUser } = RootStore.sessionStore;
+    RootStore.inboxStore.receiveMessage(message);
+  }
 
   formatDate(date) {
     const today = moment();

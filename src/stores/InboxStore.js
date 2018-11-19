@@ -72,4 +72,40 @@ export default class InboxStore {
         ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
     }
   }
+
+
+  @action
+  receiveMessage(message) {
+    const msgIndex = this.messages.findIndex((e) => {
+        if (e.sender_id === message.sender_id && e.receiver_id === message.receiver_id) {
+            return e;
+        } else if (e.sender_id === message.receiver_id && e.receiver_id === message.sender_id) {
+            return e;
+        }
+        return null;            
+    });
+    if (msgIndex !== -1) {
+        const msg = this.messages.splice(msgIndex, 1)[0];
+        msg.date_created = message.date_created;
+        msg.message = message.message;
+        msg.receiver_id = message.sender_id;
+        msg.receiver_status = message.sender_status;
+        msg.sender_id = message.receiver_id;
+        msg.sender_status = message.receiver_status;
+        this.messages.unshift(msg);
+    } else {
+      const msg = {
+        date_created: message.date_created,
+        message: message.message,
+        receiver_id: message.sender_id,
+        receiver_status: message.sender_status,
+        sender_id: message.receiver_id,
+        sender_status: message.receiver_status,
+        sender_first_name: message.sender_first_name,
+        sender_last_name: message.sender_last_name
+      };
+      this.skip += 1;
+      this.messages.unshift(msg);
+    }
+  }
 }

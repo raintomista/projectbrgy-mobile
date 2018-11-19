@@ -39,7 +39,6 @@ export default class Conversation extends Component {
     const { loggedUser } = RootStore.sessionStore;
     return (
       <ConversationMessage
-        index={index}
         align={loggedUser.user_id === item.sender_id ? 'right' : 'left'}
         message={item.message}
       />
@@ -55,6 +54,7 @@ export default class Conversation extends Component {
     return (
       <FlatList
         inverted
+        contentContainerStyle={{paddingTop: 20, paddingBottom: 20}}
         ref={ref => this.flatList = ref}
         data={Array.from(messages)}
         renderItem={this.renderItem}

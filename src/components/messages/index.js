@@ -1,18 +1,32 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { ListItem, Left, Body, Right, Thumbnail, Text } from 'native-base';
+import { Badge, CardItem, ListItem, Left, Body, Right, Thumbnail, Text } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MemberAvatar from '../../../assets/images/default-member.png';
 import NavigationService from 'services/NavigationService';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
+
+
+export const ConversationMessage = observer((props) => (
+  <CardItem style={styles.messageContainer}>
+    <Body>
+      <Badge style={props.align === 'right' ? styles.messageBubble : styles.messageAltBubble}>
+        <Text style={props.align === 'right' ? styles.messageContent : styles.messageAltContent}>
+          {props.message}
+        </Text>
+      </Badge>
+    </Body>
+  </CardItem>
+));
+
 export const InboxMessage = observer((props) => (
   <ListItem 
     thumbnail 
     style={props.status === 'unread' ? styles.unreadItem : styles.item} 
-    // onPress={() => NavigationService.push('BarangayPage', {brgyId: props.id})}
+    onPress={() => NavigationService.push('Conversation', { chatmateId: props.id, chatmateName: props.author })}
   >
     <Left>
       <Thumbnail 
@@ -144,5 +158,51 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'normal',
     textAlign: 'center'
-  }
+  },
+  messageContainer: {
+    paddingTop: 5,
+    paddingBottom: 0,
+  },
+  messageAltBubble: {
+    alignSelf: 'flex-start',
+    height: null,
+    backgroundColor: '#dbe5eb',
+    borderRadius: 20,
+    maxWidth: (Dimensions.get('window').width - 34) * 0.80,
+    paddingLeft: 13,
+    paddingRight: 13,
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  messageAltContent: {
+    color: colors.DARK,
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 15.5,
+    flexWrap: 'wrap',
+    lineHeight: 22,
+    paddingLeft: 0,
+    paddingRight: 0,
+    textAlign: 'left'
+  },
+  messageBubble: {
+    alignSelf: 'flex-end',
+    height: null,
+    backgroundColor: colors.PRIMARY,
+    borderRadius: 20,
+    maxWidth: (Dimensions.get('window').width - 34) * 0.80,
+    paddingLeft: 13,
+    paddingRight: 13,
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  messageContent: {
+    color: colors.LIGHT,
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 15.5,
+    flexWrap: 'wrap',
+    lineHeight: 22,
+    paddingLeft: 0,
+    paddingRight: 0,
+    textAlign: 'left'
+  },
 });

@@ -33,6 +33,7 @@ import Comments from 'screens/shared/comments/Comments';
 import Search from 'screens/shared/search/Search';
 
 import Inbox from 'screens/shared/messages/Inbox';
+import Conversation from 'screens/shared/messages/Conversation';
 
 
 
@@ -215,11 +216,23 @@ const ProfileStack = createStackNavigator({
   }
 });
 
+
+const InboxStack = createStackNavigator({
+  Inbox: { 
+    screen: Inbox,
+    navigationOptions: { header: null }
+  },
+  Conversation: { 
+    screen: Conversation,
+    navigationOptions: { header: null }
+  }
+});
+
 export const MemberDrawer = createDrawerNavigator({
   Home: { screen: MemberHomeStack },
   Search: { screen: SearchStack },
   MyBarangay: { screen: MyBarangayStack },
-  Messages: { screen: Inbox },  
+  Messages: { screen: InboxStack },  
   MyProfile: { screen: ProfileStack },
   MyReportStack: createStackNavigator({
     MyReports: { 

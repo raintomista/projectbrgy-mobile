@@ -161,8 +161,13 @@ export default class Inbox extends Component {
   }
 
   handleListen(message) {
-    const { loggedUser } = RootStore.sessionStore;
+    const { chatmateId } = RootStore.conversationStore;
+
     RootStore.inboxStore.receiveMessage(message);
+
+    if(chatmateId === message.sender_id) {
+      RootStore.conversationStore.receiveMessage(message);
+    }
   }
 
   formatDate(date) {

@@ -9,7 +9,6 @@ import { ConversationMessage } from 'components/messages';
 import CommentForm from 'components/comments/CommentForm';
 import NavigationService from 'services/NavigationService';
 
-import { getMessagesById } from 'services/MessagingService';
 import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
@@ -17,50 +16,21 @@ import * as localized from 'localization/en';
 
 @observer
 export default class Conversation extends Component {
-  @observable chatmateId = null;
-  @observable chatmateName = '';
-
-  @observable page = 0;
-  @observable limit = 20;
-  @observable order = 'desc';
-  @observable skip = 0;
-  @observable hasMore = true;
-  @observable error = false;  
-  @observable refreshing = false;
-  @observable messages = [];
-
-  @action
-  setChatMate(chatmateId, chatmateName) {
-    this.chatmateId = chatmateId;
-    this.chatmateName = chatmateName;
-  }
-
-  @action
-  async getMessages() {
-    this.page += 1;
-    try {
-      const response = await getMessagesById(this.chatmateId, this.page, this.limit, this.order, this.skip);
-      runInAction(() => this.messages.push(...response.data.data.items));
-    } catch (e) {
-      runInAction(() => {
-        this.hasMore = false;
-        this.error = true;
-      });
-    }
-  }
-
   constructor(props) {
     super(props);
     this.form = new CommentForm();
   }
 
   async componentWillMount(){
-    RootStore.sessionStore.getLoggedUser();      
     const params = NavigationService.getActiveScreenParams();
-    await this.setChatMate(params.chatmateId, params.chatmateName);
-    await this.getMessages();
+    await RootStore.conversationStore.setChatMate(params.chatmateId, params.chatmateName);
+    await RootStore.sessionStore.getLoggedUser();          
+    await RootStore.conversationStore.getMessages();
   }
 
+  componentWillUnmount() {
+    RootStore.conversationStore.resetStore();
+  }
 
   renderItem = ({item, index}) => {
     const { loggedUser } = RootStore.sessionStore;
@@ -96,14 +66,15 @@ export default class Conversation extends Component {
   }
 
   render() {
+    const { chatmateName, messages, hasMore, refreshing } = RootStore.conversationStore;
     return (
       <Container>
         <HeaderWithGoBack 
-          title={this.chatmateName} 
+          title={chatmateName} 
           navigation={this.props.navigation} 
         />
         <View style={styles.view}>
-          {this.renderList(this.messages, this.hasMore, this.refreshing)}
+          {this.renderList(messages, hasMore, refreshing)}
         </View>
         <Footer style={styles.footer}>
           <Item style={styles.commentComposer} regular>
@@ -124,68 +95,9 @@ export default class Conversation extends Component {
     );
   }
 
-  handleChangeText(field, value) {
-    field.set('value', value);
-  }
-
-  handleViewPage(role, profileId, brgyId) {
-    if(role === 'barangay_page_admin') {
-      NavigationService.push('BarangayPage', { brgyId });
-    } else {
-      NavigationService.push('Profile', { profileId });
-    }
-  }
-
-  async handleSubmit(e, hasMore, refreshing) {
-    this.form.onSubmit(e)
-    NavigationService.pop();
-    NavigationService.navigate('Comments', { postId: this.postId });
-  }
-
   handleLoadMore() {
     if(!this.error) {
-      this.getMessages();
-    }
-  }
-
-  @action
-  async handleDelete(commentId, index) {
-    Alert.alert(
-      'Delete Comment',
-      'Are you sure you want to delete this?',
-      [ 
-        {text: 'Cancel'},
-        {text: 'Confirm', onPress: async () => {
-          try {
-            await deleteComment(commentId);
-            runInAction(() => {
-              const newComments = this.messages.slice();
-              newComments.splice(index, 1);
-              this.messages = newComments;
-            });
-            ToastAndroid.show(localized.COMMENT_DELETE_SUCCESS, ToastAndroid.SHORT);
-          } catch(e) {
-            ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
-          }
-        }}
-      ],
-      { cancelable: false }
-    )
-  }
-
-  formatDate(date) {
-    const currentDate = Moment();
-    const diffInSeconds = parseInt(Moment(date).diff(currentDate, 'seconds'), 10);
-    const diffInHours = parseInt(Moment(date).diff(currentDate, 'hours'), 10);
-
-    if (diffInHours <= -21) {
-      return Moment(date).format('MMM D, YYYY [at] h:mm a');
-    }
-    else if (diffInHours > -21 && (diffInSeconds < -60 || diffInSeconds > -10)) {
-      return Moment(date).fromNow();
-    }
-    else if (diffInHours > -21 && diffInSeconds <= -10) {
-      return `${Math.abs(diffInSeconds)} seconds ago`;
+      RootStore.conversationStore.getMessages();
     }
   }
 }

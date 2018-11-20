@@ -59,14 +59,26 @@ export const BarangayPageCard = observer((props) => {
             <Text style={styles.brgyPageLocation}>
               {props.municipality}
             </Text>
-            {((loggedBrgyId !== props.id && loggedRole === 'barangay_page_admin')|| loggedRole === 'barangay_member') && (
+
+            {loggedRole === 'barangay_member' && (
+              <View style={{marginBottom: 25, alignSelf: 'center', maxWidth: '50%'}}>
+                {props.isFollowing
+                  ? <FollowingButton handleUnfollow={props.handleUnfollow} />
+                  : <FollowButton handleFollow={props.handleFollow} />
+                }
+              </View>
+            )}
+            {loggedBrgyId !== props.id && loggedRole === 'barangay_page_admin' && (
               <View style={styles.brgyPageButtons}>
                 {props.isFollowing
                   ? <FollowingButton handleUnfollow={props.handleUnfollow} />
                   : <FollowButton handleFollow={props.handleFollow} />
                 }
-                
-                <MessageButton label="Message" />            
+        
+                <MessageButton 
+                  label="Message" 
+                  chatmateId={props.id}
+                />        
               </View>
             )}
             <Grid>
@@ -225,6 +237,13 @@ export const MessageButton = observer((props) => (
   <Button
     rounded   
     style={styles.brgyPageButton}
+    onPress={() => {
+      NavigationService.navigate('Inbox', {});
+      NavigationService.push('Conversation', { 
+        chatmateId: props.chatmateId, 
+        chatmateRole: 'barangay_page_admin' 
+      });
+    }}
   >
     <Text 
       uppercase={false}  

@@ -362,6 +362,7 @@ const KatarunganStack = createStackNavigator({
 export const AdminDrawer = createDrawerNavigator({  
   MyBarangay: { screen: MyBarangayStack },
   Search: { screen: SearchStack },
+  Messages: { screen: InboxStack },  
   BarangayHome: { screen: BarangayHomeStack },   
   MyResidents: { screen: BarangayResidents },
   BarangayReports: { screen:  BarangayReportStack },  

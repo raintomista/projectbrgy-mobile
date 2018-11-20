@@ -85,7 +85,10 @@ export const MessageButton = observer((props) => (
   <Button 
     onPress={() => {
       NavigationService.navigate('Inbox', {});
-      NavigationService.push('Conversation', { chatmateId: props.chatmateId })
+      NavigationService.push('Conversation', { 
+        chatmateId: props.chatmateId, 
+        chatmateRole: 'barangay_member' 
+      });
     }}
     style={styles.profileButton} 
     rounded

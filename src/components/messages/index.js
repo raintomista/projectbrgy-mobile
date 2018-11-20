@@ -28,7 +28,11 @@ export const InboxMessage = observer((props) => (
     thumbnail 
     style={props.status === 'unread' ? styles.unreadItem : styles.item} 
     onPress={() => {
-      NavigationService.push('Conversation', { chatmateId: props.chatmateId, chatmateName: props.chatmateName });
+      NavigationService.push('Conversation', { 
+        chatmateId: props.chatmateId, 
+        chatmateName: props.chatmateName,
+        chatmateRole: props.chatmateRole 
+      });
       RootStore.inboxStore.markAsRead(props.loggedId, props.chatmateId)
     }}
   >

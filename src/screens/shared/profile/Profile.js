@@ -54,6 +54,8 @@ export default class Profile extends Component {
             <ScrollView>
               <ProfileCard
                 id={this.profileData.user_id}
+                loggedId={RootStore.sessionStore.loggedUser.user_id}
+                loggedRole={RootStore.sessionStore.loggedUser.user_role}
                 name={`${this.profileData.user_first_name} ${this.profileData.user_last_name}`}
                 municipality={this.profileData.barangay_page_municipality}
                 followingCount={this.profileData.stats.following_count}

@@ -52,7 +52,12 @@ export const ProfileCard = observer((props) => (
           <Text style={styles.profileLocation}>
             {props.municipality}
           </Text>
-          <MessageButton label="Message" />   
+          {props.loggedRole === 'barangay_member' && props.id !== props.loggedId && (
+            <MessageButton 
+              label="Message" 
+              chatmateId={props.id}
+            /> 
+          )}
           <StatCount
             label="Following"
             value={props.followingCount}
@@ -77,7 +82,14 @@ export const ProfileCard = observer((props) => (
 ));
 
 export const MessageButton = observer((props) => (
-  <Button style={styles.profileButton} rounded>
+  <Button 
+    onPress={() => {
+      NavigationService.navigate('Inbox', {});
+      NavigationService.push('Conversation', { chatmateId: props.chatmateId })
+    }}
+    style={styles.profileButton} 
+    rounded
+  >
     <Text 
       uppercase={false}  
       style={styles.profileButtonText}

@@ -6,7 +6,7 @@ import { Alert, Dimensions, FlatList, RefreshControl, StyleSheet, Text, ToastAnd
 import { Container, Item, Input, Footer, Spinner, Root } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { HeaderWithGoBack } from 'components/common';
-import { ConversationMessage } from 'components/messages';
+import { ConversationMessage, StatusIndicator } from 'components/messages';
 import MessageForm from 'components/messages/MessageForm';
 import NavigationService from 'services/NavigationService';
 
@@ -77,6 +77,10 @@ export default class Conversation extends Component {
       hasMore, 
       refreshing 
     } = RootStore.conversationStore;
+    const { 
+      statusHidden, 
+      connected, 
+    } = RootStore.inboxStore;
 
     const charCount = 200 - this.form.$('message').value.length;
     const disabled = charCount === 200 || charCount < 0;
@@ -88,7 +92,10 @@ export default class Conversation extends Component {
           navigation={this.props.navigation} 
         />
         <View style={styles.view}>
-          {this.renderList(messages, hasMore, refreshing)}
+          {!statusHidden && <StatusIndicator connected={connected} />}   
+          <View style={styles.view}>
+            {this.renderList(messages, hasMore, refreshing)}
+          </View>
         </View>
         <Footer style={styles.footer}>
           <Input 
@@ -99,12 +106,13 @@ export default class Conversation extends Component {
             placeholderStyle={styles.messageComposerPlaceholder}
             style={styles.messageComposerText}
             value={this.form.$('message').value}
-            onSubmitEditing={(e) => this.handleSubmit(e)}                          
+            onSubmitEditing={(e) => this.handleSubmit(e)}    
+            disabled={!statusHidden}                      
           />
           <TouchableOpacity 
             onPress={(e) => this.form.onSubmit(e)}
             style={styles.sendButton}
-            disabled={disabled}
+            disabled={!statusHidden || disabled}
           >
             <FontAwesome5 
               name="paper-plane" 

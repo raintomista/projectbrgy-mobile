@@ -28,7 +28,12 @@ export default class InboxStore {
   
   @action
   resetStore() {
-    this.socket.disconnect();
+    if(this.connected) {
+      this.socket.disconnect();
+    } else {
+      this.socket = {};
+    }
+
     this.connected = false;
     this.statusHidden = false;
 

@@ -176,7 +176,7 @@ export default class InboxStore {
   sendMessage(message) {
 
     if(this.connected) {
-        this.socket.emit('client:message', data);
+        this.socket.emit('client:message', message);
     }
       
     const { loggedUser } = RootStore.sessionStore;
@@ -230,9 +230,11 @@ export default class InboxStore {
     });
 
     if (msgIndex !== -1) {
-      const newMessages = this.messages.slice();
-      newMessages[msgIndex].sender_status = 'read';
-      this.messages = newMessages;
+      if(this.messages[msgIndex].sender_status === 'unread') {
+        const newMessages = this.messages.slice();
+        newMessages[msgIndex].sender_status = 'read';
+        this.messages = newMessages;
+      }
     }
   }
 

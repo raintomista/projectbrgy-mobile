@@ -68,10 +68,14 @@ export default class ProfileAlt extends Component {
                 landline={this.profileData.user_landline_number}
                 mobile={this.profileData.user_mobile_number}
               />
-              <Text style={styles.label}>Shared Posts</Text>
-              <ProfileSharedPosts 
-                profileId={this.profileId}
-              />
+              {(RootStore.sessionStore.loggedUser.user_role === 'barangay_page_admin' || this.profileId === RootStore.sessionStore.loggedUser.user_id) && (
+                <React.Fragment>
+                  <Text style={styles.label}>Shared Posts</Text>
+                  <ProfileSharedPosts 
+                    profileId={this.profileId}
+                  />
+                </React.Fragment>
+              )}
             </ScrollView>
           </View>
         )}

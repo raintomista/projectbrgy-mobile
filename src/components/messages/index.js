@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Badge, CardItem, ListItem, Left, Body, Right, Thumbnail, Text } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import BrgyAvatar from '../../../assets/images/default-brgy.png';
 import MemberAvatar from '../../../assets/images/default-member.png';
 import NavigationService from 'services/NavigationService';
 import RootStore from 'stores/RootStore';
@@ -39,7 +40,7 @@ export const InboxMessage = observer((props) => (
     <Left>
       <Thumbnail 
         circle 
-        source={MemberAvatar} 
+        source={props.chatmateRole === 'barangay_member' ? MemberAvatar : BrgyAvatar} 
         style={styles.itemAvatar}
       />
     </Left>

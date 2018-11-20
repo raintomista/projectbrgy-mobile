@@ -64,7 +64,7 @@ export default class Inbox extends Component {
       <FlatList
         data={Array.from(messages)}
         renderItem={this.renderItem}
-        keyExtractor={item => item.sender_id}
+        keyExtractor={(item, index) => index.toString()}
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore(error)}
         onEndReachedThreshold={0.5}

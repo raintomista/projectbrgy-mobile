@@ -42,9 +42,10 @@ export default class Conversation extends Component {
 
   renderItem = ({item, index}) => {
     const { loggedUser } = RootStore.sessionStore;
+    const loggedId = loggedUser.user_role === 'barangay_member' ? loggedUser.user_id : loggedUser .barangay_page_id;
     return (
       <ConversationMessage
-        align={loggedUser.user_id === item.sender_id ? 'right' : 'left'}
+        align={loggedId === item.sender_id ? 'right' : 'left'}
         message={item.message}
       />
     );

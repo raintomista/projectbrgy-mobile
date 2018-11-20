@@ -5,6 +5,7 @@ import { Badge, CardItem, ListItem, Left, Body, Right, Thumbnail, Text } from 'n
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MemberAvatar from '../../../assets/images/default-member.png';
 import NavigationService from 'services/NavigationService';
+import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
 
@@ -26,7 +27,10 @@ export const InboxMessage = observer((props) => (
   <ListItem 
     thumbnail 
     style={props.status === 'unread' ? styles.unreadItem : styles.item} 
-    onPress={() => NavigationService.push('Conversation', { chatmateId: props.id, chatmateName: props.author })}
+    onPress={() => {
+      NavigationService.push('Conversation', { chatmateId: props.chatmateId, chatmateName: props.chatmateName });
+      RootStore.inboxStore.markAsRead(props.loggedId, props.chatmateId)
+    }}
   >
     <Left>
       <Thumbnail 
@@ -37,7 +41,7 @@ export const InboxMessage = observer((props) => (
     </Left>
     <Body style={styles.itemBody}>
       <Text style={props.status === 'unread' ? styles.unreadItemTitle : styles.itemTitle} numberOfLines={1}>
-        {props.author}
+        {props.chatmateName}
       </Text>
       <Text numberOfLines={1}>
         {props.status === 'replied' && (

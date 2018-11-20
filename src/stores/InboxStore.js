@@ -218,6 +218,24 @@ export default class InboxStore {
         }
     }
 
+  @action
+  async markAsRead(receiver_id, sender_id) {
+    const msgIndex = this.messages.findIndex((e) => {
+      if (e.sender_id === sender_id && e.receiver_id === receiver_id) {
+        return e;
+      } else if (e.sender_id === receiver_id && e.receiver_id === sender_id) {
+        return e;
+      }
+      return null;            
+    });
+
+    if (msgIndex !== -1) {
+      const newMessages = this.messages.slice();
+      newMessages[msgIndex].sender_status = 'read';
+      this.messages = newMessages;
+    }
+  }
+
     
   handleListen(message) {
     const { chatmateId } = RootStore.conversationStore;

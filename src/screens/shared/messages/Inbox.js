@@ -43,8 +43,9 @@ export default class Inbox extends Component {
 
     return (
       <InboxMessage
-        id={chatmate_id}
-        author={author_name}
+        chatmateId={chatmate_id}
+        loggedId={logged_user_id}
+        chatmateName={author_name}
         message={item.message} 
         dateCreated={this.formatDate(item.date_created)}
         status={status}

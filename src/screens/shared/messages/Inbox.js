@@ -18,7 +18,11 @@ export default class Inbox extends Component {
     const { sessionStore, inboxStore } = RootStore;
     await sessionStore.getLoggedUser();
     await inboxStore.getMessages();
-    await inboxStore.connect();
+    try {
+      await inboxStore.connect();
+    } catch(e) {
+
+    }
   }
 
   async componentWillUnmount() {

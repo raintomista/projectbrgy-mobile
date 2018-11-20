@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { observable, action, runInAction } from 'mobx';
 import moment from 'moment';
-import io from 'socket.io-client';
+
 import { AsyncStorage, FlatList, RefreshControl, StyleSheet, View, ScrollView, ToastAndroid } from 'react-native';
 import { Container, Content, List, Spinner, Text     } from 'native-base';
 import { HeaderWithDrawer } from 'components/common';
@@ -10,70 +10,15 @@ import { InboxMessage, StatusIndicator } from 'components/messages';
 import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
 import * as fonts from 'styles/fonts';
-import API_HOST from 'config';
 
 
 @observer
 export default class Inbox extends Component {
-  @observable socket = {};
-  @observable connected = false;
-  @observable statusHidden = false;
-
-  @action 
-  async connect() {
-    const token = await AsyncStorage.getItem('x-access-token');
-
-    runInAction(() => {
-      this.socket = io(API_HOST, {
-        query: `token=${token}`
-      }).connect();
-    });
-
-    this.socket.on('connect', () => {
-      const { loggedUser } = RootStore.sessionStore;
-
-      runInAction(() => {
-        this.connected = true;  
-      })
-
-      if (loggedUser.user_role === 'barangay_member') {
-        runInAction(() => {
-          this.socket.emit('setMessengerId', { 
-            messengerId: loggedUser.user_id 
-          });
-        });
-      } else if (loggedUser.user_role === 'barangay_member_admin') {
-        runInAction(() => {
-          this.socket.emit('setMessengerId', { 
-            messengerId: loggedUser.user_barangay_id 
-          });
-        });
-      }
-
-      setTimeout(() => {
-        runInAction(() => {
-          this.statusHidden = true;
-        });
-      }, 1000);
-    });
-
-    this.socket.on('server:message', (data) => {
-      this.handleListen(data);
-    });
-
-    this.socket.on('disconnect', () => {
-      runInAction(() => {
-        this.connected = false;
-        this.statusHidden = false;
-      });
-    });
-  }
-
   async componentWillMount(){
     const { sessionStore, inboxStore } = RootStore;
     await sessionStore.getLoggedUser();
     await inboxStore.getMessages();
-    await this.connect();
+    await inboxStore.connect();
   }
 
   async componentWillUnmount() {
@@ -136,12 +81,12 @@ export default class Inbox extends Component {
 
   render() {
     const { inboxStore } = RootStore;
-    const { messages, hasMore, refreshing, error } = inboxStore; 
+    const { messages, hasMore, refreshing, error, statusHidden, connected } = inboxStore; 
     return (
       <Container>
         <HeaderWithDrawer title="Messages" navigation={this.props.navigation}/>
         <View style={styles.list}>
-          {!this.statusHidden && <StatusIndicator connected={this.connected} />}   
+          {!statusHidden && <StatusIndicator connected={connected} />}   
           <View style={styles.list}>
             {this.renderList(messages, hasMore, refreshing, error)}
           </View>           
@@ -158,16 +103,6 @@ export default class Inbox extends Component {
 
   async handleRefresh() {
     await RootStore.inboxStore.refreshMessages();
-  }
-
-  handleListen(message) {
-    const { chatmateId } = RootStore.conversationStore;
-
-    RootStore.inboxStore.receiveMessage(message);
-
-    if(chatmateId === message.sender_id) {
-      RootStore.conversationStore.addMessage(message);
-    }
   }
 
   formatDate(date) {

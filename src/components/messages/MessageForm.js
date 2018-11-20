@@ -36,6 +36,7 @@ export default class MessageForm extends MobxReactForm {
         sendMessage(message, receiver_id)
           .then((response) => { 
             RootStore.conversationStore.addMessage(response.data.data);
+            RootStore.inboxStore.sendMessage(response.data.data);
             this.$('message').extra.scrollToOffset({ animated: true, offset: 0});  
           })
           .catch((error) => {

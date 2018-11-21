@@ -17,3 +17,13 @@ export async function getUserDetails() {
         }
     });
 }
+
+export async function forgotPassword(email) {
+    return axios({
+        url: `${API_HOST}/auth/forgot-password`,
+        method: 'post',
+        data: {
+            email
+        }
+    });
+}

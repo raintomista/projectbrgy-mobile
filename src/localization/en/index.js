@@ -24,3 +24,10 @@ export const POST_SUCCESS = 'Successfully posted an announcement';
 export const DELETE_POST_SUCCESS = 'Successfully deleted a post';
 export const UNSHARE_POST_SUCCESS = 'Successfully unshared a post';
 
+export const FORGOT_ERROR = 'Please enter a valid email address.';
+export const FORGOT_SUCCESS = 'Please check your email for further instructions in order to reset your password..';
+
+
+
+
+

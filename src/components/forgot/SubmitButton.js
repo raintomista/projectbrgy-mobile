@@ -13,7 +13,6 @@ export default class SubmitButton extends Component {
       <Button 
         style={styles.button} 
         onPress={this.props.handlePress}
-        disabled={this.props.disabled}
         rounded 
         block 
       >
@@ -39,5 +38,12 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: fonts.MONTSERRAT_BOLD,
     fontSize: 18,
+  },
+  disabledButton: {
+    backgroundColor: '#d07697',
+    paddingVertical: 25,
+    shadowOffset: { height: 0, width: 0 },
+    shadowOpacity: 0,
+    elevation:0
   }
 })

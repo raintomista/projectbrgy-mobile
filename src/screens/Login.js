@@ -45,8 +45,10 @@ const styles = StyleSheet.create({
   },
   linearGradientView: {
     flex: 1,
-    paddingTop: 80,
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingHorizontal: 20,
+    height: responsiveHeight(100),    
   },
   title: {
     color: 'white',    

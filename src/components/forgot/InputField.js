@@ -18,7 +18,9 @@ export default class InputField extends Component {
           placeholder={this.props.placeholder}
           placeholderStyle={styles.fieldPlaceholder}
           style={styles.fieldInput}
-          onChange={this.props.handleChange}
+          onChangeText={this.props.handleChange}
+          value={this.props.value}
+          autoFocus={true}
         />
       </Item>
     );

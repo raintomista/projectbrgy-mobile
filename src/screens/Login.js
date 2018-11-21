@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { AsyncStorage, View, StyleSheet } from 'react-native';
+import { AsyncStorage, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Text } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 import { responsiveHeight } from 'react-native-cross-platform-responsive-dimensions'
 import LoginFields from '../components/login/LoginFields';
+import NavigationService from 'services/NavigationService';
 import * as colors from '../styles/colors.js'
 import * as fonts from '../styles/fonts.js'
-
-import NavigationService from 'services/NavigationService';
 
 export default class SignIn extends Component {
   constructor(props) {
@@ -25,6 +24,15 @@ export default class SignIn extends Component {
             Know what's happening in your barangay.
           </Text>
           <LoginFields />
+          <View style={{flexDirection: 'row', marginTop: 15 }}>
+            <TouchableOpacity onPress={() => NavigationService.navigate('Signup', {})}>
+              <Text style={[styles.linkText]}>Create Account</Text>
+            </TouchableOpacity>
+            <Text style={styles.linkText}>&nbsp;&nbsp;&middot;&nbsp;&nbsp;</Text>
+            <TouchableOpacity onPress={() => NavigationService.navigate('Forgot', {})}>
+              <Text style={styles.linkText}>Forgot Password?</Text>
+            </TouchableOpacity>
+          </View>
         </LinearGradient>
       </View>
     );
@@ -49,4 +57,11 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     textAlign: 'left'
   },
+  linkText: {
+    color: '#859ad8',  
+    fontFamily: fonts.LATO_REGULAR,
+    fontWeight: 'normal',
+    marginBottom: 10,
+    textAlign: 'center'
+  }
 });

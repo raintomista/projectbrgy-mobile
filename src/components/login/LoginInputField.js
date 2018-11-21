@@ -20,6 +20,7 @@ export default class LoginInputField extends Component {
       >
         <Input 
           placeholder={this.props.placeholder}
+          placeholderStyle={styles.fieldPlaceholder}
           secureTextEntry={ this.props.secure }
           style={styles.fieldInput}
           onChange={(e)=> {
@@ -35,6 +36,11 @@ export default class LoginInputField extends Component {
 const styles = StyleSheet.create({
   field: {
     backgroundColor: colors.LIGHT,
+    borderColor: 'transparent',
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
     marginBottom: 15,
     paddingHorizontal: 10,
     width: responsiveWidth(90),
@@ -44,5 +50,8 @@ const styles = StyleSheet.create({
     padding: 0,
     fontSize: 18,
     margin: 0
+  },
+  fieldPlaceholder: {
+    fontFamily: fonts.LATO_REGULAR,
   }
 })

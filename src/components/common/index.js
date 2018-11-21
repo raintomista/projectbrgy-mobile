@@ -67,6 +67,22 @@ export const HeaderWithGoBack = observer((props) => (
   </Header>
 ));
 
+export const TransparentHeaderWithGoBack = observer((props) => (
+  <Header style={{backgroundColor: 'transparent', elevation: 0 }}>
+    <Left>
+      <Button
+        transparent
+        onPress={() => NavigationService.dispatch(StackActions.pop())}
+      >
+        <Icon name="arrow-back" />
+      </Button>
+    </Left> 
+    <Body>
+    </Body>
+    <Right />
+  </Header>
+));
+
 export const LightboxClose = (props) => (
   <TouchableOpacity onPress={props.handleCloseImage} style={styles.imageViewerHeader}>
     <Icon

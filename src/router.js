@@ -8,6 +8,8 @@ import {
 } from 'react-navigation'
 
 import Login from 'screens/Login';
+import Forgot from 'screens/Forgot';
+
 import Splash from 'screens/Splash';
 
 import MemberHome from 'screens/member/MemberHome';
@@ -374,6 +376,18 @@ export const AdminDrawer = createDrawerNavigator({
   initialRouteName: 'BarangayHome'
 });
 
+
+const LoginStack = createStackNavigator({
+  Login: {
+    screen: Login,
+    navigationOptions: { header: null }
+  },
+  Forgot: {
+    screen: Forgot,
+    navigationOptions: { header: null }
+  },
+});
+
 export const AppStack = createSwitchNavigator({
   Splash: {
     screen: Splash,
@@ -382,12 +396,12 @@ export const AppStack = createSwitchNavigator({
     }
   },
   Login: {
-    screen: Login,
+    screen: LoginStack,
     navigationOptions: {
-      title: 'Welcome to B2P',
       header: null,
     },
   },
+
   MemberDrawer: {
     screen: MemberDrawer,
     navigationOptions: {

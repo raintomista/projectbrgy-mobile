@@ -24,12 +24,12 @@ export default class SignIn extends Component {
             Know what's happening in your barangay.
           </Text>
           <LoginFields />
-          <View style={{flexDirection: 'row', marginTop: 15 }}>
-            <TouchableOpacity onPress={() => NavigationService.navigate('Signup', {})}>
+          <View style={{flexDirection: 'row', marginTop: 15, alignSelf: 'center' }}>
+            <TouchableOpacity onPress={() => NavigationService.push('Signup', {})}>
               <Text style={[styles.linkText]}>Create Account</Text>
             </TouchableOpacity>
             <Text style={styles.linkText}>&nbsp;&nbsp;&middot;&nbsp;&nbsp;</Text>
-            <TouchableOpacity onPress={() => NavigationService.navigate('Forgot', {})}>
+            <TouchableOpacity onPress={() => NavigationService.push('Forgot', {})}>
               <Text style={styles.linkText}>Forgot Password?</Text>
             </TouchableOpacity>
           </View>
@@ -44,11 +44,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   linearGradientView: {
-    height: responsiveHeight(100),
-    padding: 20,
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    paddingTop: 80,
+    paddingHorizontal: 20,
   },
   title: {
     color: 'white',    

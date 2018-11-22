@@ -9,6 +9,8 @@ import {
 
 import Login from 'screens/Login';
 import Forgot from 'screens/Forgot';
+import Signup from 'screens/Signup';
+
 
 import Splash from 'screens/Splash';
 
@@ -386,6 +388,12 @@ const LoginStack = createStackNavigator({
     screen: Forgot,
     navigationOptions: { header: null }
   },
+  Signup: {
+    screen: Signup,
+    navigationOptions: { header: null }
+  },
+}, {
+  initialRouteName: 'Signup'
 });
 
 export const AppStack = createSwitchNavigator({

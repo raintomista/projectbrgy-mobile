@@ -83,6 +83,14 @@ export const TransparentHeaderWithGoBack = observer((props) => (
   </Header>
 ));
 
+
+export const EmptyState = observer((props) => (
+  <View style={styles.emptyStateView}>
+    <Text style={styles.emptyStateTitle}>{props.title}</Text>
+    <Text style={styles.emptyStateDetail}>{props.detail}</Text>
+  </View>
+));
+
 export const LightboxClose = (props) => (
   <TouchableOpacity onPress={props.handleCloseImage} style={styles.imageViewerHeader}>
     <Icon
@@ -429,6 +437,25 @@ const DisabledCardActionButton = observer((props) => (
 
 
 const styles = StyleSheet.create({
+  emptyStateView: {
+    flex: 1, 
+    justifyContent: 'center',
+    height: Dimensions.get('window').height - 56, 
+    paddingHorizontal: 20
+  },
+  emptyStateTitle: {
+    color: colors.PRIMARY,
+    fontFamily: fonts.MONTSERRAT_BOLD,
+    fontSize: 25,
+    textAlign: 'center'
+  },
+  emptyStateDetail: {
+    color: 'gray',
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 18,
+    marginBottom: 50,
+    textAlign: 'center'
+  },
   header: {
     backgroundColor: colors.PRIMARY
   },

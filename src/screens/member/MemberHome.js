@@ -5,13 +5,14 @@ import { observer } from 'mobx-react';
 import Moment from 'moment';
 import numeral from 'numeral';
 import { action, observable, runInAction } from 'mobx';
-import { AnnouncementCard, HeaderWithDrawer, Lightbox } from 'components/common';
+import { AnnouncementCard, HeaderWithDrawer, Lightbox, EmptyState } from 'components/common';
 import NavigationService from 'services/NavigationService';
 import { getNewsfeedPosts } from 'services/NewsfeedService';
 import { likePost, unlikePost } from 'services/PostService';
 import RootStore from 'stores/RootStore';
 import * as localized from 'localization/en';
 import * as colors from 'styles/colors'
+
 
 @observer
 export default class MemberHome extends Component {
@@ -52,8 +53,15 @@ export default class MemberHome extends Component {
         this.announcements = response.data.data.items;        
       });
     } catch (e) {
-      runInAction(() => this.refreshing = false);
-      ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+      if(e.response.data.data.total === 0) {
+        runInAction(() => {
+          this.announcements = [];
+          this.refreshing = false;
+        });
+      } else {
+        runInAction(() => this.refreshing = false);
+        ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+      }
     }
   }
 
@@ -101,6 +109,12 @@ export default class MemberHome extends Component {
         data={Array.from(announcements)}
         renderItem={this.renderItem}
         keyExtractor={item => item.post_id}
+        ListEmptyComponent={
+          <EmptyState 
+            title="Newsfeed is Empty!"
+            detail="Start following barangay pages."
+          />
+        }
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore()}
         onEndReachedThreshold={0.5}

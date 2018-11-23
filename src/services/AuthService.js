@@ -27,3 +27,42 @@ export async function forgotPassword(email) {
         }
     });
 }
+
+export function getRegions(generate) {
+    return axios.post(`${API_HOST}/barangay/regions?generate=${generate}`);
+}
+
+export function getProvinces(region, generate) {
+    return axios.post(`${API_HOST}/barangay/provinces?generate=${generate}`, {
+        region
+    });
+}
+
+export function getMunicipalities(region, province, generate) {
+    return axios.post(`${API_HOST}/barangay/municipalities?generate=${generate}`, {
+        region,
+        province
+    });
+}
+
+
+export function getBarangays(region, province, municipality, generate) {
+    return axios.post(`${API_HOST}/barangay/barangays?generate=${generate}`, {
+        region,
+        province,
+        municipality
+    });
+}
+
+export function getBarangayDetails(region, province, municipality, name) {
+    return axios.post(`${API_HOST}/barangay/detail`, {
+        region,
+        province,
+        municipality,
+        name
+    });
+}
+
+export function createUser(user) {
+    return axios.post(`${API_HOST}/users`, user);
+}

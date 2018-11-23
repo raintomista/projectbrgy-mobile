@@ -5,20 +5,22 @@ import {
   AsyncStorage,
   ToastAndroid
 } from 'react-native';
-import { loginUser } from 'services/AuthService';
+import { createUser } from 'services/AuthService';
 import NavigationService from 'services/NavigationService';
 
 
 import en from 'validatorjs/src/lang/en';
+import * as localized from 'localization/en';
+
 
 validatorjs.setMessages('en', en);
 
 export default class SignupForm extends MobxReactForm {
   setup() {
     const fields = {
-      // barangay_id: {
-      //   rules: 'required|string'
-      // },
+      barangay_id: {
+        rules: 'required|string'
+      },
       first_name: {
         rules: 'required|string'
       },
@@ -64,45 +66,17 @@ export default class SignupForm extends MobxReactForm {
   hooks() {
     return {
       async onSuccess(form) {
-        console.log(form.values())
-        // const {
-        //   email,
-        //   password
-        // } = form.values();
-        // this.$('email').set('disabled', true);
-        // this.$('password').set('disabled', true);
-
-        // try {
-        //   const response = await loginUser(email, password);
-        //   await AsyncStorage.setItem('x-access-token', response.data.data.token);
-        //   await AsyncStorage.setItem('user-id', response.data.data.id);
-        //   await AsyncStorage.setItem('user-role', response.data.data.role);          
-        //   await AsyncStorage.setItem('brgy-id', response.data.data.barangay_id);
-          
-        //   // Disable Form
-        //   this.$('email').set('disabled', false);
-        //   this.$('password').set('disabled', false);
-
-        //   if(response.data.data.role === 'barangay_member') {
-        //     NavigationService.navigate('MemberDrawer', {})
-        //   } else if (response.data.data.role === 'barangay_page_admin') {
-        //     NavigationService.navigate('AdminDrawer', {})
-        //   }
-        // } 
-        // catch (e) {  
-        //   const error = e.response.data.errors[0];
-        //   if (error.code === 'LOG_FAIL' || error.code === 'INC_DATA') {
-        //     ToastAndroid.show('The email or the password you’ve entered is incorrect.', ToastAndroid.SHORT);
-        //   } else if (error.code === 'INVALID_ACTION') {
-        //     ToastAndroid.show('Please check your email to activate your account.', ToastAndroid.SHORT);
-        //   } else {
-        //     ToastAndroid.show('An error occurred. Please try again.', ToastAndroid.SHORT);
-        //   }
-
-        //   // Re-enable Form
-        //   this.$('email').set('disabled', false);
-        //   this.$('password').set('disabled', false);
-        // }
+        try {
+          const response = await createUser(form.values());
+          ToastAndroid.show('You have successfully created an account. Please check your email in order to activate your account.', ToastAndroid.LONG);
+          NavigationService.pop();
+        } catch(e) {
+          if(e.response.data.errors[0].code === 'INVALID_EMAIL') {
+            ToastAndroid.show('The provided email/username is already in use. Please provide another email/username.', ToastAndroid.LONG);
+          } else {
+            ToastAndroid.show(localized.REQUEST_ERROR, ToastAndroid.SHORT);
+          }
+        }
       },
       onError(form) {
         const errors = form.errors();

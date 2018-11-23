@@ -393,7 +393,7 @@ const LoginStack = createStackNavigator({
     navigationOptions: { header: null }
   },
 }, {
-  initialRouteName: 'Signup'
+  initialRouteName: 'Login'
 });
 
 export const AppStack = createSwitchNavigator({

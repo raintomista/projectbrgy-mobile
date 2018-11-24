@@ -6,12 +6,15 @@ import stores from './src/stores/RootStore';
 import NavigationService from './src/services/NavigationService';
 import * as colors from './src/styles/colors';
 
+import SplashScreen from 'react-native-splash-screen';
+
 
 export default class App extends Component {
   async componentWillMount() {
     const token = await AsyncStorage.getItem('x-access-token');
     const userRole = await AsyncStorage.getItem('user-role');
     StatusBar.setBackgroundColor(colors.PRIMARY)
+    SplashScreen.hide()
 
     if(token) {
       if(userRole === 'barangay_member') {

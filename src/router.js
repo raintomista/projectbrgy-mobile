@@ -423,6 +423,6 @@ export const AppStack = createSwitchNavigator({
     }
   }
 }, {
-  initialRouteName: 'Splash'
+  initialRouteName: 'Login'
 });
 

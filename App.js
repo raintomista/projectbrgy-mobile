@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { AsyncStorage, StatusBar } from 'react-native'; 
 import { Root } from 'native-base';
-import { AppStack } from 'router';
-import stores from 'stores/RootStore';
-import NavigationService from 'services/NavigationService';
-import * as colors from 'styles/colors';
+import { AppStack } from './src/router';
+import stores from './src/stores/RootStore';
+import NavigationService from './src/services/NavigationService';
+import * as colors from './src/styles/colors';
 
 
 export default class App extends Component {

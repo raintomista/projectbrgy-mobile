@@ -86,8 +86,23 @@ export const TransparentHeaderWithGoBack = observer((props) => (
 
 export const EmptyState = observer((props) => (
   <View style={styles.emptyStateView}>
-    <Text style={styles.emptyStateTitle}>{props.title}</Text>
-    <Text style={styles.emptyStateDetail}>{props.detail}</Text>
+    {props.title && (
+      <Text style={styles.emptyStateTitle}>{props.title}</Text>
+    )}
+    {props.detail && (
+      <Text style={styles.emptyStateDetail}>{props.detail}</Text> 
+    )}
+  </View>
+));
+
+export const EmptyStateAlt = observer((props) => (
+  <View style={styles.emptyStateViewAlt}>
+    {props.title && (
+      <Text style={styles.emptyStateTitle}>{props.title}</Text>
+    )}
+    {props.detail && (
+      <Text style={styles.emptyStateDetail}>{props.detail}</Text> 
+    )}
   </View>
 ));
 
@@ -443,6 +458,11 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height - 56, 
     paddingHorizontal: 20
   },
+  emptyStateViewAlt: {
+    flex: 1,
+    alignSelf: 'center',
+    padding: 20,
+  },
   emptyStateTitle: {
     color: colors.PRIMARY,
     fontFamily: fonts.MONTSERRAT_BOLD,
@@ -454,6 +474,12 @@ const styles = StyleSheet.create({
     fontFamily: fonts.LATO_REGULAR,
     fontSize: 18,
     marginBottom: 50,
+    textAlign: 'center'
+  },
+  emptyStateDetailAlt: {
+    color: 'gray',
+    fontFamily: fonts.LATO_REGULAR,
+    fontSize: 18,
     textAlign: 'center'
   },
   header: {

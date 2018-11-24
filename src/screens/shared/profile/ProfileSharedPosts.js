@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import Moment from 'moment';
 import numeral from 'numeral';
 import { action, observable, runInAction } from 'mobx';
-import { SharedPostCard, HeaderWithDrawer, Lightbox } from 'components/common';
+import { SharedPostCard, HeaderWithDrawer, Lightbox, EmptyStateAlt } from 'components/common';
 import NavigationService from 'services/NavigationService';
 import { getUserSharedPosts } from 'services/ProfileService';
 import { unsharePost } from 'services/PostService';
@@ -102,6 +102,12 @@ export default class BarangayPosts extends Component {
         data={Array.from(sharedPosts)}
         renderItem={this.renderItem}
         keyExtractor={item => item.share_id}
+        ListEmptyComponent={
+          this.error && (
+            <EmptyStateAlt
+              detail="No shared posts yet." 
+            />
+          )}
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore(this.props.profileId)}
         onEndReachedThreshold={0.5}

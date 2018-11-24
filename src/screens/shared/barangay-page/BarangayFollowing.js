@@ -4,7 +4,7 @@ import { action, observable, runInAction } from 'mobx';
 import { AsyncStorage, FlatList, RefreshControl, StyleSheet, ToastAndroid, View } from 'react-native';
 import { Container, Content, List, Spinner } from 'native-base';
 
-import { HeaderWithGoBack } from 'components/common';
+import { HeaderWithGoBack, EmptyState } from 'components/common';
 import { FollowingListItem } from 'components/barangay-page-following';
 import * as localized from 'localization/en';
 import { getBrgyFollowingList, followBrgy, unfollowBrgy } from 'services/BrgyPageService';
@@ -120,6 +120,12 @@ export default class BarangayFollowing extends Component {
         data={Array.from(followingList)}
         renderItem={this.renderItem}
         keyExtractor={item => item.user_id ? item.user_id : item.barangay_page_id}
+        ListEmptyComponent={
+          this.error && (
+            <EmptyState
+              detail="This barangay page hasn't followed any barangay pages yet!" 
+            />
+          )}
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore()}
         onEndReachedThreshold={0.5}

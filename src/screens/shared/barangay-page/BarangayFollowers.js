@@ -4,7 +4,7 @@ import { action, observable, runInAction } from 'mobx';
 import { AsyncStorage, FlatList, RefreshControl, StyleSheet, ToastAndroid, View } from 'react-native';
 import { Container, Content, List, Spinner } from 'native-base';
 
-import { HeaderWithGoBack } from 'components/common';
+import { HeaderWithGoBack, EmptyState } from 'components/common';
 import { FollowersListItem } from 'components/barangay-page-followers';
 import * as localized from 'localization/en';
 import { getBrgyFollowersList, followBrgy, unfollowBrgy } from 'services/BrgyPageService';
@@ -136,6 +136,12 @@ export default class BaraganyFollowers extends Component {
         data={Array.from(followersList)}
         renderItem={this.renderItem}
         keyExtractor={item => item.user_id ? item.user_id : item.barangay_page_id}
+        ListEmptyComponent={
+          this.error && (
+            <EmptyState
+              detail="This barangay page doesn't have followers yet!" 
+            />
+          )}
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore()}
         onEndReachedThreshold={0.5}

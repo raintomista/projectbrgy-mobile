@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { action, observable, runInAction } from 'mobx';
 import { FlatList, RefreshControl, StyleSheet, ToastAndroid, View } from 'react-native';
 import { Container, Spinner } from 'native-base';
-import { HeaderWithGoBack } from 'components/common';
+import { HeaderWithGoBack, EmptyState } from 'components/common';
 import { FollowingListItem } from 'components/profile-following';
 import { followBrgy, unfollowBrgy } from 'services/BrgyPageService';
 import { getFollowingList } from 'services/ProfileService';
@@ -120,6 +120,12 @@ export default class ProfileFollowing extends Component {
         data={Array.from(followingList)}
         renderItem={this.renderItem}
         keyExtractor={item => item.barangay_page_id}
+        ListEmptyComponent={
+          this.error && (
+            <EmptyState
+              detail="This barangay member hasn't followed any barangay pages yet!" 
+            />
+          )}
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore()}
         onEndReachedThreshold={0.5}

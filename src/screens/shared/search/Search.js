@@ -20,6 +20,7 @@ import {
   runInAction
 } from "mobx";
 import { observer } from 'mobx-react';
+import { EmptyState } from 'components/common';
 import { FollowingListItem } from 'components/search';
 import { search } from 'services/SearchService';
 
@@ -132,6 +133,12 @@ export default class Search extends Component {
         data={Array.from(results)}
         renderItem={this.renderItem}
         keyExtractor={item => item.id}
+        ListEmptyComponent={this.query !== '' && !this.hasMore && (
+          <EmptyState
+            title="No results found." 
+            detail={`0 results for ${this.query}`}
+          />
+        )}
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore()}
         onEndReachedThreshold={0.5}

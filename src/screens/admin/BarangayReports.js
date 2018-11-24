@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { action, observable, runInAction } from 'mobx';
 import { FlatList, RefreshControl, StyleSheet, ToastAndroid, View } from 'react-native';
 import { Container, Spinner } from 'native-base';
-import { HeaderWithDrawer } from 'components/common';
+import { HeaderWithDrawer, EmptyState } from 'components/common';
 import { BarangayReportItem } from 'components/member-reports';
 
 import NavigationService from 'services/NavigationService';
@@ -91,6 +91,12 @@ export default class BarangayReports extends Component {
         data={Array.from(reports)}
         renderItem={this.renderItem}
         keyExtractor={(item) => item.inquiry_id}
+        ListEmptyComponent={
+          <EmptyState
+            title="No reports yet." 
+            detail="Please check again later."
+          />
+        }
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore(error)}
         onEndReachedThreshold={3}

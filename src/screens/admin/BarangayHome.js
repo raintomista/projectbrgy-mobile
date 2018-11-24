@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import Moment from 'moment';
 import numeral from 'numeral';
 import { action, observable, runInAction } from 'mobx';
-import { AnnouncementCard, HeaderWithDrawer, Lightbox } from 'components/common';
+import { AnnouncementCard, HeaderWithDrawer, Lightbox, EmptyState } from 'components/common';
 import NavigationService from 'services/NavigationService';
 import { getNewsfeedPosts } from 'services/NewsfeedService';
 import { deletePost, likePost, unlikePost } from 'services/PostService';
@@ -107,6 +107,14 @@ export default class BarangayHomeF extends Component {
         data={Array.from(announcements)}
         renderItem={this.renderItem}
         keyExtractor={item => item.post_id}
+        ListEmptyComponent={
+          this.error && (
+            <EmptyState 
+              title="Newsfeed is Empty!"
+              detail="Start following barangay pages."
+            />
+          )
+        }
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore()}
         onEndReachedThreshold={0.5}

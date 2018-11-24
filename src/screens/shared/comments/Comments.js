@@ -4,7 +4,7 @@ import { action, observable, runInAction } from 'mobx';
 import Moment from 'moment';
 import { Alert, FlatList, RefreshControl, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import { Container, Item, Input, Footer, Spinner, Root } from 'native-base';
-import { HeaderWithGoBack } from 'components/common';
+import { HeaderWithGoBack, EmptyState } from 'components/common';
 import { Comment } from 'components/comments';
 import CommentForm from 'components/comments/CommentForm';
 import NavigationService from 'services/NavigationService';
@@ -104,6 +104,13 @@ export default class Comments extends Component {
         data={Array.from(comments)}
         renderItem={this.renderItem}
         keyExtractor={item => item.comment_id}
+        ListEmptyComponent={
+          this.error && (
+            <EmptyState
+              title="No comments yet"
+              detail="Be the first one to comment on this post." 
+            />
+          )}
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore()}
         onEndReachedThreshold={0.5}

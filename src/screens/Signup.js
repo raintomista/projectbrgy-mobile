@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions, AsyncStorage, View, StyleSheet, ToastAndroid, TouchableOpacity } from 'react-native';
+import { StatusBar, Dimensions, AsyncStorage, View, StyleSheet, ToastAndroid, TouchableOpacity } from 'react-native';
 import { Text, Header, Icon, Content, Container } from 'native-base';
 import { action, observable, runInAction } from 'mobx';
 import { observer } from 'mobx-react';
@@ -45,6 +45,7 @@ export default class Signup extends Component {
     this.form = new SignupForm();
     this.getRegions();    
   }
+
 
   render() {
     return (

@@ -7,7 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { responsiveHeight } from 'react-native-cross-platform-responsive-dimensions'
 import InputField from 'components/forgot/InputField';
 import SubmitButton from 'components/forgot/SubmitButton';
-import { TransparentHeaderWithGoBack } from 'components/common'
+import { HeaderWithGoBack } from 'components/common'
 import { forgotPassword } from 'services/AuthService';
 import NavigationService from 'services/NavigationService';
 import * as colors from 'styles/colors.js'
@@ -22,7 +22,7 @@ export default class Forgot extends Component {
   render() {
     return (
           <View style={{flex: 1}}>
-            <TransparentHeaderWithGoBack />
+            <HeaderWithGoBack />
             <LinearGradient 
               colors={[colors.PRIMARY, colors.SECONDARY]} 
               style={styles.linearGradientView}
@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',    
     justifyContent: 'center',
     height: responsiveHeight(100),    
-    marginTop: -56,
     paddingHorizontal: 20, 
     zIndex: -1
   },

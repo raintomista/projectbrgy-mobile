@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { action, observable } from 'mobx';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, ScrollView, View } from 'react-native';
 import { Container } from 'native-base';
 import { HeaderWithGoBack } from 'components/common';
 import { ProfileInformationCard, ContactInformationCard } from 'components/profile';
@@ -19,7 +19,8 @@ export default class ProfileInformation extends Component {
   }
 
   componentWillMount() {
-    this.setProfileInfo(NavigationService.getActiveScreenParams());
+    const params = NavigationService.getActiveScreenParams()
+    this.setProfileInfo(params);
   }
 
   render() {
@@ -27,22 +28,23 @@ export default class ProfileInformation extends Component {
       <Container>
         <HeaderWithGoBack 
           title="Profile Details" 
-          navigation={this.props.navigation} 
         />
         <View style={styles.view}>
-          <ProfileInformationCard
-            region={this.profileInfo.region}
-            province={this.profileInfo.province}
-            municipality={this.profileInfo.municipality}
-            barangay={this.profileInfo.barangay}
-            barangayCaptain={this.profileInfo.barangayCaptain}
-            barangayAddress={this.profileInfo.barangayAddress}
-          />
-          <ContactInformationCard
-            email={this.profileInfo.email}
-            mobile={this.profileInfo.mobile}
-            landline={this.profileInfo.landline}
-          />
+          <ScrollView>
+            <ProfileInformationCard
+              region={this.profileInfo.region}
+              province={this.profileInfo.province}
+              municipality={this.profileInfo.municipality}
+              barangay={this.profileInfo.barangay}
+              barangayCaptain={this.profileInfo.barangayCaptain}
+              barangayAddress={this.profileInfo.barangayAddress}
+            />
+            <ContactInformationCard
+              email={this.profileInfo.email}
+              mobile={this.profileInfo.mobile}
+              landline={this.profileInfo.landline}
+            />
+          </ScrollView>
         </View>
       </Container>
     );
@@ -51,7 +53,7 @@ export default class ProfileInformation extends Component {
 
 const styles = StyleSheet.create({
   view: {
-    backgroundColor: colors.BACKGROUND,
-    minHeight: Dimensions.get('window').height - 56,     
+    flex: 1,
+    backgroundColor: colors.BACKGROUND,  
   }
 });

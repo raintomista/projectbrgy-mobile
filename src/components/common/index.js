@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, Modal, StyleSheet, TouchableWithoutFeedback, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { StatusBar, Dimensions, Modal, StyleSheet, TouchableWithoutFeedback, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import Image from 'react-native-image-progress';
 // import ProgressBar from 'react-native-progress/Bar';
 import { observer } from 'mobx-react';
@@ -31,6 +31,7 @@ import * as fonts from 'styles/fonts';
 
 export const HeaderWithDrawer = (props) => (
   <Header style={styles.header}>
+    <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content"/>  
     <Left>
       <Button
         transparent
@@ -50,6 +51,7 @@ export const HeaderWithDrawer = (props) => (
 
 export const HeaderWithGoBack = observer((props) => (
   <Header style={styles.header}>
+    <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content"/>
     <Left>
       <Button
         transparent

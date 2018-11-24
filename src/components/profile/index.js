@@ -159,66 +159,69 @@ export const ProfileInformationCard = observer((props) => (
 ));
 
 export const ContactInformationCard = observer((props) => (
-  <Card style={styles.profileDetailCard}>
+  <Card style={[styles.profileDetailCard, { marginBottom: 12}]}>
     <CardItem>
       <Body>
         <Text style={styles.profileDetailCardTitle}>
           Contact Information
         </Text>
-        {props.email && (
-          <ListItem style={styles.profileDetailListItem} icon>
-            <Left style={styles.profileDetailIcon}>
-              <FontAwesome5 
-                name="envelope" 
-                color={colors.PRIMARY} 
-                style={{alignSelf: 'center'}}                      
-                size={15} 
-                solid 
-              />
-            </Left>
-            <Right style={{borderBottomWidth: 0}}>
-              <Text style={styles.profileDetail}>
-                {props.email}
-              </Text>
-            </Right>
-          </ListItem>
-        )}
-        {props.mobile && (
-          <ListItem style={styles.profileDetailListItem} icon>
-            <Left style={styles.profileDetailIcon}>
-              <FontAwesome5 
-                name="mobile-alt" 
-                color={colors.PRIMARY} 
-                style={{alignSelf: 'center'}}
-                size={15} 
-                solid 
-              />
-            </Left>
-            <Right style={{borderBottomWidth: 0}}>
-              <Text style={styles.profileDetail}>
-                {props.mobile}
-              </Text>
-            </Right>
-          </ListItem>
-        )}
-        {props.landline && (
-          <ListItem style={styles.profileDetailListItem} icon>
-            <Left style={styles.profileDetailIcon}>
-              <FontAwesome5 
-                name="phone" 
-                color={colors.PRIMARY} 
-                style={{alignSelf: 'center'}}                      
-                size={15} 
-                solid 
-              />
-            </Left>
-            <Right style={{borderBottomWidth: 0}}>
-              <Text style={styles.profileDetail}>
-                {props.landline}
-              </Text>
-            </Right>
-          </ListItem>
-        )}
+        <ListItem style={styles.profileDetailListItem} icon>
+          <Left style={styles.profileDetailIcon}>
+            <FontAwesome5 
+              name="envelope" 
+              color={colors.PRIMARY} 
+              style={{alignSelf: 'center'}}                      
+              size={15} 
+              solid 
+            />
+          </Left>
+          <Right style={{borderBottomWidth: 0}}>
+            <Text style={styles.profileDetail}>
+              {props.email && props.email.length > 0 
+                ? props.email
+                : 'n/a'
+              }
+            </Text>
+          </Right>
+        </ListItem>
+        <ListItem style={styles.profileDetailListItem} icon>
+          <Left style={styles.profileDetailIcon}>
+            <FontAwesome5 
+              name="mobile-alt" 
+              color={colors.PRIMARY} 
+              style={{alignSelf: 'center'}}
+              size={15} 
+              solid 
+            />
+          </Left>
+          <Right style={{borderBottomWidth: 0}}>
+            <Text style={styles.profileDetail}>
+              {props.mobile && props.mobile.length > 0 
+                  ? props.mobile
+                  : 'n/a'
+              }
+            </Text>
+          </Right>
+        </ListItem>
+        <ListItem style={styles.profileDetailListItem} icon>
+          <Left style={styles.profileDetailIcon}>
+            <FontAwesome5 
+              name="phone" 
+              color={colors.PRIMARY} 
+              style={{alignSelf: 'center'}}                      
+              size={15} 
+              solid 
+            />
+          </Left>
+          <Right style={{borderBottomWidth: 0}}>
+            <Text style={styles.profileDetail}>
+              {props.landline && props.landline.length > 0 
+                  ? props.landline
+                  : 'n/a'
+              }
+            </Text>
+          </Right>
+        </ListItem>
       </Body>
     </CardItem>
   </Card>

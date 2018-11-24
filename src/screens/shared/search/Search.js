@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { 
+  StatusBar,
   FlatList, 
   StyleSheet, 
   ToastAndroid,
@@ -152,6 +153,7 @@ export default class Search extends Component {
     return (
       <Container>
         <Header style={styles.header} searchBar>
+          <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content"/>
           <Item rounded style={styles.searchBar}>
             <Input 
               onChangeText={(value) => this.handleChangeText(value)}

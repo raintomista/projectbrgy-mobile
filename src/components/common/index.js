@@ -455,12 +455,11 @@ const styles = StyleSheet.create({
   emptyStateView: {
     flex: 1, 
     justifyContent: 'center',
+    alignItems: 'center',
     height: Dimensions.get('window').height - 56, 
     paddingHorizontal: 20
   },
   emptyStateViewAlt: {
-    flex: 1,
-    alignSelf: 'center',
     padding: 20,
   },
   emptyStateTitle: {
@@ -473,7 +472,6 @@ const styles = StyleSheet.create({
     color: 'gray',
     fontFamily: fonts.LATO_REGULAR,
     fontSize: 18,
-    marginBottom: 50,
     textAlign: 'center'
   },
   emptyStateDetailAlt: {

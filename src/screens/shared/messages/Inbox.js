@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { AsyncStorage, FlatList, RefreshControl, StyleSheet, View, ScrollView, ToastAndroid } from 'react-native';
 import { Container, Content, List, Spinner, Text     } from 'native-base';
-import { HeaderWithDrawer } from 'components/common';
+import { HeaderWithDrawer, EmptyState } from 'components/common';
 import { InboxMessage, StatusIndicator } from 'components/messages';
 import RootStore from 'stores/RootStore';
 import * as colors from 'styles/colors';
@@ -69,6 +69,12 @@ export default class Inbox extends Component {
         data={Array.from(messages)}
         renderItem={this.renderItem}
         keyExtractor={(item, index) => index.toString()}
+        ListEmptyComponent={
+          error && (
+            <EmptyState
+              detail="You have not started any conversations yet." 
+            />
+          )}
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore(error)}
         onEndReachedThreshold={0.5}

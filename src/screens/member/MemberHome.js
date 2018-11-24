@@ -110,10 +110,12 @@ export default class MemberHome extends Component {
         renderItem={this.renderItem}
         keyExtractor={item => item.post_id}
         ListEmptyComponent={
-          <EmptyState 
-            title="Newsfeed is Empty!"
-            detail="Start following barangay pages."
-          />
+          this.error && (
+            <EmptyState 
+              title="Newsfeed is Empty!"
+              detail="Start following barangay pages."
+            />
+          )
         }
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore()}

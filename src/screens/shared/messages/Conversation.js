@@ -5,7 +5,7 @@ import Moment from 'moment';
 import { Alert, Dimensions, FlatList, RefreshControl, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import { Container, Item, Input, Footer, Spinner, Root } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { HeaderWithGoBack } from 'components/common';
+import { HeaderWithGoBack, EmptyStateAlt } from 'components/common';
 import { ConversationMessage, StatusIndicator } from 'components/messages';
 import MessageForm from 'components/messages/MessageForm';
 import NavigationService from 'services/NavigationService';
@@ -56,7 +56,7 @@ export default class Conversation extends Component {
     return <Spinner color={colors.PRIMARY}/>
   }
 
-  renderList(messages, hasMore, refreshing) {
+  renderList(messages, hasMore, refreshing, error) {
     return (
       <FlatList
         inverted
@@ -65,8 +65,17 @@ export default class Conversation extends Component {
         data={Array.from(messages)}
         renderItem={this.renderItem}
         keyExtractor={item => item.id}
+        ListEmptyComponent={
+          error && (
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', height: Dimensions.get('window').height - 56 - 56 - 20}}>
+              <EmptyStateAlt
+                title="No messages yet"
+                detail="Be the first one to send a message" 
+              />
+            </View>
+          )}
         ListFooterComponent={() => this.renderLoader(hasMore)}
-        onEndReached={() => this.handleLoadMore()}
+        onEndReached={() => this.handleLoadMore(error)}
         onEndReachedThreshold={0.5}
         initialNumToRender={10}
         maxToRenderPerBatch={10}    
@@ -80,7 +89,8 @@ export default class Conversation extends Component {
       chatmateName, 
       messages, 
       hasMore, 
-      refreshing 
+      refreshing,
+      error
     } = RootStore.conversationStore;
     const { 
       statusHidden, 
@@ -99,7 +109,7 @@ export default class Conversation extends Component {
         <View style={styles.view}>
           {!statusHidden && <StatusIndicator connected={connected} />}   
           <View style={styles.view}>
-            {this.renderList(messages, hasMore, refreshing)}
+            {this.renderList(messages, hasMore, refreshing, error)}
           </View>
         </View>
         <Footer style={styles.footer}>
@@ -131,8 +141,8 @@ export default class Conversation extends Component {
     );
   }
 
-  handleLoadMore() {
-    if(!this.error) {
+  handleLoadMore(error) {
+    if(!error) {
       RootStore.conversationStore.getMessages();
     }
   }

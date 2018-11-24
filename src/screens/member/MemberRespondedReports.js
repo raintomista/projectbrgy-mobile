@@ -10,7 +10,7 @@ import {
 } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { responsiveHeight } from 'react-native-cross-platform-responsive-dimensions'
-import { HeaderWithDrawer } from 'components/common';
+import { HeaderWithDrawer, EmptyState } from 'components/common';
 import { RespondedReportItem } from 'components/member-reports';
 import NavigationService from 'services/NavigationService';
 import * as colors from 'styles/colors';
@@ -54,6 +54,12 @@ export default class MemberRespondedReports extends Component {
         data={Array.from(myReports)}
         renderItem={this.renderItem}
         keyExtractor={(item) => item.id}
+        ListEmptyComponent={
+          <EmptyState
+            title="No responded reports yet." 
+            detail="Please check again later."
+          />
+        }
         ListFooterComponent={() => this.renderLoader(hasMore)}
         onEndReached={() => this.handleLoadMore()}
         onEndReachedThreshold={3}

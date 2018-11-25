@@ -1,8 +1,20 @@
-Starting a Gradle Daemon, 2 stopped Daemons could not be reused, use --status for details
+Starting a Gradle Daemon, 3 stopped Daemons could not be reused, use --status for details
+WARNING: The option 'android.enableAapt2' is deprecated and should not be used anymore.
+Use 'android.enableAapt2=true' to remove this warning.
+It will be removed at the end of 2018..
 WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
 It will be removed at the end of 2018. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+WARNING: The option 'android.enableAapt2' is deprecated and should not be used anymore.
+Use 'android.enableAapt2=true' to remove this warning.
+It will be removed at the end of 2018..
 WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
 It will be removed at the end of 2018. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+WARNING: The option 'android.enableAapt2' is deprecated and should not be used anymore.
+Use 'android.enableAapt2=true' to remove this warning.
+It will be removed at the end of 2018..
+WARNING: The option 'android.enableAapt2' is deprecated and should not be used anymore.
+Use 'android.enableAapt2=true' to remove this warning.
+It will be removed at the end of 2018..
 WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
 It will be removed at the end of 2018. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
 WARNING: Configuration 'testCompile' is obsolete and has been replaced with 'testImplementation' and 'testApi'.
@@ -12,6 +24,9 @@ It will be removed at the end of 2018. For more information see: http://d.androi
 WARNING: The specified Android SDK Build Tools version (26.0.3) is ignored, as it is below the minimum supported version (27.0.3) for Android Gradle Plugin 3.1.4.
 Android SDK Build Tools 27.0.3 will be used.
 To suppress this warning, remove "buildToolsVersion '26.0.3'" from your build.gradle file, as each version of the Android Gradle Plugin now has a default version of the build tools.
+WARNING: The option 'android.enableAapt2' is deprecated and should not be used anymore.
+Use 'android.enableAapt2=true' to remove this warning.
+It will be removed at the end of 2018..
 :app:preBuild UP-TO-DATE
 :react-native-device-info:preBuild UP-TO-DATE
 :react-native-device-info:preReleaseBuild UP-TO-DATE
@@ -84,6 +99,6 @@ To suppress this warning, remove "buildToolsVersion '26.0.3'" from your build.gr
 :app:mergeReleaseResources
 :app:bundleReleaseJsAndAssets
 Scanning folders for symlinks in /home/gio/Desktop/projectbrgy-mobile/node_modules (8ms)
-Scanning folders for symlinks in /home/gio/Desktop/projectbrgy-mobile/node_modules (8ms)
+Scanning folders for symlinks in /home/gio/Desktop/projectbrgy-mobile/node_modules (7ms)
 Loading dependency graph, done.
 warning: the transform cache was reset.

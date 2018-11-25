@@ -1,4 +1,4 @@
-Starting a Gradle Daemon, 3 stopped Daemons could not be reused, use --status for details
+Starting a Gradle Daemon, 2 stopped Daemons could not be reused, use --status for details
 WARNING: The option 'android.enableAapt2' is deprecated and should not be used anymore.
 Use 'android.enableAapt2=true' to remove this warning.
 It will be removed at the end of 2018..
@@ -98,7 +98,127 @@ It will be removed at the end of 2018..
 :react-native-vector-icons:packageReleaseResources
 :app:mergeReleaseResources
 :app:bundleReleaseJsAndAssets
-Scanning folders for symlinks in /home/gio/Desktop/projectbrgy-mobile/node_modules (8ms)
-Scanning folders for symlinks in /home/gio/Desktop/projectbrgy-mobile/node_modules (7ms)
+Scanning folders for symlinks in /home/gio/Desktop/projectbrgy-mobile/node_modules (28ms)
+Scanning folders for symlinks in /home/gio/Desktop/projectbrgy-mobile/node_modules (13ms)
 Loading dependency graph, done.
 warning: the transform cache was reset.
+bundle: Writing bundle output to: /home/gio/Desktop/projectbrgy-mobile/android/app/build/intermediates/assets/release/index.android.bundle
+bundle: Done writing bundle output
+bundle: Copying 8 asset files
+bundle: Done copying assets
+:app:mainApkListPersistenceRelease
+:app:createReleaseCompatibleScreenManifests
+:app:processReleaseManifest
+:app:splitsDiscoveryTaskRelease
+:react-native-device-info:platformAttrExtractor
+:react-native-linear-gradient:platformAttrExtractor
+:react-native-splash-screen:platformAttrExtractor
+:react-native-vector-icons:platformAttrExtractor
+:react-native-linear-gradient:generateReleaseRFile
+:react-native-device-info:generateReleaseBuildConfig
+:react-native-device-info:prepareLintJar UP-TO-DATE
+:react-native-device-info:javaPreCompileRelease
+:react-native-vector-icons:generateReleaseRFile
+:react-native-device-info:processReleaseJavaRes NO-SOURCE
+:react-native-linear-gradient:generateReleaseBuildConfig
+:react-native-splash-screen:generateReleaseRFile
+:react-native-linear-gradient:prepareLintJar UP-TO-DATE
+:react-native-linear-gradient:generateReleaseSources
+:react-native-linear-gradient:javaPreCompileRelease
+:react-native-linear-gradient:compileReleaseJavaWithJavac
+:react-native-linear-gradient:processReleaseJavaRes NO-SOURCE
+:react-native-linear-gradient:transformClassesAndResourcesWithPrepareIntermediateJarsForRelease
+:react-native-splash-screen:generateReleaseBuildConfig
+:react-native-splash-screen:prepareLintJar UP-TO-DATE
+:react-native-splash-screen:generateReleaseSources
+:react-native-splash-screen:javaPreCompileRelease
+:react-native-splash-screen:compileReleaseJavaWithJavac
+:react-native-splash-screen:processReleaseJavaRes NO-SOURCE
+:react-native-splash-screen:transformClassesAndResourcesWithPrepareIntermediateJarsForRelease
+:react-native-vector-icons:generateReleaseBuildConfig
+:react-native-vector-icons:prepareLintJar UP-TO-DATE
+:react-native-vector-icons:generateReleaseSources
+:react-native-vector-icons:javaPreCompileRelease
+:react-native-vector-icons:compileReleaseJavaWithJavac
+:react-native-vector-icons:processReleaseJavaRes NO-SOURCE
+:react-native-vector-icons:transformClassesAndResourcesWithPrepareIntermediateJarsForRelease
+:app:compileReleaseNdk NO-SOURCE
+:app:mergeReleaseJniLibFolders
+:react-native-device-info:compileReleaseNdk NO-SOURCE
+:react-native-device-info:mergeReleaseJniLibFolders
+:react-native-device-info:generateReleaseRFile
+:app:processReleaseResources
+:app:generateReleaseSources
+:react-native-device-info:generateReleaseSources
+:react-native-device-info:compileReleaseJavaWithJavac
+:react-native-device-info:transformClassesAndResourcesWithPrepareIntermediateJarsForRelease
+:app:javaPreCompileRelease
+:app:compileReleaseJavaWithJavac
+:app:compileReleaseSources
+:app:lintVitalRelease
+:app:transformClassesWithDexBuilderForRelease
+:app:transformDexArchiveWithExternalLibsDexMergerForRelease
+:app:transformDexArchiveWithDexMergerForRelease
+:react-native-device-info:transformNativeLibsWithMergeJniLibsForRelease
+:react-native-device-info:transformNativeLibsWithIntermediateJniLibsForRelease
+:react-native-linear-gradient:compileReleaseNdk NO-SOURCE
+:react-native-linear-gradient:mergeReleaseJniLibFolders
+:react-native-linear-gradient:transformNativeLibsWithMergeJniLibsForRelease
+:react-native-linear-gradient:transformNativeLibsWithIntermediateJniLibsForRelease
+:react-native-splash-screen:compileReleaseNdk NO-SOURCE
+:react-native-splash-screen:mergeReleaseJniLibFolders
+:react-native-splash-screen:transformNativeLibsWithMergeJniLibsForRelease
+:react-native-splash-screen:transformNativeLibsWithIntermediateJniLibsForRelease
+:react-native-vector-icons:compileReleaseNdk NO-SOURCE
+:react-native-vector-icons:mergeReleaseJniLibFolders
+:react-native-vector-icons:transformNativeLibsWithMergeJniLibsForRelease
+:react-native-vector-icons:transformNativeLibsWithIntermediateJniLibsForRelease
+:app:transformNativeLibsWithMergeJniLibsForRelease
+:app:processReleaseJavaRes NO-SOURCE
+:app:transformResourcesWithMergeJavaResForRelease
+:app:validateSigningRelease
+:app:packageRelease
+:app:assembleRelease
+:react-native-device-info:extractReleaseAnnotations
+:react-native-device-info:mergeReleaseConsumerProguardFiles
+:react-native-device-info:transformResourcesWithMergeJavaResForRelease
+:react-native-device-info:transformClassesAndResourcesWithSyncLibJarsForRelease
+:react-native-device-info:transformNativeLibsWithSyncJniLibsForRelease
+:react-native-device-info:bundleRelease
+:react-native-device-info:compileReleaseSources
+:react-native-device-info:mergeReleaseResources
+:react-native-device-info:verifyReleaseResources
+:react-native-device-info:assembleRelease
+:react-native-linear-gradient:extractReleaseAnnotations
+:react-native-linear-gradient:mergeReleaseConsumerProguardFiles
+:react-native-linear-gradient:transformResourcesWithMergeJavaResForRelease
+:react-native-linear-gradient:transformClassesAndResourcesWithSyncLibJarsForRelease
+:react-native-linear-gradient:transformNativeLibsWithSyncJniLibsForRelease
+:react-native-linear-gradient:bundleRelease
+:react-native-linear-gradient:compileReleaseSources
+:react-native-linear-gradient:mergeReleaseResources
+:react-native-linear-gradient:verifyReleaseResources
+:react-native-linear-gradient:assembleRelease
+:react-native-splash-screen:extractReleaseAnnotations
+:react-native-splash-screen:mergeReleaseConsumerProguardFiles
+:react-native-splash-screen:transformResourcesWithMergeJavaResForRelease
+:react-native-splash-screen:transformClassesAndResourcesWithSyncLibJarsForRelease
+:react-native-splash-screen:transformNativeLibsWithSyncJniLibsForRelease
+:react-native-splash-screen:bundleRelease
+:react-native-splash-screen:compileReleaseSources
+:react-native-splash-screen:mergeReleaseResources
+:react-native-splash-screen:verifyReleaseResources
+:react-native-splash-screen:assembleRelease
+:react-native-vector-icons:extractReleaseAnnotations
+:react-native-vector-icons:mergeReleaseConsumerProguardFiles
+:react-native-vector-icons:transformResourcesWithMergeJavaResForRelease
+:react-native-vector-icons:transformClassesAndResourcesWithSyncLibJarsForRelease
+:react-native-vector-icons:transformNativeLibsWithSyncJniLibsForRelease
+:react-native-vector-icons:bundleRelease
+:react-native-vector-icons:compileReleaseSources
+:react-native-vector-icons:mergeReleaseResources
+:react-native-vector-icons:verifyReleaseResources
+:react-native-vector-icons:assembleRelease
+
+BUILD SUCCESSFUL in 2m 44s
+136 actionable tasks: 131 executed, 5 up-to-date

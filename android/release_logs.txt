@@ -1,0 +1,89 @@
+Starting a Gradle Daemon, 2 stopped Daemons could not be reused, use --status for details
+WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+It will be removed at the end of 2018. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+It will be removed at the end of 2018. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+It will be removed at the end of 2018. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+WARNING: Configuration 'testCompile' is obsolete and has been replaced with 'testImplementation' and 'testApi'.
+It will be removed at the end of 2018. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+WARNING: Configuration 'testApi' is obsolete and has been replaced with 'testImplementation'.
+It will be removed at the end of 2018. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+WARNING: The specified Android SDK Build Tools version (26.0.3) is ignored, as it is below the minimum supported version (27.0.3) for Android Gradle Plugin 3.1.4.
+Android SDK Build Tools 27.0.3 will be used.
+To suppress this warning, remove "buildToolsVersion '26.0.3'" from your build.gradle file, as each version of the Android Gradle Plugin now has a default version of the build tools.
+:app:preBuild UP-TO-DATE
+:react-native-device-info:preBuild UP-TO-DATE
+:react-native-device-info:preReleaseBuild UP-TO-DATE
+:react-native-device-info:checkReleaseManifest
+:react-native-device-info:processReleaseManifest
+:react-native-linear-gradient:preBuild UP-TO-DATE
+:react-native-linear-gradient:preReleaseBuild UP-TO-DATE
+:react-native-linear-gradient:checkReleaseManifest
+:react-native-linear-gradient:processReleaseManifest
+:react-native-splash-screen:preBuild UP-TO-DATE
+:react-native-splash-screen:preReleaseBuild UP-TO-DATE
+:react-native-splash-screen:checkReleaseManifest
+:react-native-splash-screen:processReleaseManifest
+:react-native-vector-icons:preBuild UP-TO-DATE
+:react-native-vector-icons:preReleaseBuild UP-TO-DATE
+:react-native-vector-icons:checkReleaseManifest
+:react-native-vector-icons:processReleaseManifest
+:app:preReleaseBuild
+:react-native-device-info:compileReleaseAidl
+:react-native-linear-gradient:compileReleaseAidl
+:react-native-splash-screen:compileReleaseAidl
+:react-native-vector-icons:compileReleaseAidl
+:app:compileReleaseAidl
+:react-native-device-info:packageReleaseRenderscript NO-SOURCE
+:react-native-linear-gradient:packageReleaseRenderscript NO-SOURCE
+:react-native-splash-screen:packageReleaseRenderscript NO-SOURCE
+:react-native-vector-icons:packageReleaseRenderscript NO-SOURCE
+:app:compileReleaseRenderscript
+:app:checkReleaseManifest
+:app:generateReleaseBuildConfig
+:app:prepareLintJar UP-TO-DATE
+:app:mergeReleaseShaders
+:app:compileReleaseShaders
+:app:generateReleaseAssets
+:react-native-device-info:mergeReleaseShaders
+:react-native-device-info:compileReleaseShaders
+:react-native-device-info:generateReleaseAssets
+:react-native-device-info:packageReleaseAssets
+:react-native-linear-gradient:mergeReleaseShaders
+:react-native-linear-gradient:compileReleaseShaders
+:react-native-linear-gradient:generateReleaseAssets
+:react-native-linear-gradient:packageReleaseAssets
+:react-native-splash-screen:mergeReleaseShaders
+:react-native-splash-screen:compileReleaseShaders
+:react-native-splash-screen:generateReleaseAssets
+:react-native-splash-screen:packageReleaseAssets
+:react-native-vector-icons:mergeReleaseShaders
+:react-native-vector-icons:compileReleaseShaders
+:react-native-vector-icons:generateReleaseAssets
+:react-native-vector-icons:packageReleaseAssets
+:app:mergeReleaseAssets
+:app:generateReleaseResValues
+:app:generateReleaseResources
+:react-native-device-info:compileReleaseRenderscript
+:react-native-device-info:generateReleaseResValues
+:react-native-device-info:generateReleaseResources
+:react-native-device-info:packageReleaseResources
+:react-native-linear-gradient:compileReleaseRenderscript
+:react-native-linear-gradient:generateReleaseResValues
+:react-native-linear-gradient:generateReleaseResources
+:react-native-linear-gradient:packageReleaseResources
+:react-native-splash-screen:compileReleaseRenderscript
+:react-native-splash-screen:generateReleaseResValues
+:react-native-splash-screen:generateReleaseResources
+:react-native-splash-screen:packageReleaseResources
+:react-native-vector-icons:compileReleaseRenderscript
+:react-native-vector-icons:generateReleaseResValues
+:react-native-vector-icons:generateReleaseResources
+:react-native-vector-icons:packageReleaseResources
+:app:mergeReleaseResources
+:app:bundleReleaseJsAndAssets
+Scanning folders for symlinks in /home/gio/Desktop/projectbrgy-mobile/node_modules (8ms)
+Scanning folders for symlinks in /home/gio/Desktop/projectbrgy-mobile/node_modules (8ms)
+Loading dependency graph, done.
+warning: the transform cache was reset.
